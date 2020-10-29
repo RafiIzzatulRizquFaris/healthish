@@ -2,6 +2,10 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:healthish/constants.dart';
+import 'package:healthish/navigation_screen/booking.dart';
+import 'package:healthish/navigation_screen/home.dart';
+import 'package:healthish/navigation_screen/layanan.dart';
+import 'package:healthish/navigation_screen/profile.dart';
 
 class MainNavigation extends StatefulWidget{
   @override
@@ -14,12 +18,17 @@ class MainNavigation extends StatefulWidget{
 class MainNavigationState extends State<MainNavigation>{
 
   int selectedIndex = 0;
-  List<Widget> screenWidget = [];
+  List<Widget> screenWidget = [
+    Home(),
+    Layanan(),
+    Booking(),
+    Profile(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // body: screenWidget[selectedIndex],
+      body: screenWidget[selectedIndex],
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Constants.whiteColor,
         index: selectedIndex,
