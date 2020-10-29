@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:healthish/constants.dart';
+import 'package:healthish/contract/about_contract.dart';
 import 'package:healthish/contract/event_contract.dart';
+import 'package:healthish/presenter/about_presenter.dart';
 import 'package:healthish/presenter/event_presenter.dart';
 
 class Home extends StatefulWidget {
@@ -15,22 +17,39 @@ class Home extends StatefulWidget {
   }
 }
 
-class HomeState extends State<Home> implements EventContractView {
+class HomeState extends State<Home>
+    implements EventContractView, AboutContractView {
+  AboutPresenter aboutPresenter;
   EventPresenter eventPresenter;
   int carouselIndex = 0;
   List<DocumentSnapshot> listEvent = List<DocumentSnapshot>();
+  List<DocumentSnapshot> listAbout = List<DocumentSnapshot>();
   bool loadingEvent = true;
+  bool loadingAbout = true;
+  final Set<Marker> markers = {};
   LatLng currentPosition = LatLng(0.0, 0.0);
-
 
   HomeState() {
     eventPresenter = EventPresenter(this);
+    aboutPresenter = AboutPresenter(this);
   }
 
   @override
   void initState() {
     super.initState();
     eventPresenter.loadEventData();
+    aboutPresenter.loadAboutData();
+    markers.add(
+      Marker(
+        markerId: MarkerId("3.595196, 98.672226"),
+        position: currentPosition,
+        icon: BitmapDescriptor.defaultMarker,
+        infoWindow: InfoWindow(
+          title: "Medical center",
+          snippet: "This is medical center",
+        ),
+      ),
+    );
   }
 
   @override
@@ -134,11 +153,22 @@ class HomeState extends State<Home> implements EventContractView {
                     ),
                     textAlign: TextAlign.left,
                   ),
+                  SizedBox(
+                    height: 8,
+                  ),
                   Container(
-                    child: GoogleMap(initialCameraPosition: CameraPosition(
-                      target: currentPosition,
-                      zoom: 14.0,
-                    ),),
+                    height: 200,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      child: GoogleMap(
+                        mapType: MapType.normal,
+                        initialCameraPosition: CameraPosition(
+                          target: currentPosition,
+                          zoom: 14.0,
+                        ),
+                        markers: markers,
+                      ),
+                    ),
                   )
                 ],
               ),
@@ -229,5 +259,20 @@ class HomeState extends State<Home> implements EventContractView {
       ));
     }
     return list;
+  }
+
+  @override
+  onErrorAboutData(error) {
+    print(error.toString());
+  }
+
+  @override
+  onSuccessAboutData(List<DocumentSnapshot> value) {
+    setState(() {
+      listAbout = value;
+      currentPosition = LatLng(double.parse(listAbout[0].data["maps"]["lat"]),
+          double.parse(listAbout[0].data["maps"]["long"]));
+      loadingAbout = false;
+    });
   }
 }
