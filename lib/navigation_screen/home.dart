@@ -238,6 +238,7 @@ class HomeState extends State<Home>
               ),
             ),
             sectionAboutUs(),
+            sectionLatestNews(),
           ],
         ),
       ),
@@ -420,17 +421,141 @@ class HomeState extends State<Home>
               child: Container(
                 decoration: BoxDecoration(
                   color: Constants.greyColor,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10),),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("Doctor Name", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14,),),
+              child: Text(
+                "Doctor Name",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                ),
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8,),
-              child: Text("Doctor Specialist",),
+              padding: const EdgeInsets.only(
+                left: 8,
+                right: 8,
+                bottom: 8,
+              ),
+              child: Text(
+                "Doctor Specialist",
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  sectionLatestNews() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height / 2,
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              top: 40,
+              right: 20,
+              left: 20,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Berita Terbaru",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    color: Constants.blackColor,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  "Selengkapnya",
+                  style: TextStyle(
+                    color: Constants.blackColor,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding:
+                  EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 40),
+              child: Container(
+                child: ListView.builder(
+                  itemCount: 3,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: itemBuilderLatestNews,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget itemBuilderLatestNews(BuildContext context, int index) {
+    return Expanded(
+      child: Container(
+        margin: EdgeInsets.only(
+          left: 10,
+          right: 10,
+        ),
+        width: MediaQuery.of(context).size.width / 1.8,
+        decoration: BoxDecoration(
+          color: Constants.whiteColor,
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+          border: Border.all(
+            color: Constants.greyColor,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Constants.greyColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Doctor Name",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 8,
+                right: 8,
+                bottom: 8,
+              ),
+              child: Text(
+                "Doctor Specialist",
+              ),
             ),
           ],
         ),
