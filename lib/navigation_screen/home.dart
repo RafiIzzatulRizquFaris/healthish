@@ -239,6 +239,7 @@ class HomeState extends State<Home>
             ),
             sectionAboutUs(),
             sectionLatestNews(),
+            sectionContact(),
           ],
         ),
       ),
@@ -559,6 +560,117 @@ class HomeState extends State<Home>
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  sectionContact() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height / 3.2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              top: 20,
+              right: 20,
+              left: 20,
+            ),
+            child: Text(
+              "Kontak & Pengaduan",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+                color: Constants.blackColor,
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(top: 30, left: 20, bottom: 20, right: 20,),
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FlatButton.icon(
+                      icon: Icon(
+                        Icons.place_outlined,
+                        color: Constants.greyColor,
+                      ),
+                      label: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Rumah Sakit SMKDEV",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 3,
+                          ),
+                          Text(
+                            "Jl. Margacita No. 29",
+                            style: TextStyle(
+                              color: Constants.greyColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                      onPressed: () {},
+                    ),
+                    FlatButton.icon(
+                      icon: Icon(
+                        Icons.email_outlined,
+                        color: Constants.greyColor,
+                      ),
+                      label: Text(
+                        "info@smk.dev",
+                        style: TextStyle(
+                          color: Constants.greyColor,
+                        ),
+                      ),
+                      onPressed: () {},
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        FlatButton.icon(
+                          icon: Icon(
+                            Icons.phone,
+                            color: Constants.greyColor,
+                          ),
+                          label: Text(
+                            "+622 7000 0000",
+                            style: TextStyle(
+                              color: Constants.greyColor,
+                            ),
+                          ),
+                          onPressed: () {},
+                        ),
+                        FlatButton.icon(
+                          icon: Icon(
+                            Icons.apartment,
+                            color: Constants.greyColor,
+                          ),
+                          label: Text(
+                            "+622 7000 0000",
+                            style: TextStyle(
+                              color: Constants.greyColor,
+                            ),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
