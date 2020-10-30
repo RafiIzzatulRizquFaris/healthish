@@ -41,7 +41,7 @@ class HomeState extends State<Home>
     aboutPresenter.loadAboutData();
     markers.add(
       Marker(
-        markerId: MarkerId("rumah sakit"),
+        markerId: MarkerId("-6.318920, 106.852008"),
         position: currentPosition,
         icon: BitmapDescriptor.defaultMarker,
         infoWindow: InfoWindow(
