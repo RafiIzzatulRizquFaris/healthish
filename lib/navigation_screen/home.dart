@@ -342,7 +342,11 @@ class HomeState extends State<Home>
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 40, left: 20, right: 20,),
+            padding: EdgeInsets.only(
+              top: 40,
+              left: 20,
+              right: 20,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -351,14 +355,14 @@ class HomeState extends State<Home>
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
-                    color: Constants.whiteColor
+                    color: Constants.whiteColor,
                   ),
                   textAlign: TextAlign.left,
                 ),
                 Text(
                   "Selengkapnya",
                   style: TextStyle(
-                      color: Constants.whiteColor
+                    color: Constants.whiteColor,
                   ),
                   textAlign: TextAlign.left,
                 ),
@@ -380,7 +384,7 @@ class HomeState extends State<Home>
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(right: 10, bottom: 20),
+              padding: const EdgeInsets.only(right: 10, bottom: 40),
               child: Container(
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
@@ -398,11 +402,37 @@ class HomeState extends State<Home>
   Widget itemBuilderDoctor(BuildContext context, int index) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.only(left: 20, right: 10,),
+        margin: EdgeInsets.only(
+          left: 20,
+          right: 10,
+        ),
         width: MediaQuery.of(context).size.width / 2.3,
         decoration: BoxDecoration(
           color: Constants.whiteColor,
-          borderRadius: BorderRadius.all(Radius.circular(10),),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Constants.greyColor,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10),),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("Doctor Name", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14,),),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8,),
+              child: Text("Doctor Specialist",),
+            ),
+          ],
         ),
       ),
     );
