@@ -41,7 +41,7 @@ class HomeState extends State<Home>
     aboutPresenter.loadAboutData();
     markers.add(
       Marker(
-        markerId: MarkerId("3.595196, 98.672226"),
+        markerId: MarkerId("rumah sakit"),
         position: currentPosition,
         icon: BitmapDescriptor.defaultMarker,
         infoWindow: InfoWindow(
@@ -59,85 +59,89 @@ class HomeState extends State<Home>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 3,
-              child: Stack(
-                children: [
-                  carouselEvent(),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    alignment: Alignment.bottomLeft,
-                    child: Container(
+            SafeArea(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 2.5,
+                child: Stack(
+                  children: [
+                    carouselEvent(),
+                    Container(
                       width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromARGB(200, 0, 0, 0),
-                            Color.fromARGB(0, 0, 0, 0),
+                      alignment: Alignment.bottomLeft,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(200, 0, 0, 0),
+                              Color.fromARGB(0, 0, 0, 0),
+                            ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 20,
+                          horizontal: 10,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              loadingEvent
+                                  ? "lorem ipsum"
+                                  : listEvent[carouselIndex].data["title"],
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              loadingEvent
+                                  ? "lorem ipsum"
+                                  : listEvent[carouselIndex]
+                                      .data["description"],
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: dotWidget(),
+                                ),
+                                RaisedButton(
+                                  color: Constants.blueColor,
+                                  textColor: Constants.whiteColor,
+                                  child: Text("Read"),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                  ),
+                                  onPressed: () {},
+                                ),
+                              ],
+                            )
                           ],
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
                         ),
                       ),
-                      padding: EdgeInsets.symmetric(
-                        vertical: 20,
-                        horizontal: 10,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            loadingEvent
-                                ? "lorem ipsum"
-                                : listEvent[carouselIndex].data["title"],
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            loadingEvent
-                                ? "lorem ipsum"
-                                : listEvent[carouselIndex].data["description"],
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: dotWidget(),
-                              ),
-                              RaisedButton(
-                                color: Constants.blueColor,
-                                textColor: Constants.whiteColor,
-                                child: Text("Read"),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                onPressed: () {},
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Container(
@@ -154,7 +158,7 @@ class HomeState extends State<Home>
                     textAlign: TextAlign.left,
                   ),
                   SizedBox(
-                    height: 8,
+                    height: 20,
                   ),
                   Container(
                     height: 200,
@@ -169,10 +173,71 @@ class HomeState extends State<Home>
                         markers: markers,
                       ),
                     ),
-                  )
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Place Name",
+                        style: TextStyle(fontWeight: FontWeight.w800),
+                      ),
+                      Text(
+                        "Place Address",
+                      ),
+                      Text(
+                        "Place Weekday",
+                      ),
+                      Text(
+                        "Place Weekend",
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Place Name",
+                        style: TextStyle(fontWeight: FontWeight.w800),
+                      ),
+                      Text(
+                        "Place Address",
+                      ),
+                      Text(
+                        "Place Weekday",
+                      ),
+                      Text(
+                        "Place Weekend",
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Place Name",
+                        style: TextStyle(fontWeight: FontWeight.w800),
+                      ),
+                      Text(
+                        "Place Weekday",
+                      ),
+                      Text(
+                        "Place Weekend",
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
+            sectionAboutUs(),
           ],
         ),
       ),
@@ -188,10 +253,8 @@ class HomeState extends State<Home>
         pageSnapping: true,
         reverse: true,
         onPageChanged: carouselChanged,
-        height: 600,
-        aspectRatio: 16 / 9,
-        viewportFraction: 0.8,
-        initialPage: 0,
+        height: MediaQuery.of(context).size.height / 2.5,
+        enlargeCenterPage: false,
       ),
     );
   }
@@ -212,29 +275,24 @@ class HomeState extends State<Home>
   Widget itemBuilderCarouselEvent(BuildContext context, int index) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      color: Colors.blue,
       child: loadingEvent
           ? Center(
               child: CircularProgressIndicator(
                 backgroundColor: Constants.blueColor,
               ),
             )
-          : SafeArea(
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(
-                    child: SizedBox.expand(
-                      child: FittedBox(
-                        child: Image.network(
-                          listEvent[index].data["image"],
-                        ),
-                        fit: BoxFit.fill,
-                      ),
+          : Column(
+              children: [
+                Flexible(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Image.network(
+                      listEvent[index].data["image"],
                     ),
-                  )
-                ],
-              ),
+                  ),
+                  // fit: BoxFit.fill,
+                ),
+              ],
             ),
     );
   }
@@ -274,5 +332,79 @@ class HomeState extends State<Home>
           double.parse(listAbout[0].data["maps"]["long"]));
       loadingAbout = false;
     });
+  }
+
+  sectionAboutUs() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height / 1.5,
+      color: Constants.blueColor,
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 40, left: 20, right: 20,),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Tentang Kami",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    color: Constants.whiteColor
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                Text(
+                  "Selengkapnya",
+                  style: TextStyle(
+                      color: Constants.whiteColor
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Constants.greyColor,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 10, bottom: 20),
+              child: Container(
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 3,
+                  itemBuilder: itemBuilderDoctor,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget itemBuilderDoctor(BuildContext context, int index) {
+    return Expanded(
+      child: Container(
+        margin: EdgeInsets.only(left: 20, right: 10,),
+        width: MediaQuery.of(context).size.width / 2.3,
+        decoration: BoxDecoration(
+          color: Constants.whiteColor,
+          borderRadius: BorderRadius.all(Radius.circular(10),),
+        ),
+      ),
+    );
   }
 }
