@@ -48,6 +48,7 @@ dependencies:
   badges: any
   carousel_slider: any
   percent_indicator: ^2.1.4
+  permission_handler: any
 
 dev_dependencies:
   flutter_test:
