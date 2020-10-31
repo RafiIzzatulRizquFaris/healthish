@@ -170,12 +170,16 @@ class LayananState extends State<Layanan> {
           Container(
             decoration: BoxDecoration(
               color: Constants.whiteColor,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(10),
+                bottomLeft: Radius.circular(10),
+              ),
             ),
           ),
           Container(
             alignment: Alignment.bottomLeft,
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
               gradient: LinearGradient(
                 colors: [
                   Color.fromARGB(200, 0, 0, 0),
