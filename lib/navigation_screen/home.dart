@@ -9,6 +9,7 @@ import 'package:healthish/contract/about_contract.dart';
 import 'package:healthish/contract/event_contract.dart';
 import 'package:healthish/presenter/about_presenter.dart';
 import 'package:healthish/presenter/event_presenter.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -37,6 +38,7 @@ class HomeState extends State<Home>
   @override
   void initState() {
     super.initState();
+    requestPermission();
     eventPresenter.loadEventData();
     aboutPresenter.loadAboutData();
     markers.add(
@@ -67,9 +69,6 @@ class HomeState extends State<Home>
                   children: [
                     carouselEvent(),
                     Container(
-                      width: MediaQuery.of(context).size.width,
-                      alignment: Alignment.bottomLeft,
-                      child: Container(
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -82,7 +81,7 @@ class HomeState extends State<Home>
                           ),
                         ),
                         padding: EdgeInsets.symmetric(
-                          vertical: 20,
+                          vertical: 10,
                           horizontal: 10,
                         ),
                         child: Column(
@@ -139,7 +138,6 @@ class HomeState extends State<Home>
                           ],
                         ),
                       ),
-                    ),
                   ],
                 ),
               ),
@@ -252,11 +250,11 @@ class HomeState extends State<Home>
       itemBuilder: itemBuilderCarouselEvent,
       options: CarouselOptions(
         autoPlay: true,
-        pageSnapping: true,
-        reverse: true,
+        // pageSnapping: true,
+        // reverse: true,
         onPageChanged: carouselChanged,
         height: MediaQuery.of(context).size.height / 2.5,
-        enlargeCenterPage: false,
+        // enlargeCenterPage: false,
       ),
     );
   }
@@ -285,15 +283,13 @@ class HomeState extends State<Home>
             )
           : Column(
               children: [
-                Flexible(
-                  child: Container(
+                Container(
                     width: MediaQuery.of(context).size.width,
                     child: Image.network(
                       listEvent[index].data["image"],
                     ),
                   ),
                   // fit: BoxFit.fill,
-                ),
               ],
             ),
     );
@@ -402,8 +398,7 @@ class HomeState extends State<Home>
   }
 
   Widget itemBuilderDoctor(BuildContext context, int index) {
-    return Expanded(
-      child: Container(
+    return Container(
         margin: EdgeInsets.only(
           left: 20,
           right: 10,
@@ -451,8 +446,7 @@ class HomeState extends State<Home>
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 
   sectionLatestNews() {
@@ -508,8 +502,7 @@ class HomeState extends State<Home>
   }
 
   Widget itemBuilderLatestNews(BuildContext context, int index) {
-    return Expanded(
-      child: Container(
+    return Container(
         margin: EdgeInsets.only(
           left: 10,
           right: 10,
@@ -560,8 +553,7 @@ class HomeState extends State<Home>
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 
   sectionContact() {
@@ -674,4 +666,6 @@ class HomeState extends State<Home>
       ),
     );
   }
+
+  Future<void> requestPermission() async { await Permission.location.request(); }
 }
