@@ -165,38 +165,38 @@ class LayananState extends State<Layanan> {
           color: Constants.greyColor,
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
         children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Constants.greyColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                ),
-              ),
+          Container(
+            decoration: BoxDecoration(
+              color: Constants.whiteColor,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          Container(
+            alignment: Alignment.bottomLeft,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color.fromARGB(200, 0, 0, 0),
+                  Color.fromARGB(0, 0, 0, 0),
+                ],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+              ),
+            ),
+            padding: EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 10,
+            ),
             child: Text(
-              "Doctor Name",
+              "Kamar Pasien",
+              maxLines: 2,
               style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Constants.whiteColor,
+                fontSize: 16,
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 8,
-              right: 8,
-              bottom: 8,
-            ),
-            child: Text(
-              "Doctor Specialist",
             ),
           ),
         ],
@@ -211,7 +211,7 @@ class LayananState extends State<Layanan> {
         margin: EdgeInsets.only(
           bottom: 15,
         ),
-        height: MediaQuery.of(context).size.width / 2.2,
+        height: MediaQuery.of(context).size.height / 3.3,
         decoration: BoxDecoration(
           color: Constants.whiteColor,
           borderRadius: BorderRadius.all(
@@ -236,7 +236,21 @@ class LayananState extends State<Layanan> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.only(
+                left: 8,
+                top: 8,
+                right: 8,
+              ),
+              child: Text(
+                "Category",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: Constants.blueColor,
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8.0),
               child: Text(
                 "Doctor Name",
                 style: TextStyle(
