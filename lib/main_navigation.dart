@@ -15,7 +15,7 @@ class MainNavigation extends StatefulWidget{
 
 }
 
-class MainNavigationState extends State<MainNavigation>{
+class MainNavigationState extends State<MainNavigation> with SingleTickerProviderStateMixin{
 
   int selectedIndex = 0;
   int selectedIcon = 0;
@@ -25,52 +25,101 @@ class MainNavigationState extends State<MainNavigation>{
     Booking(),
     Profile(),
   ];
+  AnimationController animationController;
+  Animation animation;
+  CurvedNavigationBar curvedNavigationBar = CurvedNavigationBar(items: [
+    Container(
+      child: Icon(Icons.home_outlined),
+    ),
+  ]);
+  double right = -200;
+  double bottom = 0;
+
+  @override
+  void initState() {
+    animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 250,),);
+    animation = Tween(begin: -1.0, end: 0.0).animate(animationController);
+    super.initState();
+    animationController.addListener(() {
+      setState(() {
+
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screenWidget.elementAt(selectedIndex),
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Constants.whiteColor,
-        index: selectedIndex,
-        color: Constants.whiteColor,
-        buttonBackgroundColor: Constants.blueColor,
-        animationCurve: Curves.easeInCirc,
-        animationDuration: Duration(milliseconds: 250),
-        items: [
-          Container(
-            child: Icon(Icons.home_outlined, size: 30, color: selectedIcon == 0 ? Constants.whiteColor : Constants.greyColor,),
-            padding: EdgeInsets.all(5),
-          ),
-          Container(
-            child: Icon(Icons.medical_services_outlined, size: 30, color: selectedIcon == 1 ? Constants.whiteColor : Constants.greyColor,),
-            padding: EdgeInsets.all(5),
-          ),
-          Container(
-            child: Icon(Icons.date_range_outlined, size: 30, color: selectedIcon == 2 ? Constants.whiteColor : Constants.greyColor,),
-            padding: EdgeInsets.all(5),
-          ),
-          Container(
-            child: Icon(Icons.person_outline_rounded, size: 30, color: selectedIcon == 3 ? Constants.whiteColor : Constants.greyColor,),
-            padding: EdgeInsets.all(5),
-          ),
-          Container(
-            child: Icon(Icons.more_vert_rounded, size: 30, color: selectedIcon == 4 ? Constants.whiteColor : Constants.greyColor,),
-            padding: EdgeInsets.all(5),
+      body: Stack(
+        children: [
+          screenWidget.elementAt(selectedIndex),
+          Positioned(
+            right: animation.value * 200,
+            bottom: curvedNavigationBar.height,
+            child: RaisedButton(
+              child: Text("this is button", style: TextStyle(color: Constants.whiteColor,),),
+              color: Constants.blackColor,
+              onPressed: (){},
+            ),
           ),
         ],
-        onTap: (index){
-          setState(() {
-            selectedIcon = index;
-          });
-          if (index == 4){
-            print("Pop up Menu");
-          } else {
+      ),
+      bottomNavigationBar: Stack(
+        children: [
+          CurvedNavigationBar(
+          backgroundColor: Constants.whiteColor,
+          index: selectedIndex,
+          color: Constants.whiteColor,
+          buttonBackgroundColor: Constants.blueColor,
+          animationCurve: Curves.easeInCirc,
+          animationDuration: Duration(milliseconds: 250),
+          items: [
+            Container(
+              child: Icon(Icons.home_outlined, size: 30, color: selectedIcon == 0 ? Constants.whiteColor : Constants.greyColor,),
+              padding: EdgeInsets.all(5),
+            ),
+            Container(
+              child: Icon(Icons.medical_services_outlined, size: 30, color: selectedIcon == 1 ? Constants.whiteColor : Constants.greyColor,),
+              padding: EdgeInsets.all(5),
+            ),
+            Container(
+              child: Icon(Icons.date_range_outlined, size: 30, color: selectedIcon == 2 ? Constants.whiteColor : Constants.greyColor,),
+              padding: EdgeInsets.all(5),
+            ),
+            Container(
+              child: Icon(Icons.person_outline_rounded, size: 30, color: selectedIcon == 3 ? Constants.whiteColor : Constants.greyColor,),
+              padding: EdgeInsets.all(5),
+            ),
+            Container(
+              child: Icon(Icons.more_vert_rounded, size: 30, color: selectedIcon == 4 ? Constants.whiteColor : Constants.greyColor,),
+              padding: EdgeInsets.all(5),
+            ),
+          ],
+          onTap: (index){
             setState(() {
-              selectedIndex = index;
+              selectedIcon = index;
             });
-          }
-        },
+            if (index == 4){
+              print("Pop up Menu");
+              setState(() {
+                // right = 0;
+                bottom = curvedNavigationBar.height;
+              });
+              if (animationController.isCompleted){
+                animationController.reverse();
+              }else {
+                animationController.forward();
+              }
+            } else {
+              setState(() {
+                // right = -200;
+                selectedIndex = index;
+              });
+              if (animationController.isCompleted) animationController.reverse();
+            }
+          },
+        ),
+        ]
       ),
     );
   }
