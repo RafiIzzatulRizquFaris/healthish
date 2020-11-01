@@ -63,127 +63,127 @@ class ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
               alignment: Alignment.center,
               children: [
                 Container(
-                    height: MediaQuery.of(context).size.height,
-                    margin: EdgeInsets.only(
-                      top: appBar.preferredSize.height + 100,
+                  height: MediaQuery.of(context).size.height,
+                  margin: EdgeInsets.only(
+                    top: appBar.preferredSize.height + 100,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Constants.whiteColor,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(30),
+                      topLeft: Radius.circular(30),
                     ),
-                    decoration: BoxDecoration(
-                      color: Constants.whiteColor,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(30),
-                        topLeft: Radius.circular(30),
-                      ),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.more_horiz_rounded),
-                                color: Constants.blackColor,
-                                onPressed: () {},
-                              )
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Name Goes Here",
-                              style: TextStyle(
-                                  color: Constants.blackColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              bottom: 5,
-                            ),
-                            child: Text(
-                              "Laki - Laki",
-                              style: TextStyle(
-                                color: Constants.blackColor,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            "082299189919",
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.more_horiz_rounded),
+                              color: Constants.blackColor,
+                              onPressed: () {},
+                            )
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            "Name Goes Here",
                             style: TextStyle(
-                              color: Constants.greyColor,
+                                color: Constants.blackColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            bottom: 5,
+                          ),
+                          child: Text(
+                            "Laki - Laki",
+                            style: TextStyle(
+                              color: Constants.blackColor,
                               fontSize: 16,
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              right: 10,
-                              left: 10,
-                              bottom: 10,
-                              top: 20,
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                color: Constants.greyColorTab,
-                              ),
-                              child: TabBar(
-                                controller: tabController,
-                                indicatorSize: TabBarIndicatorSize.tab,
-                                indicator: CustomTabIndicator(),
-                                labelColor: Constants.blackColor,
-                                tabs: [
-                                  Tab(
-                                    child: Badge(
-                                      badgeContent: Text(
-                                        '2',
-                                        style: TextStyle(
-                                          color: Constants.whiteColor,
-                                        ),
-                                      ),
-                                      badgeColor: Constants.redColor,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("Notifikasi"),
-                                      ),
-                                    ),
-                                  ),
-                                  Tab(
-                                    child: Badge(
-                                      badgeContent: Text(
-                                        '1',
-                                        style: TextStyle(
-                                          color: Constants.whiteColor,
-                                        ),
-                                      ),
-                                      badgeColor: Constants.redColor,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("Histori Booking"),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                        ),
+                        Text(
+                          "082299189919",
+                          style: TextStyle(
+                            color: Constants.greyColor,
+                            fontSize: 16,
                           ),
-                          Expanded(
-                            child: TabBarView(
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            right: 10,
+                            left: 10,
+                            bottom: 10,
+                            top: 20,
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: Constants.greyColorTab,
+                            ),
+                            child: TabBar(
                               controller: tabController,
-                              children: [
-                                notificationTabBarView(),
-                                bookingHistoryTabBarView(),
+                              indicatorSize: TabBarIndicatorSize.tab,
+                              indicator: CustomTabIndicator(),
+                              labelColor: Constants.blackColor,
+                              tabs: [
+                                Tab(
+                                  child: Badge(
+                                    badgeContent: Text(
+                                      '2',
+                                      style: TextStyle(
+                                        color: Constants.whiteColor,
+                                      ),
+                                    ),
+                                    badgeColor: Constants.redColor,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Notifikasi"),
+                                    ),
+                                  ),
+                                ),
+                                Tab(
+                                  child: Badge(
+                                    badgeContent: Text(
+                                      '1',
+                                      style: TextStyle(
+                                        color: Constants.whiteColor,
+                                      ),
+                                    ),
+                                    badgeColor: Constants.redColor,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Histori Booking"),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        ),
+                        Expanded(
+                          child: TabBarView(
+                            controller: tabController,
+                            children: [
+                              notificationTabBarView(),
+                              bookingHistoryTabBarView(),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   ),
+                ),
                 Positioned(
                   top: appBar.preferredSize.height + 50,
                   child: Container(
@@ -234,8 +234,11 @@ class ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   }
 
   Widget itemBuilderNotification(BuildContext context, int index) {
-    return Padding(
-      padding: EdgeInsets.all(8),
+    return Container(
+      padding: EdgeInsets.all(5),
+      color: index == 0 || index == 1
+          ? Constants.greyColorTab
+          : Constants.whiteColor,
       child: ListTile(
         leading: Container(
           width: 50,
@@ -252,9 +255,44 @@ class ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
               fontSize: 14,
               color: Constants.blackColor),
         ),
-        subtitle: Text(
-          "Deskripsi singkat dokter $index",
-          style: TextStyle(color: Constants.greyColor),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 8,),
+            Text(
+                "Deskripsi singkat dokter $index Deskripsi singkat dokter $index Deskripsi singkat dokter $index Deskripsi singkat dokter $index",
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: Constants.blackColor),
+              ),
+            SizedBox(
+              height: 8,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "2 jam yang lalu",
+                  style: TextStyle(
+                    color: Constants.blackColor,
+                  ),
+                ),
+                index == 0 || index == 1 ? Container(
+                  padding: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10,),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Constants.redColor,
+                  ),
+                  child: Text(
+                    "New",
+                    style: TextStyle(
+                      color: Constants.whiteColor,
+                    ),
+                  ),
+                ) : Container(),
+              ],
+            )
+          ],
         ),
       ),
     );
