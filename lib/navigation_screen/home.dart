@@ -28,7 +28,7 @@ class HomeState extends State<Home>
   bool loadingEvent = true;
   bool loadingAbout = true;
   final Set<Marker> markers = {};
-  LatLng currentPosition = LatLng(0.0, 0.0);
+  LatLng currentPosition = LatLng(-6.318920, 106.852008);
 
   HomeState() {
     eventPresenter = EventPresenter(this);
@@ -41,17 +41,6 @@ class HomeState extends State<Home>
     requestPermission();
     eventPresenter.loadEventData();
     aboutPresenter.loadAboutData();
-    markers.add(
-      Marker(
-        markerId: MarkerId("-6.318920, 106.852008"),
-        position: currentPosition,
-        icon: BitmapDescriptor.defaultMarker,
-        infoWindow: InfoWindow(
-          title: "Medical center",
-          snippet: "This is medical center",
-        ),
-      ),
-    );
   }
 
   @override
@@ -330,6 +319,21 @@ class HomeState extends State<Home>
           double.parse(listAbout[0].data["maps"]["long"]));
       loadingAbout = false;
     });
+    print(currentPosition.longitude.toString());
+    markers.add(
+      Marker(
+        markerId: MarkerId("-6.318920, 106.852008"),
+        position: currentPosition,
+        icon: BitmapDescriptor.defaultMarker,
+        infoWindow: InfoWindow(
+          title: "Medical center",
+          snippet: "This is medical center",
+        ),
+        onTap: (){
+          print("tapped");
+        },
+      ),
+    );
   }
 
   sectionAboutUs() {
