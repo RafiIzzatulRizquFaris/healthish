@@ -15,7 +15,7 @@ class MainNavigation extends StatefulWidget{
 
 }
 
-class MainNavigationState extends State<MainNavigation> with SingleTickerProviderStateMixin{
+class MainNavigationState extends State<MainNavigation> with TickerProviderStateMixin{
 
   int selectedIndex = 0;
   int selectedIcon = 0;
@@ -26,7 +26,11 @@ class MainNavigationState extends State<MainNavigation> with SingleTickerProvide
     Profile(),
   ];
   AnimationController animationController;
+  AnimationController secondAnimationController;
+  AnimationController thirdAnimationController;
   Animation animation;
+  Animation secondAnimation;
+  Animation thirdAnimation;
   CurvedNavigationBar curvedNavigationBar = CurvedNavigationBar(items: [
     Container(
       child: Icon(Icons.home_outlined),
@@ -37,8 +41,12 @@ class MainNavigationState extends State<MainNavigation> with SingleTickerProvide
 
   @override
   void initState() {
-    animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 250,),);
+    animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 500,),);
+    secondAnimationController = AnimationController(vsync: this, duration: Duration(milliseconds: 300,),);
+    thirdAnimationController = AnimationController(vsync: this, duration: Duration(milliseconds: 100,),);
     animation = Tween(begin: -1.0, end: 0.0).animate(animationController);
+    secondAnimation = Tween(begin: -1.0, end: 0.0).animate(secondAnimationController);
+    thirdAnimation = Tween(begin: -1.0, end: 0.0).animate(thirdAnimationController);
     super.initState();
     animationController.addListener(() {
       setState(() {
@@ -56,10 +64,70 @@ class MainNavigationState extends State<MainNavigation> with SingleTickerProvide
           Positioned(
             right: animation.value * 200,
             bottom: curvedNavigationBar.height,
-            child: RaisedButton(
-              child: Text("this is button", style: TextStyle(color: Constants.whiteColor,),),
-              color: Constants.blackColor,
-              onPressed: (){},
+            child: Container(
+              margin: EdgeInsets.only(right: 10,),
+              child: FlatButton(
+                padding: EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    Text("Feedback", style: TextStyle(color: Constants.whiteColor, fontSize: 16,),),
+                    SizedBox(width: 8,),
+                    Icon(Icons.favorite_border_rounded, color: Constants.whiteColor,),
+                  ],
+                ),
+                splashColor: Constants.redColor,
+                color: Constants.blueColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))
+                ),
+                onPressed: (){},
+              ),
+            ),
+          ),
+          Positioned(
+            right: secondAnimation.value * 220,
+            bottom: curvedNavigationBar.height + 60,
+            child: Container(
+              margin: EdgeInsets.only(right: 10,),
+              child: FlatButton(
+                padding: EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    Text("Partner & Career", style: TextStyle(color: Constants.whiteColor, fontSize: 16,),),
+                    SizedBox(width: 8,),
+                    Icon(Icons.amp_stories_outlined, color: Constants.whiteColor,),
+                  ],
+                ),
+                splashColor: Constants.redColor,
+                color: Constants.blueColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20))
+                ),
+                onPressed: (){},
+              ),
+            ),
+          ),
+          Positioned(
+            right: thirdAnimation.value * 240,
+            bottom: curvedNavigationBar.height + 120,
+            child: Container(
+              margin: EdgeInsets.only(right: 10,),
+              child: FlatButton(
+                padding: EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    Text("Tentang Kami", style: TextStyle(color: Constants.whiteColor, fontSize: 16,),),
+                    SizedBox(width: 8,),
+                    Icon(Icons.info_outline_rounded, color: Constants.whiteColor,),
+                  ],
+                ),
+                splashColor: Constants.redColor,
+                color: Constants.blueColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20))
+                ),
+                onPressed: (){},
+              ),
             ),
           ),
         ],
@@ -101,21 +169,24 @@ class MainNavigationState extends State<MainNavigation> with SingleTickerProvide
             });
             if (index == 4){
               print("Pop up Menu");
-              setState(() {
-                // right = 0;
-                bottom = curvedNavigationBar.height;
-              });
               if (animationController.isCompleted){
                 animationController.reverse();
+                secondAnimationController.reverse();
+                thirdAnimationController.reverse();
               }else {
                 animationController.forward();
+                secondAnimationController.forward();
+                thirdAnimationController.forward();
               }
             } else {
               setState(() {
-                // right = -200;
                 selectedIndex = index;
               });
-              if (animationController.isCompleted) animationController.reverse();
+              if (animationController.isCompleted) {
+                animationController.reverse();
+                secondAnimationController.reverse();
+                thirdAnimationController.reverse();
+              }
             }
           },
         ),
