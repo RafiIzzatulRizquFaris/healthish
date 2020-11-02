@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
 
 class DetailAbout extends StatefulWidget {
+
+  final String imgUrl;
+
+  DetailAbout({this.imgUrl});
+
   @override
   State<StatefulWidget> createState() {
     return DetailAboutState();
@@ -47,17 +52,25 @@ class DetailAboutState extends State<DetailAbout> {
           ),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 3.5,
-            decoration: BoxDecoration(
-              color: Constants.greyColor,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 3.5,
+              decoration: BoxDecoration(
+                color: Constants.greyColor,
+              ),
+              child: SizedBox.expand(
+                child: FittedBox(
+                  fit: BoxFit.fill,
+                  child: Image.network(widget.imgUrl),
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
