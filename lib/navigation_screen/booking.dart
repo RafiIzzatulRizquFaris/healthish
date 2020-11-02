@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
+import 'package:healthish/navigation_screen/detail_doctor/detail_doctor.dart';
 
 class Booking extends StatefulWidget {
   @override
@@ -32,7 +33,13 @@ class BookingState extends State<Booking> {
       ),
       body: ListView.builder(
         itemCount: 20,
-        itemBuilder: itemBuilderDoctor,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () => Navigator.push(
+                context, MaterialPageRoute(builder: (context) => DetailDoctor())),
+            child: itemBuilderDoctor(context, index),
+          );
+        },
       ),
     );
   }
