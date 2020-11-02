@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/contract/about_contract.dart';
 import 'package:healthish/contract/event_contract.dart';
+import 'package:healthish/detail_screen/detail_about.dart';
 import 'package:healthish/detail_screen/detail_event.dart';
 import 'package:healthish/presenter/about_presenter.dart';
 import 'package:healthish/presenter/event_presenter.dart';
@@ -185,62 +186,28 @@ class HomeState extends State<Home>
                   SizedBox(
                     height: 20,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Place Name",
-                        style: TextStyle(fontWeight: FontWeight.w800),
-                      ),
-                      Text(
-                        "Place Address",
-                      ),
-                      Text(
-                        "Place Weekday",
-                      ),
-                      Text(
-                        "Place Weekend",
-                      ),
-                    ],
+                  firstAndSecondPlace(
+                    listAbout.isNotEmpty ? listAbout[0]["place_list"][0]["name"].toString() : "Place Name",
+                    listAbout.isNotEmpty ? listAbout[0]["place_list"][0]["address"].toString() : "Place Name",
+                    listAbout.isNotEmpty ? listAbout[0]["place_list"][0]["weekday"].toString() : "Place Name",
+                    listAbout.isNotEmpty ? listAbout[0]["place_list"][0]["weekend"].toString() : "Place Name",
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Place Name",
-                        style: TextStyle(fontWeight: FontWeight.w800),
-                      ),
-                      Text(
-                        "Place Address",
-                      ),
-                      Text(
-                        "Place Weekday",
-                      ),
-                      Text(
-                        "Place Weekend",
-                      ),
-                    ],
+                  firstAndSecondPlace(
+                    listAbout.isNotEmpty ? listAbout[0]["place_list"][1]["name"].toString() : "Place Name",
+                    listAbout.isNotEmpty ? listAbout[0]["place_list"][1]["address"].toString() : "Place Name",
+                    listAbout.isNotEmpty ? listAbout[0]["place_list"][1]["weekday"].toString() : "Place Name",
+                    listAbout.isNotEmpty ? listAbout[0]["place_list"][1]["weekend"].toString() : "Place Name",
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Place Name",
-                        style: TextStyle(fontWeight: FontWeight.w800),
-                      ),
-                      Text(
-                        "Place Weekday",
-                      ),
-                      Text(
-                        "Place Weekend",
-                      ),
-                    ],
+                  thirdPlace(
+                    listAbout.isNotEmpty ? listAbout[0]["place_list"][2]["name"].toString() : "Place Name",
+                    listAbout.isNotEmpty ? listAbout[0]["place_list"][2]["weekday"].toString() : "Place Weekday",
+                    listAbout.isNotEmpty ? listAbout[0]["place_list"][2]["weekend"].toString() : "Place Weekend",
                   ),
                 ],
               ),
@@ -340,7 +307,6 @@ class HomeState extends State<Home>
           double.parse(listAbout[0].data["maps"]["long"]));
       loadingAbout = false;
     });
-    print(currentPosition.longitude.toString());
     markers.add(
       Marker(
         markerId: MarkerId("-6.318920, 106.852008"),
@@ -382,12 +348,21 @@ class HomeState extends State<Home>
                   ),
                   textAlign: TextAlign.left,
                 ),
-                Text(
-                  "Selengkapnya",
-                  style: TextStyle(
-                    color: Constants.whiteColor,
+                FlatButton(
+                  padding: EdgeInsets.all(0),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return DetailAbout();
+                    }));
+                  },
+                  child: Text(
+                    "Selengkapnya",
+                    style: TextStyle(
+                      color: Constants.whiteColor,
+                    ),
+                    textAlign: TextAlign.right,
                   ),
-                  textAlign: TextAlign.left,
                 ),
               ],
             ),
@@ -699,5 +674,44 @@ class HomeState extends State<Home>
 
   Future<void> requestPermission() async {
     await Permission.location.request();
+  }
+
+  firstAndSecondPlace(String name, String address, String weekday, String weekend) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          name,
+          style: TextStyle(fontWeight: FontWeight.w800),
+        ),
+        Text(
+          address,
+        ),
+        Text(
+          weekday,
+        ),
+        Text(
+          weekend,
+        ),
+      ],
+    );
+  }
+
+  thirdPlace(String s, String t, String u) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          s,
+          style: TextStyle(fontWeight: FontWeight.w800),
+        ),
+        Text(
+          t,
+        ),
+        Text(
+          u,
+        ),
+      ],
+    );
   }
 }
