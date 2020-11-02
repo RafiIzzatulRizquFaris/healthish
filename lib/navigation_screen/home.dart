@@ -187,27 +187,49 @@ class HomeState extends State<Home>
                     height: 20,
                   ),
                   firstAndSecondPlace(
-                    listAbout.isNotEmpty ? listAbout[0]["place_list"][0]["name"].toString() : "Place Name",
-                    listAbout.isNotEmpty ? listAbout[0]["place_list"][0]["address"].toString() : "Place Name",
-                    listAbout.isNotEmpty ? listAbout[0]["place_list"][0]["weekday"].toString() : "Place Name",
-                    listAbout.isNotEmpty ? listAbout[0]["place_list"][0]["weekend"].toString() : "Place Name",
+                    listAbout.isNotEmpty
+                        ? listAbout[0]["place_list"][0]["name"].toString()
+                        : "Place Name",
+                    listAbout.isNotEmpty
+                        ? listAbout[0]["place_list"][0]["address"].toString()
+                        : "Place Name",
+                    listAbout.isNotEmpty
+                        ? listAbout[0]["place_list"][0]["weekday"].toString()
+                        : "Place Name",
+                    listAbout.isNotEmpty
+                        ? listAbout[0]["place_list"][0]["weekend"].toString()
+                        : "Place Name",
                   ),
                   SizedBox(
                     height: 20,
                   ),
                   firstAndSecondPlace(
-                    listAbout.isNotEmpty ? listAbout[0]["place_list"][1]["name"].toString() : "Place Name",
-                    listAbout.isNotEmpty ? listAbout[0]["place_list"][1]["address"].toString() : "Place Name",
-                    listAbout.isNotEmpty ? listAbout[0]["place_list"][1]["weekday"].toString() : "Place Name",
-                    listAbout.isNotEmpty ? listAbout[0]["place_list"][1]["weekend"].toString() : "Place Name",
+                    listAbout.isNotEmpty
+                        ? listAbout[0]["place_list"][1]["name"].toString()
+                        : "Place Name",
+                    listAbout.isNotEmpty
+                        ? listAbout[0]["place_list"][1]["address"].toString()
+                        : "Place Name",
+                    listAbout.isNotEmpty
+                        ? listAbout[0]["place_list"][1]["weekday"].toString()
+                        : "Place Name",
+                    listAbout.isNotEmpty
+                        ? listAbout[0]["place_list"][1]["weekend"].toString()
+                        : "Place Name",
                   ),
                   SizedBox(
                     height: 20,
                   ),
                   thirdPlace(
-                    listAbout.isNotEmpty ? listAbout[0]["place_list"][2]["name"].toString() : "Place Name",
-                    listAbout.isNotEmpty ? listAbout[0]["place_list"][2]["weekday"].toString() : "Place Weekday",
-                    listAbout.isNotEmpty ? listAbout[0]["place_list"][2]["weekend"].toString() : "Place Weekend",
+                    listAbout.isNotEmpty
+                        ? listAbout[0]["place_list"][2]["name"].toString()
+                        : "Place Name",
+                    listAbout.isNotEmpty
+                        ? listAbout[0]["place_list"][2]["weekday"].toString()
+                        : "Place Weekday",
+                    listAbout.isNotEmpty
+                        ? listAbout[0]["place_list"][2]["weekend"].toString()
+                        : "Place Weekend",
                   ),
                 ],
               ),
@@ -332,7 +354,7 @@ class HomeState extends State<Home>
         children: [
           Padding(
             padding: EdgeInsets.only(
-              top: 40,
+              top: 30,
               left: 20,
               right: 20,
             ),
@@ -353,7 +375,7 @@ class HomeState extends State<Home>
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return DetailAbout();
+                      return DetailAbout(imgUrl: listAbout[0]["image"].toString(),);
                     }));
                   },
                   child: Text(
@@ -377,6 +399,21 @@ class HomeState extends State<Home>
                     Radius.circular(10),
                   ),
                 ),
+                child: listAbout.isNotEmpty
+                    ? SizedBox.expand(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: FittedBox(
+                            child: Image.network(
+                              listAbout[0]["image"].toString(),
+                            ),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      )
+                    : CircularProgressIndicator(
+                        backgroundColor: Constants.whiteColor,
+                      ),
               ),
             ),
           ),
@@ -676,7 +713,8 @@ class HomeState extends State<Home>
     await Permission.location.request();
   }
 
-  firstAndSecondPlace(String name, String address, String weekday, String weekend) {
+  firstAndSecondPlace(
+      String name, String address, String weekday, String weekend) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -697,19 +735,19 @@ class HomeState extends State<Home>
     );
   }
 
-  thirdPlace(String s, String t, String u) {
+  thirdPlace(String name, String weekday, String weekend) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          s,
+          name,
           style: TextStyle(fontWeight: FontWeight.w800),
         ),
         Text(
-          t,
+          weekday,
         ),
         Text(
-          u,
+          weekend,
         ),
       ],
     );
