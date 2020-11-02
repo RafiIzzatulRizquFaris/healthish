@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/custom_tab_indicator.dart';
+import 'package:healthish/navigation_screen/profile/component/bookingHistoryTab.dart';
+import 'package:healthish/navigation_screen/profile/component/notificationTab.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -175,8 +177,8 @@ class ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                           child: TabBarView(
                             controller: tabController,
                             children: [
-                              notificationTabBarView(),
-                              bookingHistoryTabBarView(),
+                              NotificationTab(),
+                              BookingHistoryTab(),
                             ],
                           ),
                         )
@@ -233,84 +235,4 @@ class ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
     return list;
   }
 
-  Widget itemBuilderNotification(BuildContext context, int index) {
-    return Container(
-      padding: EdgeInsets.all(5),
-      color: index == 0 || index == 1
-          ? Constants.greyColorTab
-          : Constants.whiteColor,
-      child: ListTile(
-        leading: Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            color: Constants.greyColor,
-            borderRadius: BorderRadius.all(Radius.circular(1000)),
-          ),
-        ),
-        title: Text(
-          "Dokter $index",
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-              color: Constants.blackColor),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 8,),
-            Text(
-                "Deskripsi singkat dokter $index Deskripsi singkat dokter $index Deskripsi singkat dokter $index Deskripsi singkat dokter $index",
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Constants.blackColor),
-              ),
-            SizedBox(
-              height: 8,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "2 jam yang lalu",
-                  style: TextStyle(
-                    color: Constants.blackColor,
-                  ),
-                ),
-                index == 0 || index == 1 ? Container(
-                  padding: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10,),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Constants.redColor,
-                  ),
-                  child: Text(
-                    "New",
-                    style: TextStyle(
-                      color: Constants.whiteColor,
-                    ),
-                  ),
-                ) : Container(),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  notificationTabBarView() {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: 20,
-      itemBuilder: itemBuilderNotification,
-    );
-  }
-
-  bookingHistoryTabBarView() {
-    return Column(
-      children: [
-        Text("data"),
-      ],
-    );
-  }
 }
