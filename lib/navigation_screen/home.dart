@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/contract/about_contract.dart';
 import 'package:healthish/contract/event_contract.dart';
+import 'package:healthish/detail_screen/detail_event.dart';
 import 'package:healthish/presenter/about_presenter.dart';
 import 'package:healthish/presenter/event_presenter.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -58,75 +59,95 @@ class HomeState extends State<Home>
                   children: [
                     carouselEvent(),
                     Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color.fromARGB(200, 0, 0, 0),
-                              Color.fromARGB(0, 0, 0, 0),
-                            ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                          ),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 10,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              loadingEvent
-                                  ? "lorem ipsum"
-                                  : listEvent[carouselIndex].data["title"],
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              loadingEvent
-                                  ? "lorem ipsum"
-                                  : listEvent[carouselIndex]
-                                      .data["description"],
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: dotWidget(),
-                                ),
-                                RaisedButton(
-                                  color: Constants.blueColor,
-                                  textColor: Constants.whiteColor,
-                                  child: Text("Read"),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                  ),
-                                  onPressed: () {},
-                                ),
-                              ],
-                            )
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(200, 0, 0, 0),
+                            Color.fromARGB(0, 0, 0, 0),
                           ],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
                         ),
                       ),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 10,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            loadingEvent
+                                ? "lorem ipsum"
+                                : listEvent[carouselIndex].data["title"],
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            loadingEvent
+                                ? "lorem ipsum"
+                                : listEvent[carouselIndex].data["description"],
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: dotWidget(),
+                              ),
+                              RaisedButton(
+                                color: Constants.blueColor,
+                                textColor: Constants.whiteColor,
+                                child: Text("Read"),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return DetailEvent(
+                                      desc: listEvent[carouselIndex]
+                                          .data["description"]
+                                          .toString(),
+                                      title: listEvent[carouselIndex]
+                                          .data["title"]
+                                          .toString(),
+                                      date: listEvent[carouselIndex]
+                                          .data["date"]
+                                          .toString(),
+                                      imgUrl: listEvent[carouselIndex]
+                                          .data["image"]
+                                          .toString(),
+                                      type: listEvent[carouselIndex]
+                                          .data["type"]
+                                          .toString(),
+                                    );
+                                  }));
+                                },
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -273,12 +294,12 @@ class HomeState extends State<Home>
           : Column(
               children: [
                 Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Image.network(
-                      listEvent[index].data["image"],
-                    ),
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.network(
+                    listEvent[index].data["image"],
                   ),
-                  // fit: BoxFit.fill,
+                ),
+                // fit: BoxFit.fill,
               ],
             ),
     );
@@ -329,7 +350,7 @@ class HomeState extends State<Home>
           title: "Medical center",
           snippet: "This is medical center",
         ),
-        onTap: (){
+        onTap: () {
           print("tapped");
         },
       ),
@@ -403,54 +424,54 @@ class HomeState extends State<Home>
 
   Widget itemBuilderDoctor(BuildContext context, int index) {
     return Container(
-        margin: EdgeInsets.only(
-          left: 20,
-          right: 10,
+      margin: EdgeInsets.only(
+        left: 20,
+        right: 10,
+      ),
+      width: MediaQuery.of(context).size.width / 2.3,
+      decoration: BoxDecoration(
+        color: Constants.whiteColor,
+        borderRadius: BorderRadius.all(
+          Radius.circular(10),
         ),
-        width: MediaQuery.of(context).size.width / 2.3,
-        decoration: BoxDecoration(
-          color: Constants.whiteColor,
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Constants.greyColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+              ),
+            ),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Constants.greyColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ),
-                ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Doctor Name",
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Doctor Name",
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
-                ),
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 8,
+              right: 8,
+              bottom: 8,
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 8,
-                right: 8,
-                bottom: 8,
-              ),
-              child: Text(
-                "Doctor Specialist",
-              ),
+            child: Text(
+              "Doctor Specialist",
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
   }
 
   sectionLatestNews() {
@@ -507,57 +528,57 @@ class HomeState extends State<Home>
 
   Widget itemBuilderLatestNews(BuildContext context, int index) {
     return Container(
-        margin: EdgeInsets.only(
-          left: 10,
-          right: 10,
+      margin: EdgeInsets.only(
+        left: 10,
+        right: 10,
+      ),
+      width: MediaQuery.of(context).size.width / 1.8,
+      decoration: BoxDecoration(
+        color: Constants.whiteColor,
+        borderRadius: BorderRadius.all(
+          Radius.circular(10),
         ),
-        width: MediaQuery.of(context).size.width / 1.8,
-        decoration: BoxDecoration(
-          color: Constants.whiteColor,
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
-          border: Border.all(
-            color: Constants.greyColor,
-          ),
+        border: Border.all(
+          color: Constants.greyColor,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Constants.greyColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Constants.greyColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Doctor Name",
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
-                ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Doctor Name",
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 8,
-                right: 8,
-                bottom: 8,
-              ),
-              child: Text(
-                "Doctor Specialist",
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 8,
+              right: 8,
+              bottom: 8,
             ),
-          ],
-        ),
-      );
+            child: Text(
+              "Doctor Specialist",
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   sectionContact() {
@@ -585,7 +606,12 @@ class HomeState extends State<Home>
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(top: 30, left: 20, bottom: 20, right: 20,),
+              padding: EdgeInsets.only(
+                top: 30,
+                left: 20,
+                bottom: 20,
+                right: 20,
+              ),
               child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -671,5 +697,7 @@ class HomeState extends State<Home>
     );
   }
 
-  Future<void> requestPermission() async { await Permission.location.request(); }
+  Future<void> requestPermission() async {
+    await Permission.location.request();
+  }
 }
