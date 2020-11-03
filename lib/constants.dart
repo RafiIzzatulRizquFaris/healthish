@@ -9,4 +9,6 @@ class Constants{
   static const Color redColor = Color(0xffFF5E20);
   static const String eventCollections = "event";
   static const String aboutCollections = "about";
+  static const String doctorCollections = "doctor";
+  static const String newsCollections = "news";
 }
