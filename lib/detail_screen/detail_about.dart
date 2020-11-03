@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
 
 class DetailAbout extends StatefulWidget {
-
   final String imgUrl;
+  final String desc;
 
-  DetailAbout({this.imgUrl});
+  DetailAbout({this.imgUrl, this.desc});
 
   @override
   State<StatefulWidget> createState() {
@@ -30,7 +30,7 @@ class DetailAboutState extends State<DetailAbout> {
                 icon: Icon(
                   Icons.arrow_back,
                   color: Constants.blackColor,
-                  size: 32,
+                  size: 28,
                 ),
                 onPressed: () {
                   return Navigator.pop(context);
@@ -45,7 +45,7 @@ class DetailAboutState extends State<DetailAbout> {
                 style: TextStyle(
                   color: Constants.blackColor,
                   fontWeight: FontWeight.w800,
-                  fontSize: 32,
+                  fontSize: 28,
                 ),
               ),
             ],
@@ -66,6 +66,35 @@ class DetailAboutState extends State<DetailAbout> {
                 child: FittedBox(
                   fit: BoxFit.fill,
                   child: Image.network(widget.imgUrl),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 20,
+                right: 20,
+                bottom: 10,
+              ),
+              child: Text(
+                "Sekilas tentang SMKDEV",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Constants.blueColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                right: 20,
+                left: 20,
+              ),
+              child: Text(
+                widget.desc,
+                style: TextStyle(
+                  fontSize: 16,
+                  letterSpacing: 1,
                 ),
               ),
             ),

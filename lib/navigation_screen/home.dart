@@ -6,10 +6,12 @@ import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/contract/about_contract.dart';
+import 'package:healthish/contract/doctor_contract.dart';
 import 'package:healthish/contract/event_contract.dart';
 import 'package:healthish/detail_screen/detail_about.dart';
 import 'package:healthish/detail_screen/detail_event.dart';
 import 'package:healthish/presenter/about_presenter.dart';
+import 'package:healthish/presenter/doctor_presenter.dart';
 import 'package:healthish/presenter/event_presenter.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -21,20 +23,24 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home>
-    implements EventContractView, AboutContractView {
+    implements EventContractView, AboutContractView, DoctorContractView {
   AboutPresenter aboutPresenter;
   EventPresenter eventPresenter;
+  DoctorPresenter doctorPresenter;
   int carouselIndex = 0;
   List<DocumentSnapshot> listEvent = List<DocumentSnapshot>();
   List<DocumentSnapshot> listAbout = List<DocumentSnapshot>();
+  List<DocumentSnapshot> listDoctor = List<DocumentSnapshot>();
   bool loadingEvent = true;
   bool loadingAbout = true;
+  bool loadingDoctor = true;
   final Set<Marker> markers = {};
   LatLng currentPosition = LatLng(-6.318920, 106.852008);
 
   HomeState() {
     eventPresenter = EventPresenter(this);
     aboutPresenter = AboutPresenter(this);
+    doctorPresenter = DoctorPresenter(this);
   }
 
   @override
@@ -43,6 +49,7 @@ class HomeState extends State<Home>
     requestPermission();
     eventPresenter.loadEventData();
     aboutPresenter.loadAboutData();
+    doctorPresenter.loadDoctorData();
   }
 
   @override
@@ -375,7 +382,9 @@ class HomeState extends State<Home>
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return DetailAbout(imgUrl: listAbout[0]["image"].toString(),);
+                      return DetailAbout(
+                        imgUrl: listAbout[0]["image"].toString(),
+                      );
                     }));
                   },
                   child: Text(
@@ -420,13 +429,19 @@ class HomeState extends State<Home>
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(right: 10, bottom: 40),
-              child: Container(
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 3,
-                  itemBuilder: itemBuilderDoctor,
-                ),
-              ),
+              child: loadingDoctor
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        backgroundColor: Constants.whiteColor,
+                      ),
+                    )
+                  : Container(
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 3,
+                        itemBuilder: itemBuilderDoctor,
+                      ),
+                    ),
             ),
           ),
         ],
@@ -447,41 +462,48 @@ class HomeState extends State<Home>
           Radius.circular(10),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Constants.greyColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
+      child: FlatButton(
+        padding: EdgeInsets.all(0),
+        onPressed: () {},
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: SizedBox.expand(
+                child: ClipRRect(
+                  child: FittedBox(
+                    child: Image.network(listDoctor[index].data['image']),
+                    fit: BoxFit.fill,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Doctor Name",
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 14,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                listDoctor[index].data['name'],
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 8,
-              right: 8,
-              bottom: 8,
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 8,
+                right: 8,
+                bottom: 8,
+              ),
+              child: Text(
+                listDoctor[index].data['specialist'],
+              ),
             ),
-            child: Text(
-              "Doctor Specialist",
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -751,5 +773,19 @@ class HomeState extends State<Home>
         ),
       ],
     );
+  }
+
+  @override
+  onErrorDoctorData(error) {
+    // TODO: implement onErrorDoctorData
+    throw UnimplementedError();
+  }
+
+  @override
+  onSuccessDoctorData(List<DocumentSnapshot> value) {
+    setState(() {
+      listDoctor = value;
+      loadingDoctor = false;
+    });
   }
 }
