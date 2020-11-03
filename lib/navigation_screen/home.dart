@@ -8,11 +8,13 @@ import 'package:healthish/constants.dart';
 import 'package:healthish/contract/about_contract.dart';
 import 'package:healthish/contract/doctor_contract.dart';
 import 'package:healthish/contract/event_contract.dart';
+import 'package:healthish/contract/news_contract.dart';
 import 'package:healthish/detail_screen/detail_about.dart';
 import 'package:healthish/detail_screen/detail_event.dart';
 import 'package:healthish/presenter/about_presenter.dart';
 import 'package:healthish/presenter/doctor_presenter.dart';
 import 'package:healthish/presenter/event_presenter.dart';
+import 'package:healthish/presenter/news_presenter.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class Home extends StatefulWidget {
@@ -23,17 +25,24 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home>
-    implements EventContractView, AboutContractView, DoctorContractView {
+    implements
+        EventContractView,
+        AboutContractView,
+        DoctorContractView,
+        NewsContractView {
   AboutPresenter aboutPresenter;
   EventPresenter eventPresenter;
   DoctorPresenter doctorPresenter;
+  NewsPresenter newsPresenter;
   int carouselIndex = 0;
   List<DocumentSnapshot> listEvent = List<DocumentSnapshot>();
   List<DocumentSnapshot> listAbout = List<DocumentSnapshot>();
   List<DocumentSnapshot> listDoctor = List<DocumentSnapshot>();
+  List<DocumentSnapshot> listNews = List<DocumentSnapshot>();
   bool loadingEvent = true;
   bool loadingAbout = true;
   bool loadingDoctor = true;
+  bool loadingNews = true;
   final Set<Marker> markers = {};
   LatLng currentPosition = LatLng(-6.318920, 106.852008);
 
@@ -41,15 +50,17 @@ class HomeState extends State<Home>
     eventPresenter = EventPresenter(this);
     aboutPresenter = AboutPresenter(this);
     doctorPresenter = DoctorPresenter(this);
+    newsPresenter = NewsPresenter(this);
   }
 
   @override
   void initState() {
-    super.initState();
     requestPermission();
+    super.initState();
     eventPresenter.loadEventData();
     aboutPresenter.loadAboutData();
     doctorPresenter.loadDoctorData();
+    newsPresenter.loadNewsData();
   }
 
   @override
@@ -546,13 +557,19 @@ class HomeState extends State<Home>
             child: Padding(
               padding:
                   EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 40),
-              child: Container(
-                child: ListView.builder(
-                  itemCount: 3,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: itemBuilderLatestNews,
-                ),
-              ),
+              child: loadingNews
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        backgroundColor: Constants.blueColor,
+                      ),
+                    )
+                  : Container(
+                      child: ListView.builder(
+                        itemCount: 3,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: itemBuilderLatestNews,
+                      ),
+                    ),
             ),
           ),
         ],
@@ -580,12 +597,15 @@ class HomeState extends State<Home>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Constants.greyColor,
+            child: SizedBox.expand(
+              child: ClipRRect(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
                   topRight: Radius.circular(10),
+                ),
+                child: FittedBox(
+                  fit: BoxFit.fill,
+                  child: Image.network(listNews[index].data['image']),
                 ),
               ),
             ),
@@ -593,7 +613,7 @@ class HomeState extends State<Home>
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              "Doctor Name",
+              listNews[index].data['title'],
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 14,
@@ -607,7 +627,9 @@ class HomeState extends State<Home>
               bottom: 8,
             ),
             child: Text(
-              "Doctor Specialist",
+              listNews[index].data['description'],
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
@@ -786,6 +808,20 @@ class HomeState extends State<Home>
     setState(() {
       listDoctor = value;
       loadingDoctor = false;
+    });
+  }
+
+  @override
+  onErrorNewsData(error) {
+    // TODO: implement onErrorNewsData
+    throw UnimplementedError();
+  }
+
+  @override
+  onSuccessNewsData(List<DocumentSnapshot> value) {
+    setState(() {
+      listNews = value;
+      loadingNews = false;
     });
   }
 }
