@@ -16,6 +16,7 @@ import 'package:healthish/presenter/doctor_presenter.dart';
 import 'package:healthish/presenter/event_presenter.dart';
 import 'package:healthish/presenter/news_presenter.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -394,8 +395,17 @@ class HomeState extends State<Home>
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return DetailAbout(
-                        imgUrl: listAbout[0]["image"].toString(),
-                        desc: listAbout[0]["description"].toString(),
+                        imgUrl: listAbout[0]["image"],
+                        desc: listAbout[0]["description"],
+                        ugdSchedule: listAbout[0]["ugd_schedule"],
+                        facilityName: [listAbout[0]["contact"]["phone_list"][0]["name"], listAbout[0]["contact"]["phone_list"][1]["name"], listAbout[0]["contact"]["phone_list"][2]["name"]],
+                        ambulanceNumber: [listAbout[0]["contact"]["phone_list"][1]["number"][0], listAbout[0]["contact"]["phone_list"][1]["number"][1]],
+                        phoneNumber: listAbout[0]["contact"]["phone_list"][2]["number"],
+                        ugdNumber: listAbout[0]["contact"]["phone_list"][0]["number"],
+                        placeAddress: [listAbout[0]["place_list"][0]["address"], listAbout[0]["place_list"][1]["address"]],
+                        placeName: [listAbout[0]["place_list"][0]["name"], listAbout[0]["place_list"][1]["name"], listAbout[0]["place_list"][2]["name"]],
+                        weekday: [listAbout[0]["place_list"][0]["weekday"], listAbout[0]["place_list"][1]["weekday"], listAbout[0]["place_list"][2]["weekday"]],
+                        weekend: [listAbout[0]["place_list"][0]["weekend"], listAbout[0]["place_list"][1]["weekend"], listAbout[0]["place_list"][2]["weekend"]],
                       );
                     }));
                   },
@@ -698,7 +708,9 @@ class HomeState extends State<Home>
                           ),
                         ],
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        await launch('https://www.google.com/maps/search/?api=1&query=-6.318920, 106.852008');
+                      },
                     ),
                     FlatButton.icon(
                       icon: Icon(
@@ -711,7 +723,9 @@ class HomeState extends State<Home>
                           color: Constants.greyColor,
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        await launch("mailto:info@smk.dev");
+                      },
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -727,7 +741,9 @@ class HomeState extends State<Home>
                               color: Constants.greyColor,
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () async {
+                            await launch('tel:082299189919');
+                          },
                         ),
                         FlatButton.icon(
                           icon: Icon(
@@ -740,7 +756,9 @@ class HomeState extends State<Home>
                               color: Constants.greyColor,
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () async {
+                            await launch('tel:082299189919');
+                          },
                         ),
                       ],
                     )
