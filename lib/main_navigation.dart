@@ -5,18 +5,18 @@ import 'package:healthish/constants.dart';
 import 'package:healthish/navigation_screen/booking.dart';
 import 'package:healthish/navigation_screen/home.dart';
 import 'package:healthish/navigation_screen/layanan.dart';
+import 'package:healthish/navigation_screen/patner_carrer/patner_carrer.dart';
 import 'package:healthish/navigation_screen/profile/profile.dart';
 
-class MainNavigation extends StatefulWidget{
+class MainNavigation extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return MainNavigationState();
   }
-
 }
 
-class MainNavigationState extends State<MainNavigation> with TickerProviderStateMixin{
-
+class MainNavigationState extends State<MainNavigation>
+    with TickerProviderStateMixin {
   int selectedIndex = 0;
   int selectedIcon = 0;
   List<Widget> screenWidget = [
@@ -24,6 +24,7 @@ class MainNavigationState extends State<MainNavigation> with TickerProviderState
     Layanan(),
     Booking(),
     Profile(),
+    PatnerCarrer(),
   ];
   AnimationController animationController;
   AnimationController secondAnimationController;
@@ -41,17 +42,32 @@ class MainNavigationState extends State<MainNavigation> with TickerProviderState
 
   @override
   void initState() {
-    animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 500,),);
-    secondAnimationController = AnimationController(vsync: this, duration: Duration(milliseconds: 300,),);
-    thirdAnimationController = AnimationController(vsync: this, duration: Duration(milliseconds: 100,),);
+    animationController = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 500,
+      ),
+    );
+    secondAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 300,
+      ),
+    );
+    thirdAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 100,
+      ),
+    );
     animation = Tween(begin: -1.0, end: 0.0).animate(animationController);
-    secondAnimation = Tween(begin: -1.0, end: 0.0).animate(secondAnimationController);
-    thirdAnimation = Tween(begin: -1.0, end: 0.0).animate(thirdAnimationController);
+    secondAnimation =
+        Tween(begin: -1.0, end: 0.0).animate(secondAnimationController);
+    thirdAnimation =
+        Tween(begin: -1.0, end: 0.0).animate(thirdAnimationController);
     super.initState();
     animationController.addListener(() {
-      setState(() {
-
-      });
+      setState(() {});
     });
   }
 
@@ -65,22 +81,34 @@ class MainNavigationState extends State<MainNavigation> with TickerProviderState
             right: animation.value * 200,
             bottom: curvedNavigationBar.height,
             child: Container(
-              margin: EdgeInsets.only(right: 10,),
+              margin: EdgeInsets.only(
+                right: 10,
+              ),
               child: FlatButton(
                 padding: EdgeInsets.all(12),
                 child: Row(
                   children: [
-                    Text("Feedback", style: TextStyle(color: Constants.whiteColor, fontSize: 16,),),
-                    SizedBox(width: 8,),
-                    Icon(Icons.favorite_border_rounded, color: Constants.whiteColor,),
+                    Text(
+                      "Feedback",
+                      style: TextStyle(
+                        color: Constants.whiteColor,
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Icon(
+                      Icons.favorite_border_rounded,
+                      color: Constants.whiteColor,
+                    ),
                   ],
                 ),
                 splashColor: Constants.redColor,
                 color: Constants.blueColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))
-                ),
-                onPressed: (){},
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                onPressed: () {},
               ),
             ),
           ),
@@ -88,22 +116,38 @@ class MainNavigationState extends State<MainNavigation> with TickerProviderState
             right: secondAnimation.value * 220,
             bottom: curvedNavigationBar.height + 60,
             child: Container(
-              margin: EdgeInsets.only(right: 10,),
+              margin: EdgeInsets.only(
+                right: 10,
+              ),
               child: FlatButton(
                 padding: EdgeInsets.all(12),
                 child: Row(
                   children: [
-                    Text("Partner & Career", style: TextStyle(color: Constants.whiteColor, fontSize: 16,),),
-                    SizedBox(width: 8,),
-                    Icon(Icons.amp_stories_outlined, color: Constants.whiteColor,),
+                    Text(
+                      "Partner & Career",
+                      style: TextStyle(
+                        color: Constants.whiteColor,
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Icon(
+                      Icons.amp_stories_outlined,
+                      color: Constants.whiteColor,
+                    ),
                   ],
                 ),
                 splashColor: Constants.redColor,
                 color: Constants.blueColor,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20))
-                ),
-                onPressed: (){},
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                onPressed: () {
+                  setState(() {
+                    selectedIndex = 4;
+                  });
+                },
               ),
             ),
           ),
@@ -111,30 +155,41 @@ class MainNavigationState extends State<MainNavigation> with TickerProviderState
             right: thirdAnimation.value * 240,
             bottom: curvedNavigationBar.height + 120,
             child: Container(
-              margin: EdgeInsets.only(right: 10,),
+              margin: EdgeInsets.only(
+                right: 10,
+              ),
               child: FlatButton(
                 padding: EdgeInsets.all(12),
                 child: Row(
                   children: [
-                    Text("Tentang Kami", style: TextStyle(color: Constants.whiteColor, fontSize: 16,),),
-                    SizedBox(width: 8,),
-                    Icon(Icons.info_outline_rounded, color: Constants.whiteColor,),
+                    Text(
+                      "Tentang Kami",
+                      style: TextStyle(
+                        color: Constants.whiteColor,
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Icon(
+                      Icons.info_outline_rounded,
+                      color: Constants.whiteColor,
+                    ),
                   ],
                 ),
                 splashColor: Constants.redColor,
                 color: Constants.blueColor,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20))
-                ),
-                onPressed: (){},
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                onPressed: () {},
               ),
             ),
           ),
         ],
       ),
-      bottomNavigationBar: Stack(
-        children: [
-          CurvedNavigationBar(
+      bottomNavigationBar: Stack(children: [
+        CurvedNavigationBar(
           backgroundColor: Constants.whiteColor,
           index: selectedIndex,
           color: Constants.whiteColor,
@@ -143,37 +198,67 @@ class MainNavigationState extends State<MainNavigation> with TickerProviderState
           animationDuration: Duration(milliseconds: 250),
           items: [
             Container(
-              child: Icon(Icons.home_outlined, size: 30, color: selectedIcon == 0 ? Constants.whiteColor : Constants.greyColor,),
+              child: Icon(
+                Icons.home_outlined,
+                size: 30,
+                color: selectedIcon == 0
+                    ? Constants.whiteColor
+                    : Constants.greyColor,
+              ),
               padding: EdgeInsets.all(5),
             ),
             Container(
-              child: Icon(Icons.medical_services_outlined, size: 30, color: selectedIcon == 1 ? Constants.whiteColor : Constants.greyColor,),
+              child: Icon(
+                Icons.medical_services_outlined,
+                size: 30,
+                color: selectedIcon == 1
+                    ? Constants.whiteColor
+                    : Constants.greyColor,
+              ),
               padding: EdgeInsets.all(5),
             ),
             Container(
-              child: Icon(Icons.date_range_outlined, size: 30, color: selectedIcon == 2 ? Constants.whiteColor : Constants.greyColor,),
+              child: Icon(
+                Icons.date_range_outlined,
+                size: 30,
+                color: selectedIcon == 2
+                    ? Constants.whiteColor
+                    : Constants.greyColor,
+              ),
               padding: EdgeInsets.all(5),
             ),
             Container(
-              child: Icon(Icons.person_outline_rounded, size: 30, color: selectedIcon == 3 ? Constants.whiteColor : Constants.greyColor,),
+              child: Icon(
+                Icons.person_outline_rounded,
+                size: 30,
+                color: selectedIcon == 3
+                    ? Constants.whiteColor
+                    : Constants.greyColor,
+              ),
               padding: EdgeInsets.all(5),
             ),
             Container(
-              child: Icon(Icons.more_vert_rounded, size: 30, color: selectedIcon == 4 ? Constants.whiteColor : Constants.greyColor,),
+              child: Icon(
+                Icons.more_vert_rounded,
+                size: 30,
+                color: selectedIcon == 4
+                    ? Constants.whiteColor
+                    : Constants.greyColor,
+              ),
               padding: EdgeInsets.all(5),
             ),
           ],
-          onTap: (index){
+          onTap: (index) {
             setState(() {
               selectedIcon = index;
             });
-            if (index == 4){
+            if (index == 4) {
               print("Pop up Menu");
-              if (animationController.isCompleted){
+              if (animationController.isCompleted) {
                 animationController.reverse();
                 secondAnimationController.reverse();
                 thirdAnimationController.reverse();
-              }else {
+              } else {
                 animationController.forward();
                 secondAnimationController.forward();
                 thirdAnimationController.forward();
@@ -190,9 +275,7 @@ class MainNavigationState extends State<MainNavigation> with TickerProviderState
             }
           },
         ),
-        ]
-      ),
+      ]),
     );
   }
-
 }
