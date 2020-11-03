@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
-import 'package:healthish/navigation_screen/detail_doctor/detail_doctor.dart';
+import 'package:healthish/detail_screen/detail_doctor.dart';
 
 class Booking extends StatefulWidget {
   @override
