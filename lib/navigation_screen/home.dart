@@ -395,6 +395,7 @@ class HomeState extends State<Home>
                         MaterialPageRoute(builder: (context) {
                       return DetailAbout(
                         imgUrl: listAbout[0]["image"].toString(),
+                        desc: listAbout[0]["description"].toString(),
                       );
                     }));
                   },

@@ -91,7 +91,7 @@ class DetailAboutState extends State<DetailAbout> {
                 left: 20,
               ),
               child: Text(
-                widget.desc,
+                widget.desc.replaceAll("\\n", "\n"),
                 style: TextStyle(
                   fontSize: 16,
                   letterSpacing: 1,
