@@ -6,6 +6,7 @@ import 'package:healthish/constants.dart';
 import 'package:healthish/contract/event_contract.dart';
 import 'package:healthish/contract/facility_contract.dart';
 import 'package:healthish/detail_screen/detail_event.dart';
+import 'package:healthish/detail_screen/detail_facility.dart';
 import 'package:healthish/presenter/event_presenter.dart';
 import 'package:healthish/presenter/facility_presenter.dart';
 
@@ -202,48 +203,60 @@ class LayananState extends State<Layanan>
           color: Constants.greyColor,
         ),
       ),
-      child: Stack(
-        children: [
-          SizedBox.expand(
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(10),
-                topLeft: Radius.circular(10),
-              ),
-              child: FittedBox(
-                fit: BoxFit.fill,
-                child: Image.network(listFacility[index]['image']),
-              ),
-            ),
-          ),
-          Container(
-            alignment: Alignment.bottomLeft,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromARGB(200, 0, 0, 0),
-                  Color.fromARGB(0, 0, 0, 0),
-                ],
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
+      child: FlatButton(
+        padding: EdgeInsets.all(0),
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context){
+            return DetailFacility(
+              desc: listFacility[index]['description'],
+              imgUrl: listFacility[index]['image'],
+              title: listFacility[index]['title'],
+            );
+          }));
+        },
+        child: Stack(
+          children: [
+            SizedBox.expand(
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  topLeft: Radius.circular(10),
+                ),
+                child: FittedBox(
+                  fit: BoxFit.fill,
+                  child: Image.network(listFacility[index]['image']),
+                ),
               ),
             ),
-            padding: EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 10,
-            ),
-            child: Text(
-              listFacility[index]['title'],
-              maxLines: 2,
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Constants.whiteColor,
-                fontSize: 16,
+            Container(
+              alignment: Alignment.bottomLeft,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                gradient: LinearGradient(
+                  colors: [
+                    Color.fromARGB(200, 0, 0, 0),
+                    Color.fromARGB(0, 0, 0, 0),
+                  ],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                ),
+              ),
+              padding: EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 10,
+              ),
+              child: Text(
+                listFacility[index]['title'],
+                maxLines: 2,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Constants.whiteColor,
+                  fontSize: 16,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
