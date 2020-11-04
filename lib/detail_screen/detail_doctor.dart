@@ -219,6 +219,8 @@ class DetailDoctorState extends State<DetailDoctor> {
                                 fontSize: 12,
                               ),
                             ),
+
+                            SizedBox(height: 80,)
                           ],
                         ),
                       ),
