@@ -58,8 +58,22 @@ class BookingState extends State<Booking> implements DoctorContractView {
               itemCount: listDoctor.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
-                  onTap: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => DetailDoctor())),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailDoctor(
+                        academy: listDoctor[index]['academy'],
+                        credential: listDoctor[index]['credential'],
+                        description: listDoctor[index]['description'],
+                        image: listDoctor[index]['image'],
+                        name: listDoctor[index]['name'],
+                        specialist: listDoctor[index]['specialist'],
+                        scheduleDay: [listDoctor[index]['schedule'][0]['day'], listDoctor[index]['schedule'][1]['day'], listDoctor[index]['schedule'][2]['day']],
+                        schedulePlace: [listDoctor[index]['schedule'][0]['place'], listDoctor[index]['schedule'][1]['place'], listDoctor[index]['schedule'][2]['place']],
+                        scheduleTime: [listDoctor[index]['schedule'][0]['time'], listDoctor[index]['schedule'][1]['time'], listDoctor[index]['schedule'][2]['time']],
+                      ),
+                    ),
+                  ),
                   child: itemBuilderDoctor(context, index),
                 );
               },

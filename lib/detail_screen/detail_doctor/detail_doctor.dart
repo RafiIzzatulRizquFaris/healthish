@@ -1,10 +1,31 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/detail_screen/detail_doctor/component/bookingSheet.dart';
 
 import '../../constants.dart';
 
 class DetailDoctor extends StatefulWidget {
-  DetailDoctor({Key key}) : super(key: key);
+  final String name;
+  final String image;
+  final String specialist;
+  final String description;
+  final String credential;
+  final String academy;
+  final List scheduleDay;
+  final List scheduleTime;
+  final List schedulePlace;
+
+  DetailDoctor({
+    this.name,
+    this.specialist,
+    this.description,
+    this.credential,
+    this.academy,
+    this.scheduleDay,
+    this.scheduleTime,
+    this.schedulePlace,
+    this.image,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -13,8 +34,6 @@ class DetailDoctor extends StatefulWidget {
 }
 
 class DetailDoctorState extends State<DetailDoctor> {
-  String lorem =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
   @override
   Widget build(BuildContext context) {
@@ -65,12 +84,19 @@ class DetailDoctorState extends State<DetailDoctor> {
       body: SizedBox.expand(
         child: Stack(
           children: [
-            Image.network(
-                "https://yt3.ggpht.com/a/AGF-l78nCfL7DcCWlgqad4XWgoHhJ5IzSfBT9SSZJA=s900-c-k-c0xffffffff-no-rj-mo"),
+            Container(
+              height: MediaQuery.of(context).size.height / 2,
+              child: SizedBox.expand(
+                child: FittedBox(
+                  child: Image.network(widget.image),
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
             SizedBox.expand(
               child: DraggableScrollableSheet(
                 initialChildSize: 0.6,
-                minChildSize: 0.5,
+                minChildSize: 0.6,
                 builder: (context, scrollController) {
                   return SingleChildScrollView(
                     controller: scrollController,
@@ -91,7 +117,7 @@ class DetailDoctorState extends State<DetailDoctor> {
                           controller: scrollController,
                           children: [
                             Text(
-                              "Dokter Ato",
+                              widget.name,
                               style: TextStyle(
                                 fontSize: 26,
                                 fontWeight: FontWeight.w600,
@@ -111,7 +137,7 @@ class DetailDoctorState extends State<DetailDoctor> {
                                   width: 4,
                                 ),
                                 Text(
-                                  "Umum",
+                                  widget.specialist,
                                   style: TextStyle(
                                       color: Constants.greyColor, fontSize: 16),
                                 )
@@ -130,38 +156,8 @@ class DetailDoctorState extends State<DetailDoctor> {
                             SizedBox(
                               height: 12,
                             ),
-                            ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              leading: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Senin"),
-                                  Text("08.00-14.00 WIB")
-                                ],
-                              ),
-                              trailing: Text("RS SMKDEV"),
-                            ),
-                            ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              leading: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Senin"),
-                                  Text("08.00-14.00 WIB")
-                                ],
-                              ),
-                              trailing: Text("RS SMKDEV"),
-                            ),
-                            ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              leading: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Senin"),
-                                  Text("08.00-14.00 WIB")
-                                ],
-                              ),
-                              trailing: Text("RS SMKDEV"),
+                            Column(
+                              children: scheduleInfoList(),
                             ),
                             SizedBox(
                               height: 8,
@@ -178,7 +174,7 @@ class DetailDoctorState extends State<DetailDoctor> {
                               height: 16,
                             ),
                             Text(
-                              lorem,
+                              widget.description,
                               style: TextStyle(
                                 fontSize: 12,
                               ),
@@ -198,7 +194,7 @@ class DetailDoctorState extends State<DetailDoctor> {
                               height: 16,
                             ),
                             Text(
-                              lorem,
+                              widget.credential,
                               style: TextStyle(
                                 fontSize: 12,
                               ),
@@ -218,7 +214,7 @@ class DetailDoctorState extends State<DetailDoctor> {
                               height: 16,
                             ),
                             Text(
-                              lorem,
+                              widget.academy,
                               style: TextStyle(
                                 fontSize: 12,
                               ),
@@ -238,5 +234,25 @@ class DetailDoctorState extends State<DetailDoctor> {
         ),
       ),
     );
+  }
+
+  List<Widget> scheduleInfoList() {
+    List<Widget> list = List<Widget>();
+    for (int i = 0; i < widget.scheduleDay.length; i++){
+      list.add(
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(widget.scheduleDay[i]),
+              Text(widget.scheduleTime[i]),
+            ],
+          ),
+          trailing: Text(widget.schedulePlace[i]),
+        ),
+      );
+    }
+    return list;
   }
 }
