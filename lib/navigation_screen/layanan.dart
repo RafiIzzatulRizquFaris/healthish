@@ -1,7 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:healthish/constants.dart';
+import 'package:healthish/contract/event_contract.dart';
+import 'package:healthish/contract/facility_contract.dart';
+import 'package:healthish/detail_screen/detail_event.dart';
+import 'package:healthish/presenter/event_presenter.dart';
+import 'package:healthish/presenter/facility_presenter.dart';
 
 class Layanan extends StatefulWidget {
   @override
@@ -10,8 +16,27 @@ class Layanan extends StatefulWidget {
   }
 }
 
-class LayananState extends State<Layanan> {
+class LayananState extends State<Layanan>
+    implements EventContractView, FacilityContractView {
   TextEditingController searchController = TextEditingController();
+  EventPresenter eventPresenter;
+  FacilityPresenter facilityPresenter;
+  List<DocumentSnapshot> listEvent = List<DocumentSnapshot>();
+  List<DocumentSnapshot> listFacility = List<DocumentSnapshot>();
+  bool loadingEvent = true;
+  bool loadingFacility = true;
+
+  LayananState() {
+    eventPresenter = EventPresenter(this);
+    facilityPresenter = FacilityPresenter(this);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    eventPresenter.loadEventData();
+    facilityPresenter.loadFacilityData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,11 +122,17 @@ class LayananState extends State<Layanan> {
                       padding: EdgeInsets.only(
                           top: 30, left: 10, right: 20, bottom: 40),
                       child: Container(
-                        child: ListView.builder(
-                          itemCount: 3,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: itemBuilderFacility,
-                        ),
+                        child: loadingFacility
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                  backgroundColor: Constants.blueColor,
+                                ),
+                              )
+                            : ListView.builder(
+                                itemCount: 3,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: itemBuilderFacility,
+                              ),
                       ),
                     ),
                   ),
@@ -135,10 +166,16 @@ class LayananState extends State<Layanan> {
                     bottom: 40,
                   ),
                   child: Container(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: eventPromoWidget(),
-                    ),
+                    child: loadingEvent
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              backgroundColor: Constants.blueColor,
+                            ),
+                          )
+                        : Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: eventPromoWidget(),
+                          ),
                   ),
                 ),
               ],
@@ -167,12 +204,17 @@ class LayananState extends State<Layanan> {
       ),
       child: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Constants.whiteColor,
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(10),
-                bottomLeft: Radius.circular(10),
+          Expanded(
+            child: SizedBox.expand(
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  topLeft: Radius.circular(10),
+                ),
+                child: FittedBox(
+                  fit: BoxFit.fill,
+                  child: Image.network(listFacility[index]['image']),
+                ),
               ),
             ),
           ),
@@ -194,7 +236,7 @@ class LayananState extends State<Layanan> {
               horizontal: 10,
             ),
             child: Text(
-              "Kamar Pasien",
+              listFacility[index]['title'],
               maxLines: 2,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
@@ -210,7 +252,7 @@ class LayananState extends State<Layanan> {
 
   List<Widget> eventPromoWidget() {
     List<Widget> list = List<Widget>();
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < listEvent.length; i++) {
       list.add(Container(
         margin: EdgeInsets.only(
           bottom: 15,
@@ -225,58 +267,103 @@ class LayananState extends State<Layanan> {
             color: Constants.greyColor,
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Constants.greyColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
+        child: FlatButton(
+          padding: EdgeInsets.all(0),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return DetailEvent(
+                desc: listEvent[i].data["description"].toString(),
+                title: listEvent[i].data["title"].toString(),
+                date: listEvent[i].data["date"].toString(),
+                imgUrl: listEvent[i].data["image"].toString(),
+                type: listEvent[i].data["type"].toString(),
+              );
+            }));
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: SizedBox.expand(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      topLeft: Radius.circular(10),
+                    ),
+                    child: FittedBox(
+                      fit: BoxFit.fill,
+                      child: Image.network(listEvent[i]['image']),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: 8,
-                top: 8,
-                right: 8,
-              ),
-              child: Text(
-                "Category",
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: Constants.blueColor,
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 8,
+                  top: 8,
+                  right: 8,
+                ),
+                child: Text(
+                  listEvent[i]['type'],
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: Constants.blueColor,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                "Doctor Name",
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  listEvent[i]['title'],
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 8,
-                right: 8,
-                bottom: 8,
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 8,
+                  right: 8,
+                  bottom: 8,
+                ),
+                child: Text(
+                  listEvent[i]['date'],
+                ),
               ),
-              child: Text(
-                "Doctor Specialist",
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ));
     }
     return list;
+  }
+
+  @override
+  onErrorEventData(error) {
+    // TODO: implement onErrorEventData
+    throw UnimplementedError();
+  }
+
+  @override
+  onSuccessEventData(List<DocumentSnapshot> value) {
+    setState(() {
+      listEvent = value;
+      loadingEvent = false;
+    });
+  }
+
+  @override
+  onErrorFacilityData(error) {
+    // TODO: implement onErrorFacilityData
+    throw UnimplementedError();
+  }
+
+  @override
+  onSuccessFacilityData(List<DocumentSnapshot> value) {
+    setState(() {
+      listFacility = value;
+      loadingFacility = false;
+    });
   }
 }

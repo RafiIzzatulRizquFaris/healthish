@@ -56,8 +56,8 @@ class HomeState extends State<Home>
 
   @override
   void initState() {
-    requestPermission();
     super.initState();
+    requestPermission();
     eventPresenter.loadEventData();
     aboutPresenter.loadAboutData();
     doctorPresenter.loadDoctorData();
