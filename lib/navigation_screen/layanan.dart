@@ -204,17 +204,15 @@ class LayananState extends State<Layanan>
       ),
       child: Stack(
         children: [
-          Expanded(
-            child: SizedBox.expand(
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10),
-                  topLeft: Radius.circular(10),
-                ),
-                child: FittedBox(
-                  fit: BoxFit.fill,
-                  child: Image.network(listFacility[index]['image']),
-                ),
+          SizedBox.expand(
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10),
+                topLeft: Radius.circular(10),
+              ),
+              child: FittedBox(
+                fit: BoxFit.fill,
+                child: Image.network(listFacility[index]['image']),
               ),
             ),
           ),
