@@ -117,7 +117,7 @@ class _PatnerCarrerState extends State<PatnerCarrer> {
                     left: 20,
                   ),
                   child: Text(
-                    "Event & Promo",
+                    "Lowongan",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w800,

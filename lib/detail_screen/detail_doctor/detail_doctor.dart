@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:healthish/detail_screen/detail_doctor/component/bookingSheet.dart';
 
-import '../constants.dart';
+import '../../constants.dart';
 
 class DetailDoctor extends StatefulWidget {
   DetailDoctor({Key key}) : super(key: key);
@@ -9,7 +10,6 @@ class DetailDoctor extends StatefulWidget {
   State<StatefulWidget> createState() {
     return DetailDoctorState();
   }
-
 }
 
 class DetailDoctorState extends State<DetailDoctor> {
@@ -53,7 +53,11 @@ class DetailDoctorState extends State<DetailDoctor> {
               textColor: Constants.whiteColor,
               color: Constants.blueColor,
               onPressed: () {
-                // Respond to button press
+                showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return BookingSheet();
+                    });
               },
               child: Text('Buat Janji'),
             ),
@@ -219,6 +223,9 @@ class DetailDoctorState extends State<DetailDoctor> {
                                 fontSize: 12,
                               ),
                             ),
+                            SizedBox(
+                              height: 80,
+                            )
                           ],
                         ),
                       ),

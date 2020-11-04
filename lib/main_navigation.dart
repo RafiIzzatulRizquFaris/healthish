@@ -5,7 +5,7 @@ import 'package:healthish/constants.dart';
 import 'package:healthish/navigation_screen/booking.dart';
 import 'package:healthish/navigation_screen/home.dart';
 import 'package:healthish/navigation_screen/layanan.dart';
-import 'package:healthish/navigation_screen/patner_carrer/patner_carrer.dart';
+import 'package:healthish/navigation_screen/patner_carrer/patnerCarrer.dart';
 import 'package:healthish/navigation_screen/profile/profile.dart';
 
 class MainNavigation extends StatefulWidget {
