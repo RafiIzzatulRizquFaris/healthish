@@ -30,11 +30,11 @@ class DetailDoctorState extends State<DetailDoctor> {
               child: Container(
                 height: 15.0,
                 alignment: Alignment.center,
-                color: Colors.white,
+                color: Constants.whiteColor,
                 child: IconButton(
                   icon: Icon(
                     Icons.arrow_back,
-                    color: Colors.black,
+                    color: Constants.blackColor,
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -46,11 +46,11 @@ class DetailDoctorState extends State<DetailDoctor> {
           )),
       bottomNavigationBar: Container(
           height: 75,
-          color: Colors.white,
+          color: Constants.whiteColor,
           child: Padding(
             padding: EdgeInsets.only(top: 18, left: 14, bottom: 14, right: 14),
             child: RaisedButton(
-              textColor: Colors.white,
+              textColor: Constants.whiteColor,
               color: Constants.blueColor,
               onPressed: () {
                 // Respond to button press
@@ -100,7 +100,7 @@ class DetailDoctorState extends State<DetailDoctor> {
                               children: [
                                 Icon(
                                   Icons.medical_services_outlined,
-                                  color: Colors.grey,
+                                  color: Constants.greyColor,
                                   size: 16,
                                 ),
                                 SizedBox(
@@ -109,7 +109,7 @@ class DetailDoctorState extends State<DetailDoctor> {
                                 Text(
                                   "Umum",
                                   style: TextStyle(
-                                      color: Colors.grey, fontSize: 16),
+                                      color: Constants.greyColor, fontSize: 16),
                                 )
                               ],
                             ),
