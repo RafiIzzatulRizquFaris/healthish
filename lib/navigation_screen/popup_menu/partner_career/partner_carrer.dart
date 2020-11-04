@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:healthish/navigation_screen/patner_carrer/component/itemPatner.dart';
+import 'package:healthish/navigation_screen/popup_menu/partner_career/component/item_partner.dart';
 
-import '../../constants.dart';
+import '../../../constants.dart';
 
-class PatnerCarrer extends StatefulWidget {
+class PartnerCareer extends StatefulWidget {
   @override
-  _PatnerCarrerState createState() => _PatnerCarrerState();
+  PartnerCareerState createState() => PartnerCareerState();
 }
 
-class _PatnerCarrerState extends State<PatnerCarrer> {
+class PartnerCareerState extends State<PartnerCareer> {
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -99,7 +99,7 @@ class _PatnerCarrerState extends State<PatnerCarrer> {
                           itemCount: 3,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (BuildContext context, int index) =>
-                              ItemPatner(index),
+                              ItemPartner(index),
                         ),
                       ),
                     ),

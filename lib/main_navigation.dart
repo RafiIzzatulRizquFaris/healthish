@@ -5,7 +5,7 @@ import 'package:healthish/constants.dart';
 import 'package:healthish/navigation_screen/booking.dart';
 import 'package:healthish/navigation_screen/home.dart';
 import 'package:healthish/navigation_screen/layanan.dart';
-import 'package:healthish/navigation_screen/patner_carrer/patnerCarrer.dart';
+import 'package:healthish/navigation_screen/popup_menu/partner_career/partner_carrer.dart';
 import 'package:healthish/navigation_screen/profile/profile.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -24,7 +24,7 @@ class MainNavigationState extends State<MainNavigation>
     Layanan(),
     Booking(),
     Profile(),
-    PatnerCarrer(),
+    PartnerCareer(),
   ];
   AnimationController animationController;
   AnimationController secondAnimationController;

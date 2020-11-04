@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../constants.dart';
+import '../../../../constants.dart';
 
-class ItemPatner extends StatelessWidget {
+class ItemPartner extends StatelessWidget {
   int index;
-  ItemPatner(int index) {
+  ItemPartner(int index) {
     index = index;
   }
   @override
