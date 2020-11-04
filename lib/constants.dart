@@ -11,4 +11,5 @@ class Constants{
   static const String aboutCollections = "about";
   static const String doctorCollections = "doctor";
   static const String newsCollections = "news";
+  static const String facilityCollections = "facility";
 }
