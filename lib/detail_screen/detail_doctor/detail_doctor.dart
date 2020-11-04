@@ -34,53 +34,59 @@ class DetailDoctor extends StatefulWidget {
 }
 
 class DetailDoctorState extends State<DetailDoctor> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: Padding(
-            padding: EdgeInsets.all(8),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: Container(
-                height: 15.0,
-                alignment: Alignment.center,
-                color: Constants.whiteColor,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: Constants.blackColor,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  color: Colors.orange,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: Padding(
+          padding: EdgeInsets.all(8),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child: Container(
+              height: 15.0,
+              alignment: Alignment.center,
+              color: Constants.whiteColor,
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Constants.blackColor,
                 ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                color: Colors.orange,
               ),
             ),
-          )),
+          ),
+        ),
+      ),
       bottomNavigationBar: Container(
-          height: 75,
-          color: Constants.whiteColor,
-          child: Padding(
-            padding: EdgeInsets.only(top: 18, left: 14, bottom: 14, right: 14),
-            child: RaisedButton(
-              textColor: Constants.whiteColor,
-              color: Constants.blueColor,
-              onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return BookingSheet();
-                    });
-              },
-              child: Text('Buat Janji'),
-            ),
-          )),
+        height: 75,
+        color: Constants.whiteColor,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 18,
+            left: 14,
+            bottom: 14,
+            right: 14,
+          ),
+          child: RaisedButton(
+            textColor: Constants.whiteColor,
+            color: Constants.blueColor,
+            onPressed: () {
+              showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return BookingSheet();
+                  });
+            },
+            child: Text('Buat Janji'),
+          ),
+        ),
+      ),
       body: SizedBox.expand(
         child: Stack(
           children: [
@@ -139,7 +145,9 @@ class DetailDoctorState extends State<DetailDoctor> {
                                 Text(
                                   widget.specialist,
                                   style: TextStyle(
-                                      color: Constants.greyColor, fontSize: 16),
+                                    color: Constants.greyColor,
+                                    fontSize: 16,
+                                  ),
                                 )
                               ],
                             ),
@@ -149,9 +157,10 @@ class DetailDoctorState extends State<DetailDoctor> {
                             Text(
                               "Jadwal",
                               style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Constants.blueColor,
-                                  fontSize: 26),
+                                fontWeight: FontWeight.w600,
+                                color: Constants.blueColor,
+                                fontSize: 26,
+                              ),
                             ),
                             SizedBox(
                               height: 12,
@@ -238,7 +247,7 @@ class DetailDoctorState extends State<DetailDoctor> {
 
   List<Widget> scheduleInfoList() {
     List<Widget> list = List<Widget>();
-    for (int i = 0; i < widget.scheduleDay.length; i++){
+    for (int i = 0; i < widget.scheduleDay.length; i++) {
       list.add(
         ListTile(
           contentPadding: EdgeInsets.zero,
