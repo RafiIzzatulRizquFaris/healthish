@@ -71,6 +71,7 @@ flutter:
     - assets/place.png
     - assets/time.png
     - assets/medical_icon.png
+    - assets/ambulance.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
