@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthish/detail_screen/detail_booking.dart';
 
 class BookingSheet extends StatelessWidget {
   TextEditingController nameController = TextEditingController();
@@ -114,7 +115,12 @@ class BookingSheet extends StatelessWidget {
                     RaisedButton(
                       textColor: Colors.white,
                       color: Color(0xFF6200EE),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailBooking()));
+                      },
                       child: Text('Daftar'),
                     )
                   ],
