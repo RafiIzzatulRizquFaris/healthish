@@ -51,7 +51,7 @@ class SplashState extends State<Splash> with TickerProviderStateMixin {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset("assets/ambulance.png"),
+            Image.asset("assets/ambulance.gif"),
             SizedBox(
               height: 30,
             ),
