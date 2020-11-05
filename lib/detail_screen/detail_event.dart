@@ -53,8 +53,8 @@ class DetailEventState extends State<DetailEvent> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Constants.blackColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 28,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 24,
                 ),
               ),
             ],
