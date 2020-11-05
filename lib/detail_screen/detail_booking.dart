@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthish/navigation_screen/booking_status.dart';
 
 import '../constants.dart';
 
@@ -179,14 +180,16 @@ class _DetailBookingState extends State<DetailBooking> {
                   SizedBox(
                     height: 16,
                   ),
-                  Text("Pesan", style: TextStyle(fontWeight: FontWeight.w600),),
+                  Text(
+                    "Pesan",
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
                   SizedBox(
                     height: 8,
                   ),
                   TextFormField(
                     maxLines: 4,
                     decoration: InputDecoration(
-                      
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -209,7 +212,10 @@ class _DetailBookingState extends State<DetailBooking> {
           child: RaisedButton(
             textColor: Constants.whiteColor,
             color: Constants.blueColor,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => BookingStatus()));
+            },
             child: Text('Konfirmasi'),
           ),
         ),
