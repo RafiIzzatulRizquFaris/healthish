@@ -21,27 +21,27 @@ class _BookingStatusState extends State<BookingStatus> {
           children: [
             Icon(
               Icons.check_circle,
-              color: Colors.white,
+              color: Constants.whiteColor,
               size: 150,
             ),
             SizedBox(height: 20,),
             Text(
               "Booking Sukses!",
               style: TextStyle(
-                  color: Colors.white,
+                  color: Constants.whiteColor,
                   fontWeight: FontWeight.w600,
                   fontSize: 30),
             ),
             SizedBox(height: 16,),
             Text(
               "Kode booking anda",
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              style: TextStyle(color: Constants.whiteColor, fontSize: 16),
             ),
             SizedBox(height: 8,),
             Text(
               "BIJIDS123",
               style: TextStyle(
-                  color: Colors.white,
+                  color: Constants.whiteColor,
                   fontSize: 30,
                   fontWeight: FontWeight.w700),
             ),
@@ -50,7 +50,7 @@ class _BookingStatusState extends State<BookingStatus> {
               width: 280,
               child: Text(
                 "Custumer Service kami akan menghubungi anda untuk konfirmasi selanjutnya",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Constants.whiteColor),
                 textAlign: TextAlign.center,
               ),
             )
@@ -76,7 +76,7 @@ class _BookingStatusState extends State<BookingStatus> {
                   child: Text('Lihat Histori'),
                 ),
                 FlatButton(
-                  textColor: Colors.white,
+                  textColor: Constants.whiteColor,
                   onPressed: () {
                     // Respond to button press
                   },
