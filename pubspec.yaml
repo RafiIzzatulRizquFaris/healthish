@@ -49,6 +49,7 @@ dependencies:
   carousel_slider: any
   percent_indicator: ^2.1.4
   permission_handler: any
+  email_validator: any
 
 dev_dependencies:
   flutter_test:
@@ -71,7 +72,7 @@ flutter:
     - assets/place.png
     - assets/time.png
     - assets/medical_icon.png
-    - assets/ambulance.png
+    - assets/ambulance.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
