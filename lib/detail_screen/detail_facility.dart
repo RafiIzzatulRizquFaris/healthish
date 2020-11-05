@@ -50,7 +50,7 @@ class DetailFacilityState extends State<DetailFacility> {
                 style: TextStyle(
                   color: Constants.blackColor,
                   fontWeight: FontWeight.bold,
-                  fontSize: 28,
+                  fontSize: 24,
                 ),
               ),
             ],

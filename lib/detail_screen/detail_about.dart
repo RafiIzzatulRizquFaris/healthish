@@ -78,7 +78,7 @@ class DetailAboutState extends State<DetailAbout> {
                 style: TextStyle(
                   color: Constants.blackColor,
                   fontWeight: FontWeight.w800,
-                  fontSize: 28,
+                  fontSize: 24,
                 ),
               ),
             ],
