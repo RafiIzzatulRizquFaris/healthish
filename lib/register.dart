@@ -2,20 +2,33 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
-import 'package:healthish/register.dart';
 
-class Login extends StatefulWidget {
+class Register extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return LoginState();
+    return RegisterState();
   }
 }
 
-class LoginState extends State<Login> {
+class RadioGroup {
+  final int index;
+  final String text;
+
+  RadioGroup(this.index, this.text);
+}
+
+class RegisterState extends State<Register> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   bool obscureText = true;
   final formKey = GlobalKey<FormState>();
+  int radioGroupGender = -1;
+  String selectedValue;
+  List<RadioGroup> genderList = [
+    RadioGroup(0, "Laki - Laki"),
+    RadioGroup(1, "Perempuan"),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +46,14 @@ class LoginState extends State<Login> {
           ),
           shape: CircleBorder(),
           color: Constants.greyColorGuideIndicator,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         actions: [
           FlatButton(
             child: Text(
-              "Bermasalah dengan Login?",
+              "Bermasalah dengan registrasi?",
               style: TextStyle(
                 fontSize: 16,
                 color: Constants.darkGreyColor,
@@ -56,7 +71,7 @@ class LoginState extends State<Login> {
           child: ListView(
             children: [
               Text(
-                "Selamat Datang!",
+                "Buat Akun",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 24,
@@ -67,7 +82,7 @@ class LoginState extends State<Login> {
                 height: 8,
               ),
               Text(
-                "Masukkan data login anda untuk melanjutkan",
+                "Masukkan data diri anda untuk mendaftar",
                 style: TextStyle(
                   color: Constants.greyColorGuideIndicator,
                 ),
@@ -88,8 +103,8 @@ class LoginState extends State<Login> {
                   hintText: "Email",
                   prefixIcon: Icon(Icons.person_outline_rounded),
                 ),
-                validator: (value){
-                  if (EmailValidator.validate(value)){
+                validator: (value) {
+                  if (EmailValidator.validate(value)) {
                     return null;
                   }
                   return "Email yang dimasukkan salah";
@@ -109,9 +124,9 @@ class LoginState extends State<Login> {
                 controller: passwordController,
                 obscureText: obscureText,
                 validator: (value) {
-                  if (value.isEmpty){
+                  if (value.isEmpty) {
                     return "Password tidak boleh kosong";
-                  }else if (value.length < 8){
+                  } else if (value.length < 8) {
                     return "Password kurang dari 8 karakter";
                   }
                   return null;
@@ -123,18 +138,72 @@ class LoginState extends State<Login> {
                     icon: Icon(
                       obscureText ? Icons.visibility_off : Icons.visibility,
                     ),
-                    onPressed: (){
-                      if(obscureText){
+                    onPressed: () {
+                      if (obscureText) {
                         setState(() {
                           obscureText = false;
                         });
-                      }else{
+                      } else {
                         setState(() {
                           obscureText = true;
                         });
                       }
                     },
                   ),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Text(
+                "Jenis Kelamin",
+                style: TextStyle(
+                  color: Constants.blueColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Row(
+                children: genderList
+                    .map((e) => Row(
+                          children: [
+                            Radio(
+                              value: e.index,
+                              groupValue: radioGroupGender,
+                              onChanged: (value) {
+                                setState(() {
+                                  radioGroupGender = value;
+                                  selectedValue = e.text;
+                                });
+                              },
+                            ),
+                            Text(e.text),
+                          ],
+                        ))
+                    .toList(),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Text(
+                "Nomor Telepon",
+                style: TextStyle(
+                  color: Constants.blueColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              TextFormField(
+                controller: phoneController,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "Nomor telepon boleh kosong";
+                  } else if (value.length < 8) {
+                    return "Nomor telepon kurang dari 8 karakter";
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  hintText: "Telepon",
+                  prefixIcon: Icon(Icons.phone_outlined),
                 ),
               ),
               SizedBox(
@@ -147,7 +216,7 @@ class LoginState extends State<Login> {
                 ),
                 color: Constants.blueColor,
                 child: Text(
-                  "Masuk",
+                  "Daftar",
                   style: TextStyle(
                     color: Constants.whiteColor,
                     fontWeight: FontWeight.bold,
@@ -155,37 +224,37 @@ class LoginState extends State<Login> {
                   ),
                 ),
                 onPressed: () {
-                  if (formKey.currentState.validate()){
+                  if (formKey.currentState.validate()) {
                     // TODO: masukin ke main_navigation
-                  }else{
+                  } else {
                     // TODO: error
                   }
                 },
+              ),
+              SizedBox(
+                height: 15,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Belum mempunyai akun? ",
+                    "Mempunyai akun? ",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  FlatButton(
-                    padding: EdgeInsets.all(0),
+                  GestureDetector(
                     child: Text(
-                      "Daftar Sekarang",
+                      "Masuk",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Constants.blueColor,
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return Register();
-                      }));
+                    onTap: (){
+                      Navigator.pop(context);
                     },
-                  )
+                  ),
                 ],
               )
             ],
