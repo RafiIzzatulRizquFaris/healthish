@@ -204,35 +204,35 @@ class ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
     );
   }
 
-  List<Widget> notificationListView() {
-    List<Widget> list = List<Widget>();
-    for (int i = 0; i < 10; i++) {
-      list.add(Padding(
-        padding: EdgeInsets.all(8),
-        child: ListTile(
-          leading: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              color: Constants.greyColor,
-              borderRadius: BorderRadius.all(Radius.circular(1000)),
-            ),
-          ),
-          title: Text(
-            "Dokter $i",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-                color: Constants.blackColor),
-          ),
-          subtitle: Text(
-            "Deskripsi singkat dokter $i",
-            style: TextStyle(color: Constants.greyColor),
-          ),
-        ),
-      ));
-    }
-    return list;
-  }
+  // List<Widget> notificationListView() {
+  //   List<Widget> list = List<Widget>();
+  //   for (int i = 0; i < 10; i++) {
+  //     list.add(Padding(
+  //       padding: EdgeInsets.all(8),
+  //       child: ListTile(
+  //         leading: Container(
+  //           width: 50,
+  //           height: 50,
+  //           decoration: BoxDecoration(
+  //             color: Constants.greyColor,
+  //             borderRadius: BorderRadius.all(Radius.circular(1000)),
+  //           ),
+  //         ),
+  //         title: Text(
+  //           "Dokter $i",
+  //           style: TextStyle(
+  //               fontWeight: FontWeight.bold,
+  //               fontSize: 14,
+  //               color: Constants.blackColor),
+  //         ),
+  //         subtitle: Text(
+  //           "Deskripsi singkat dokter $i",
+  //           style: TextStyle(color: Constants.greyColor),
+  //         ),
+  //       ),
+  //     ));
+  //   }
+  //   return list;
+  // }
 
 }

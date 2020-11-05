@@ -6,6 +6,7 @@ class BookingHistoryTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: EdgeInsets.only(top: 8),
       shrinkWrap: true,
       itemCount: 20,
       itemBuilder: itemBuilderHistoryBooking,
