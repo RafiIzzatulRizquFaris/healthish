@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:healthish/detail_screen/detail_booking.dart';
 
-class BookingSheet extends StatelessWidget {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  int selectedRadioTile;
-  String alertRegist =
-      "Maaf, anda belum terdaftar dalam aplikasi. Harap daftar terlebih dahulu untuk dapat membooking jadwal dengan dokter yang bersangkutan";
-
-  setSelectedRadioTile(int val) {
-    selectedRadioTile = val;
+class BookingSheet extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() {
+    return BookingSheetState();
   }
+
+}
+
+class BookingSheetState extends State<BookingSheet> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final String alertRegist = "Maaf, anda belum terdaftar dalam aplikasi. Harap daftar terlebih dahulu untuk dapat membooking jadwal dengan dokter yang bersangkutan";
+  int selectedRadioTile;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+        ),
         color: Colors.white,
       ),
       height: MediaQuery.of(context).size.height * 60 / 100,

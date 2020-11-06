@@ -79,6 +79,12 @@ class DetailDoctorState extends State<DetailDoctor> {
             onPressed: () {
               showModalBottomSheet(
                   context: context,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
+                  ),
                   builder: (BuildContext context) {
                     return BookingSheet();
                   });
