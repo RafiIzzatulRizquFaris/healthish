@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/contract/guide_contract.dart';
+import 'package:healthish/login.dart';
 import 'package:healthish/presenter/guide_presenter.dart';
 
 class Guide extends StatefulWidget {
@@ -48,7 +49,14 @@ class GuideScreen extends State<Guide> implements GuideContractView {
                 color: Constants.darkGreyColor,
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Login(),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -81,7 +89,17 @@ class GuideScreen extends State<Guide> implements GuideContractView {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.network(listGuide[index]['image']),
+          Image.network(
+            listGuide[index]['image'],
+            loadingBuilder: (context, widget, imageLoad) {
+              if (imageLoad == null) {
+                return widget;
+              }
+              return CircularProgressIndicator(
+                backgroundColor: Constants.blueColor,
+              );
+            },
+          ),
           Padding(
             padding: EdgeInsets.only(
               top: 30,
@@ -123,7 +141,14 @@ class GuideScreen extends State<Guide> implements GuideContractView {
                   ),
                   shape: CircleBorder(),
                   color: Constants.blueColor,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Login(),
+                      ),
+                    );
+                  },
                 )
               : FlatButton(
                   padding: EdgeInsets.all(15),

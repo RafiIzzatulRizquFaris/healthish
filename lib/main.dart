@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:healthish/main_navigation.dart';
+import 'package:healthish/splash.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MainNavigation(),
+      home: Splash(),
     );
   }
 }

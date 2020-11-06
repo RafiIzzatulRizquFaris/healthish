@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
+import 'package:healthish/main_navigation.dart';
 import 'package:healthish/register.dart';
 
 class Login extends StatefulWidget {
@@ -156,7 +157,9 @@ class LoginState extends State<Login> {
                 ),
                 onPressed: () {
                   if (formKey.currentState.validate()){
-                    // TODO: masukin ke main_navigation
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                      return MainNavigation();
+                    }));
                   }else{
                     // TODO: error
                   }

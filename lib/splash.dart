@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
+import 'package:healthish/guide.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -41,6 +44,7 @@ class SplashState extends State<Splash> with TickerProviderStateMixin {
     super.initState();
     imageAnimationController.forward();
     textAnimationController.forward();
+    movingToNextScreen();
   }
 
   @override
@@ -84,5 +88,19 @@ class SplashState extends State<Splash> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    textAnimationController.dispose();
+    imageAnimationController.dispose();
+  }
+
+  movingToNextScreen() {
+    Timer(Duration(seconds: 5,), (){
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Guide()));
+    });
   }
 }
