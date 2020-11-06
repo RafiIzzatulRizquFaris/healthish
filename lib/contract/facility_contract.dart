@@ -6,6 +6,6 @@ class FacilityContractView{
 }
 
 class FacilityContractPresenter{
-  getFacilityData(){}
-  loadFacilityData(){}
+  getFacilityData({String searchValue}){}
+  loadFacilityData({String searchValue}){}
 }
