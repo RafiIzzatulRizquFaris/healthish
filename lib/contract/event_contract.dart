@@ -6,6 +6,6 @@ class EventContractView{
 }
 
 class EventContractPresenter{
-  getEventData(){}
-  loadEventData(){}
+  getEventData({String searchValue}){}
+  loadEventData({String searchValue}){}
 }

@@ -6,6 +6,6 @@ class DoctorContractView{
 }
 
 class DoctorContractPresenter{
-  getDoctorData(){}
-  loadDoctorData(){}
+  getDoctorData({String searchValue}){}
+  loadDoctorData({String searchValue}){}
 }
