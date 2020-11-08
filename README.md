@@ -57,8 +57,8 @@
 
 ### Built With
 
-* [Flutter](#flutter-link)
-* [Firebase](#firebase-link)
+* [Flutter](https://flutter.dev/)
+* [Firebase](https://firebase.google.com/)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -72,5 +72,3 @@
 [issues-url]: https://github.com/RafiIzzatulRizquFaris/healthish/issues
 [license-shield]: https://img.shields.io/github/license/RafiIzzatulRizquFaris/repo.svg?style=flat-square
 [license-url]: https://github.com/RafiIzzatulRizquFaris/healthish/blob/master/LICENSE.txt
-[flutter-link]: https://flutter.dev/
-[firebase-link]: https://firebase.google.com/
