@@ -15,6 +15,7 @@ class RegisterState extends State<Register> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   bool obscureText = true;
   final formKey = GlobalKey<FormState>();
   int radioGroupGender = -1;
@@ -31,23 +32,24 @@ class RegisterState extends State<Register> {
         toolbarHeight: 100,
         backgroundColor: Colors.transparent,
         elevation: 0,
+        automaticallyImplyLeading: false,
         title: FlatButton(
-          padding: EdgeInsets.all(15),
-          child: Icon(
-            Icons.arrow_back_rounded,
-            color: Constants.whiteColor,
-            size: 25,
+            padding: EdgeInsets.all(15),
+            child: Icon(
+              Icons.arrow_back_rounded,
+              color: Constants.whiteColor,
+              size: 25,
+            ),
+            shape: CircleBorder(),
+            color: Constants.greyColorGuideIndicator,
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          shape: CircleBorder(),
-          color: Constants.greyColorGuideIndicator,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
         actions: [
           FlatButton(
             child: Text(
-              "Bermasalah dengan registrasi?",
+              "Bermasalah dengan login?",
               style: TextStyle(
                 fontSize: 16,
                 color: Constants.darkGreyColor,
@@ -83,6 +85,29 @@ class RegisterState extends State<Register> {
               ),
               SizedBox(
                 height: 50,
+              ),
+              Text(
+                "Nama Lengkap",
+                style: TextStyle(
+                  color: Constants.blueColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              TextFormField(
+                controller: nameController,
+                validator: (value) {
+                  if (value.isEmpty || value.length == 0) {
+                    return "Nama boleh kosong";
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  hintText: "Nama",
+                  prefixIcon: Icon(Icons.person_pin_outlined),
+                ),
+              ),
+              SizedBox(
+                height: 30,
               ),
               Text(
                 "Email",
