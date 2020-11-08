@@ -92,7 +92,7 @@ class DetailDoctorState extends State<DetailDoctor> {
                     return BookingSheet();
                   });
             },
-            child: Text('Buat Janji', style: TextStyle(fontSize: 24,),),
+            child: Text('Buat Janji', style: TextStyle(fontSize: 20,),),
           ),
         ),
       ),
@@ -238,7 +238,7 @@ class DetailDoctorState extends State<DetailDoctor> {
                               ),
                             ),
                             SizedBox(
-                              height: 80,
+                              height: 85,
                             )
                           ],
                         ),

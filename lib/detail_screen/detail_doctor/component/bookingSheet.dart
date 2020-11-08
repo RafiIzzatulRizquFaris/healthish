@@ -49,7 +49,8 @@ class BookingSheetState extends State<BookingSheet> {
               children: [
                 Text(
                   alertRegist,
-                  style: TextStyle(color: Constants.greyColorRegisterBottomSheet),
+                  style:
+                      TextStyle(color: Constants.greyColorRegisterBottomSheet),
                 ),
                 SizedBox(
                   height: 24,
@@ -265,7 +266,10 @@ class BookingSheetState extends State<BookingSheet> {
                       ),
                     )
                   ],
-                )
+                ),
+                Padding(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom)),
               ],
             ),
           ),

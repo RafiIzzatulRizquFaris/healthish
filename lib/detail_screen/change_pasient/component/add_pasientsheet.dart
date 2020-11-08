@@ -9,7 +9,7 @@ class AddPasientSheet extends StatefulWidget {
 }
 
 class _AddPasientSheetState extends State<AddPasientSheet> {
-  String dropdownValue = 'Pilih salah satu';
+  String dropdownValue;
 
   @override
   Widget build(BuildContext context) {
@@ -21,118 +21,144 @@ class _AddPasientSheetState extends State<AddPasientSheet> {
           ),
           color: Colors.white,
         ),
-        height: MediaQuery.of(context).size.height * 65 / 100,
+        height: MediaQuery.of(context).size.height * 50 / 100,
         child: Padding(
-          padding: EdgeInsets.only(top: 28, left: 24, right: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Tambah info pasien baru",
-                style: TextStyle(
-                    color: Constants.blueColor,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 24,
-              ),
-              Text("Nama"),
-              SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Nama',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(
-                height: 14,
-              ),
-              Text("Jenis Kelamin"),
-              SizedBox(
-                height: 8,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Radio(
-                    value: 0,
-                    groupValue: 1,
-                    onChanged: (val) {},
-                  ),
-                  Text(
-                    'Laki-laki',
-                    style: new TextStyle(fontSize: 16.0),
-                  ),
-                  Radio(
-                    value: 0,
-                    groupValue: 1,
-                    onChanged: (val) {},
-                  ),
-                  Text(
-                    'Perempuan',
-                    style: new TextStyle(fontSize: 16.0),
-                  ),
-                ],
-              ),
-              Text("Status"),
-              SizedBox(
-                height: 8,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 1.0, style: BorderStyle.solid),
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  ),
-                ),
-                child: DropdownButton<String>(
-                  value: dropdownValue,
-                  elevation: 16,
-                  style: TextStyle(color: Colors.deepPurple),
-                  onChanged: (String newValue) {
-                    setState(() {
-                      dropdownValue = newValue;
-                    });
-                  },
-                  items: <String>['Pilih salah satu', 'Two', 'Free', 'Four']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ),
-              SizedBox(
-                height: 18,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            padding: EdgeInsets.only(top: 28, left: 24, right: 24),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  RaisedButton(
-                    textColor: Colors.white,
-                    color: Color(0xFF6200EE),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('Batal'),
+                  Text(
+                    "Tambah info pasien baru",
+                    style: TextStyle(
+                        color: Constants.blueColor,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600),
                   ),
-                  RaisedButton(
-                    textColor: Colors.white,
-                    color: Color(0xFF6200EE),
-                    onPressed: () {
-                      
-                    },
-                    child: Text('Daftar'),
-                  )
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Text("Nama"),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Nama',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 14,
+                  ),
+                  Text("Jenis Kelamin"),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Radio(
+                        value: 0,
+                        groupValue: 1,
+                        onChanged: (val) {},
+                      ),
+                      Text(
+                        'Laki-laki',
+                        style: new TextStyle(fontSize: 16.0),
+                      ),
+                      Radio(
+                        value: 0,
+                        groupValue: 1,
+                        onChanged: (val) {},
+                      ),
+                      Text(
+                        'Perempuan',
+                        style: new TextStyle(fontSize: 16.0),
+                      ),
+                    ],
+                  ),
+                  Text("Status"),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(right: 10, left: 10),
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 1.0, style: BorderStyle.solid),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      ),
+                    ),
+                    child: DropdownButton<String>(
+                      value: dropdownValue,
+                      isExpanded: true,
+                      hint: Text("pilih Salah satu"),
+                      elevation: 16,
+                      onChanged: (String newValue) {
+                        setState(() {
+                          dropdownValue = newValue;
+                        });
+                      },
+                      items: <String>['saya sendiri', 'keluarga saya']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 18,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            right: 5,
+                          ),
+                          width: MediaQuery.of(context).size.width / 2,
+                          child: FlatButton(
+                            padding: EdgeInsets.all(0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            textColor: Constants.greyColorCancel,
+                            color: Constants.greyColorTab,
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('Batal'),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            left: 5,
+                          ),
+                          width: MediaQuery.of(context).size.width / 2,
+                          child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            textColor: Constants.whiteColor,
+                            color: Constants.blueColor,
+                            onPressed: () {},
+                            child: Text('Daftar'),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom)),
                 ],
-              )
-            ],
-          ),
-        ));
+              ),
+            )));
   }
 }
