@@ -2,19 +2,13 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
+import 'package:healthish/radio_group.dart';
 
 class Register extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return RegisterState();
   }
-}
-
-class RadioGroup {
-  final int index;
-  final String text;
-
-  RadioGroup(this.index, this.text);
 }
 
 class RegisterState extends State<Register> {
