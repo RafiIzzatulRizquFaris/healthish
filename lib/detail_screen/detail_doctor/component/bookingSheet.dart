@@ -265,7 +265,7 @@ class BookingSheetState extends State<BookingSheet> {
                       ),
                     )
                   ],
-                )
+                ),
               ],
             ),
           ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:healthish/detail_screen/change_pasient/change_pasient.dart';
+import 'package:healthish/detail_screen/change_pasient/change_patient.dart';
 import 'package:healthish/detail_screen/booking_status.dart';
 
 import '../constants.dart';
@@ -8,10 +8,10 @@ class DetailBooking extends StatefulWidget {
   DetailBooking({Key key}) : super(key: key);
 
   @override
-  _DetailBookingState createState() => _DetailBookingState();
+  DetailBookingState createState() => DetailBookingState();
 }
 
-class _DetailBookingState extends State<DetailBooking> {
+class DetailBookingState extends State<DetailBooking> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,15 +50,15 @@ class _DetailBookingState extends State<DetailBooking> {
         ),
       ),
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(18),
-              child: Row(
-                children: [
-                  Flexible(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(18),
+                child: Row(
+                  children: [
+                    Flexible(
                       flex: 1,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100.0),
@@ -66,11 +66,12 @@ class _DetailBookingState extends State<DetailBooking> {
                           "https://www.rssatyanegara.com/wp-content/files_mf/1411616552Dr.ImansyahSpPD.jpg",
                           height: 100.0,
                         ),
-                      )),
-                  SizedBox(
-                    width: 24,
-                  ),
-                  Flexible(
+                      ),
+                    ),
+                    SizedBox(
+                      width: 24,
+                    ),
+                    Flexible(
                       flex: 2,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,27 +91,71 @@ class _DetailBookingState extends State<DetailBooking> {
                                 color: Colors.grey),
                           )
                         ],
-                      ))
-                ],
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            Divider(
-              thickness: 6,
-            ),
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: Text(
-                "Booking Detail",
-                style: TextStyle(
-                    color: Constants.blueColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20),
+              Divider(
+                thickness: 6,
               ),
-            ),
-            Container(
-              color: const Color(0xfff4f4f4),
-              child: Padding(
+              Padding(
                 padding: EdgeInsets.all(20),
+                child: Text(
+                  "Booking Detail",
+                  style: TextStyle(
+                      color: Constants.blueColor,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20),
+                ),
+              ),
+              Container(
+                color: const Color(0xfff4f4f4),
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Booking Untuk",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 18),
+                          ),
+                          FlatButton(
+                            textColor: Constants.blueColor,
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ChangePatient()));
+                            },
+                            child: Text("Ganti Pasien"),
+                          )
+                        ],
+                      ),
+                      Text(
+                        "Nama : Irfan Trianto",
+                        style: TextStyle(color: Color(0xff8B8B8B)),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text("Jenis Kelamin : Laki - laki",
+                          style: TextStyle(color: Color(0xff8B8B8B))),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text("Status : Saya Sendiri",
+                          style: TextStyle(color: Color(0xff8B8B8B)))
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 8, left: 20, right: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -118,93 +163,50 @@ class _DetailBookingState extends State<DetailBooking> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Booking Untuk",
+                          "Booking Tanggal",
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 18),
                         ),
-                        FlatButton(
-                          textColor: Constants.blueColor,
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ChangePasient()));
-                          },
-                          child: Text("Ganti Pasien"),
+                        Row(
+                          children: [
+                            Text(
+                              "Jumat, 23 Oct 2020",
+                              style: TextStyle(color: Color(0xffEE7421)),
+                            ),
+                            IconButton(
+                                icon: Icon(
+                                  Icons.calendar_today_outlined,
+                                  color: Constants.blueColor,
+                                ),
+                                onPressed: () {})
+                          ],
                         )
                       ],
                     ),
+                    SizedBox(
+                      height: 16,
+                    ),
                     Text(
-                      "Nama : Irfan Trianto",
-                      style: TextStyle(color: Color(0xff8B8B8B)),
+                      "Pesan",
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                     SizedBox(
-                      height: 4,
+                      height: 8,
                     ),
-                    Text("Jenis Kelamin : Laki - laki",
-                        style: TextStyle(color: Color(0xff8B8B8B))),
-                    SizedBox(
-                      height: 4,
+                    TextFormField(
+                      maxLines: 4,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
                     ),
-                    Text("Status : Saya Sendiri",
-                        style: TextStyle(color: Color(0xff8B8B8B)))
                   ],
                 ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 8, left: 20, right: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Booking Tanggal",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 18),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Jumat, 23 Oct 2020",
-                            style: TextStyle(color: Color(0xffEE7421)),
-                          ),
-                          IconButton(
-                              icon: Icon(
-                                Icons.calendar_today_outlined,
-                                color: Constants.blueColor,
-                              ),
-                              onPressed: () {})
-                        ],
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Text(
-                    "Pesan",
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  TextFormField(
-                    maxLines: 4,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
-      )),
+      ),
       bottomNavigationBar: Container(
-        height: 75,
         color: Constants.whiteColor,
         child: Padding(
           padding: EdgeInsets.only(
@@ -214,13 +216,22 @@ class _DetailBookingState extends State<DetailBooking> {
             right: 14,
           ),
           child: RaisedButton(
+            padding: EdgeInsets.all(12),
             textColor: Constants.whiteColor,
             color: Constants.blueColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
             onPressed: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => BookingStatus()));
             },
-            child: Text('Konfirmasi'),
+            child: Text(
+              'Konfirmasi',
+              style: TextStyle(
+                fontSize: 24,
+              ),
+            ),
           ),
         ),
       ),
