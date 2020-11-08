@@ -7,6 +7,7 @@ import 'package:healthish/contract/event_contract.dart';
 import 'package:healthish/contract/facility_contract.dart';
 import 'package:healthish/detail_screen/detail_event.dart';
 import 'package:healthish/detail_screen/detail_facility.dart';
+import 'package:healthish/detail_screen/detail_search.dart';
 import 'package:healthish/presenter/event_presenter.dart';
 import 'package:healthish/presenter/facility_presenter.dart';
 
@@ -94,6 +95,11 @@ class LayananState extends State<Layanan>
                     ),
                   ),
                 ),
+                onSubmitted: (value) {
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return DetailSearch(value);
+                  }));
+                },
               ),
             ),
             Container(

@@ -1,42 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
+import 'package:healthish/contract/about_contract.dart';
 import 'package:healthish/detail_screen/title_section_about_widget.dart';
+import 'package:healthish/presenter/about_presenter.dart';
 
 class DetailAbout extends StatefulWidget {
-  final String imgUrl;
-  final String desc;
-  final String ugdSchedule;
-  final List facilityName;
-  final String ugdNumber;
-  final List ambulanceNumber;
-  final String phoneNumber;
-  final List placeName;
-  final List placeAddress;
-  final List weekday;
-  final List weekend;
-
-  DetailAbout({
-    this.imgUrl,
-    this.desc,
-    this.ugdSchedule,
-    this.facilityName,
-    this.ugdNumber,
-    this.ambulanceNumber,
-    this.phoneNumber,
-    this.placeName,
-    this.placeAddress,
-    this.weekday,
-    this.weekend,
-  });
-
   @override
   State<StatefulWidget> createState() {
     return DetailAboutState();
   }
 }
 
-class DetailAboutState extends State<DetailAbout> {
+class DetailAboutState extends State<DetailAbout> implements AboutContractView {
+  AboutPresenter aboutPresenter;
+  bool loadingAbout = true;
+  List<DocumentSnapshot> listAbout = List<DocumentSnapshot>();
+
   List<String> listTitle = [
     "Temui Kami",
     "Layanan Darurat",
@@ -47,6 +28,16 @@ class DetailAboutState extends State<DetailAbout> {
     "assets/facility.png",
     "assets/time.png"
   ];
+
+  DetailAboutState() {
+    aboutPresenter = AboutPresenter(this);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    aboutPresenter.loadAboutData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,61 +76,69 @@ class DetailAboutState extends State<DetailAbout> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 3.5,
-              decoration: BoxDecoration(
-                color: Constants.greyColor,
+      body: loadingAbout
+          ? Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Constants.blueColor,
               ),
-              child: SizedBox.expand(
-                child: FittedBox(
-                  fit: BoxFit.fill,
-                  child: Image.network(widget.imgUrl),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: 20,
-                left: 20,
-                right: 20,
-                bottom: 10,
-              ),
-              child: Text(
-                "Sekilas tentang SMKDEV",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Constants.blueColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                right: 20,
-                left: 20,
-              ),
-              child: Text(
-                widget.desc.replaceAll("\\n", "\n"),
-                style: TextStyle(
-                  fontSize: 16,
-                  letterSpacing: 1,
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(bottom: 30,),
+            )
+          : SingleChildScrollView(
               child: Column(
-                children: infoSectionList(),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 3.5,
+                    decoration: BoxDecoration(
+                      color: Constants.greyColor,
+                    ),
+                    child: SizedBox.expand(
+                      child: FittedBox(
+                        fit: BoxFit.fill,
+                        child: Image.network(listAbout[0]['image']),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 20,
+                      left: 20,
+                      right: 20,
+                      bottom: 10,
+                    ),
+                    child: Text(
+                      "Sekilas tentang SMKDEV",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Constants.blueColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      right: 20,
+                      left: 20,
+                    ),
+                    child: Text(
+                      listAbout[0]['description'].toString().replaceAll("\\n", "\n"),
+                      style: TextStyle(
+                        fontSize: 16,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(
+                      bottom: 30,
+                    ),
+                    child: Column(
+                      children: infoSectionList(),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -152,10 +151,10 @@ class DetailAboutState extends State<DetailAbout> {
         child: Column(
           children: [
             Text(
-              widget.placeName[i],
+              listAbout[0]["place_list"][i]["name"],
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
-            Text(widget.placeAddress[i]),
+            Text(listAbout[0]["place_list"][i]["address"]),
           ],
         ),
       ));
@@ -172,17 +171,17 @@ class DetailAboutState extends State<DetailAbout> {
         child: Column(
           children: [
             Text(
-              widget.facilityName[i],
+              listAbout[0]["contact"]["phone_list"][i]["name"],
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
             i == 0
-                ? Text(widget.ugdSchedule)
+                ? Text(listAbout[0]["ugd_schedule"])
                 : i == 1
                     ? Column(
                         children: ambulanceNumberList(),
                       )
                     : Text(
-                        widget.phoneNumber,
+              listAbout[0]["contact"]["phone_list"][2]["number"],
                       ),
           ],
         ),
@@ -201,7 +200,11 @@ class DetailAboutState extends State<DetailAbout> {
             height: 20,
           ),
           Column(
-            children: i == 0 ? placeList() : i == 1 ? facilityList() : operationalList(),
+            children: i == 0
+                ? placeList()
+                : i == 1
+                    ? facilityList()
+                    : operationalList(),
           )
         ],
       ));
@@ -211,32 +214,44 @@ class DetailAboutState extends State<DetailAbout> {
 
   List<Widget> ambulanceNumberList() {
     List<Widget> list = List<Widget>();
-    for (int i = 0; i < widget.ambulanceNumber.length; i++){
-      list.add(Text(widget.ambulanceNumber[i]));
+    for (int i = 0; i < listAbout[0]["contact"]["phone_list"][1]["number"].length; i++) {
+      list.add(Text(listAbout[0]["contact"]["phone_list"][1]["number"][i]));
     }
     return list;
   }
 
   List<Widget> operationalList() {
     List<Widget> list = List<Widget>();
-    for (int i = 0; i < widget.placeName.length; i++){
-      list.add(
-          Container(
-            alignment: Alignment.center,
-            padding: i != 0 ? EdgeInsets.only(top: 15) : EdgeInsets.only(top: 0),
-            child: Column(
-              children: [
-                Text(
-                  widget.placeName[i],
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                ),
-                Text(widget.weekday[i]),
-                Text(widget.weekend[i]),
-              ],
+    for (int i = 0; i < listAbout[0]["place_list"].length; i++) {
+      list.add(Container(
+        alignment: Alignment.center,
+        padding: i != 0 ? EdgeInsets.only(top: 15) : EdgeInsets.only(top: 0),
+        child: Column(
+          children: [
+            Text(
+              listAbout[0]["place_list"][i]["name"],
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
-          )
-      );
+            Text(listAbout[0]["place_list"][i]["weekday"]),
+            Text(listAbout[0]["place_list"][i]["weekend"]),
+          ],
+        ),
+      ));
     }
     return list;
+  }
+
+  @override
+  onErrorAboutData(error) {
+    // TODO: implement onErrorAboutData
+    throw UnimplementedError();
+  }
+
+  @override
+  onSuccessAboutData(List<DocumentSnapshot> value) {
+    setState(() {
+      listAbout = value;
+      loadingAbout = false;
+    });
   }
 }

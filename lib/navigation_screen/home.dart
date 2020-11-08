@@ -394,19 +394,7 @@ class HomeState extends State<Home>
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return DetailAbout(
-                        imgUrl: listAbout[0]["image"],
-                        desc: listAbout[0]["description"],
-                        ugdSchedule: listAbout[0]["ugd_schedule"],
-                        facilityName: [listAbout[0]["contact"]["phone_list"][0]["name"], listAbout[0]["contact"]["phone_list"][1]["name"], listAbout[0]["contact"]["phone_list"][2]["name"]],
-                        ambulanceNumber: [listAbout[0]["contact"]["phone_list"][1]["number"][0], listAbout[0]["contact"]["phone_list"][1]["number"][1]],
-                        phoneNumber: listAbout[0]["contact"]["phone_list"][2]["number"],
-                        ugdNumber: listAbout[0]["contact"]["phone_list"][0]["number"],
-                        placeAddress: [listAbout[0]["place_list"][0]["address"], listAbout[0]["place_list"][1]["address"]],
-                        placeName: [listAbout[0]["place_list"][0]["name"], listAbout[0]["place_list"][1]["name"], listAbout[0]["place_list"][2]["name"]],
-                        weekday: [listAbout[0]["place_list"][0]["weekday"], listAbout[0]["place_list"][1]["weekday"], listAbout[0]["place_list"][2]["weekday"]],
-                        weekend: [listAbout[0]["place_list"][0]["weekend"], listAbout[0]["place_list"][1]["weekend"], listAbout[0]["place_list"][2]["weekend"]],
-                      );
+                      return DetailAbout();
                     }));
                   },
                   child: Text(
