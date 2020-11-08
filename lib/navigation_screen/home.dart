@@ -524,32 +524,21 @@ class HomeState extends State<Home>
       height: MediaQuery.of(context).size.height / 2,
       child: Column(
         children: [
-          Padding(
+          Container(
+            alignment: Alignment.centerLeft,
             padding: EdgeInsets.only(
               top: 40,
               right: 20,
               left: 20,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Berita Terbaru",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                    color: Constants.blackColor,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  "Selengkapnya",
-                  style: TextStyle(
-                    color: Constants.blackColor,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ],
+            child: Text(
+              "Berita Terbaru",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+                color: Constants.blackColor,
+              ),
+              textAlign: TextAlign.left,
             ),
           ),
           Expanded(
@@ -564,7 +553,7 @@ class HomeState extends State<Home>
                     )
                   : Container(
                       child: ListView.builder(
-                        itemCount: 3,
+                        itemCount: listEvent.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: itemBuilderLatestNews,
                       ),
@@ -592,46 +581,71 @@ class HomeState extends State<Home>
           color: Constants.greyColor,
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: SizedBox.expand(
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                ),
-                child: FittedBox(
-                  fit: BoxFit.fill,
-                  child: Image.network(listNews[index].data['image']),
+      child: FlatButton(
+        padding: EdgeInsets.all(0),
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) {
+                return DetailEvent(
+                  desc: listEvent[index]
+                      .data["description"]
+                      .toString(),
+                  title: listEvent[index]
+                      .data["title"]
+                      .toString(),
+                  date: listEvent[index]
+                      .data["date"]
+                      .toString(),
+                  imgUrl: listEvent[index]
+                      .data["image"]
+                      .toString(),
+                  type: listEvent[index]
+                      .data["type"]
+                      .toString(),
+                );
+              }));
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: SizedBox.expand(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                  child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: Image.network(listEvent[index].data['image']),
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              listNews[index].data['title'],
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 14,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                listEvent[index].data['title'],
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 8,
-              right: 8,
-              bottom: 8,
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 8,
+                right: 8,
+                bottom: 8,
+              ),
+              child: Text(
+                listEvent[index].data['description'],
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-            child: Text(
-              listNews[index].data['description'],
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
