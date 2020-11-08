@@ -90,4 +90,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 [issues-shield]: https://img.shields.io/github/issues/RafiIzzatulRizquFaris/repo.svg?style=flat-square
 [issues-url]: https://github.com/RafiIzzatulRizquFaris/healthish/issues
 [license-shield]: https://img.shields.io/github/license/RafiIzzatulRizquFaris/repo.svg?style=flat-square
-[license-url]: https://github.com/RafiIzzatulRizquFaris/healthish/blob/master/LICENSE.txt
+[license-url]: https://github.com/farasjibran/healthish/blob/master/LICENSE
