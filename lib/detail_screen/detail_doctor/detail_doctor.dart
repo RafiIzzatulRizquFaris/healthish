@@ -64,7 +64,6 @@ class DetailDoctorState extends State<DetailDoctor> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: 75,
         color: Constants.whiteColor,
         child: Padding(
           padding: EdgeInsets.only(
@@ -73,9 +72,13 @@ class DetailDoctorState extends State<DetailDoctor> {
             bottom: 14,
             right: 14,
           ),
-          child: RaisedButton(
+          child: FlatButton(
+            padding: EdgeInsets.all(12),
             textColor: Constants.whiteColor,
             color: Constants.blueColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
             onPressed: () {
               showModalBottomSheet(
                   context: context,
@@ -89,7 +92,7 @@ class DetailDoctorState extends State<DetailDoctor> {
                     return BookingSheet();
                   });
             },
-            child: Text('Buat Janji'),
+            child: Text('Buat Janji', style: TextStyle(fontSize: 24,),),
           ),
         ),
       ),

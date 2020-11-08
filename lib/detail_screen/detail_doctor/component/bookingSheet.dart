@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:healthish/constants.dart';
 import 'package:healthish/detail_screen/detail_booking.dart';
 
 class BookingSheet extends StatefulWidget{
@@ -109,24 +111,43 @@ class BookingSheetState extends State<BookingSheet> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    RaisedButton(
-                      textColor: Colors.white,
-                      color: Color(0xFF6200EE),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('Batal'),
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(right: 5,),
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: FlatButton(
+                          padding: EdgeInsets.all(0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          textColor: Constants.greyColorCancel,
+                          color: Constants.greyColorTab,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text('Batal'),
+                        ),
+                      ),
                     ),
-                    RaisedButton(
-                      textColor: Colors.white,
-                      color: Color(0xFF6200EE),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DetailBooking()));
-                      },
-                      child: Text('Daftar'),
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 5,),
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          textColor: Constants.whiteColor,
+                          color: Constants.blueColor,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DetailBooking()));
+                          },
+                          child: Text('Daftar'),
+                        ),
+                      ),
                     )
                   ],
                 )
