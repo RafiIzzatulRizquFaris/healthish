@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healthish/detail_screen/change_pasient/change_pasient.dart';
-import 'package:healthish/navigation_screen/booking_status.dart';
+import 'package:healthish/detail_screen/booking_status.dart';
 
 import '../constants.dart';
 

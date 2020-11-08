@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:healthish/navigation_screen/popup_menu/partner_career/component/item_partner.dart';
+import 'package:healthish/detail_screen/partner_career/component/item_partner.dart';
 
-import '../../../constants.dart';
+import '../../constants.dart';
 
 class PartnerCareer extends StatefulWidget {
   @override

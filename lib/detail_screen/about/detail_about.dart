@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/contract/about_contract.dart';
-import 'package:healthish/detail_screen/title_section_about_widget.dart';
+import 'package:healthish/detail_screen/about/title_section_about_widget.dart';
 import 'package:healthish/presenter/about_presenter.dart';
 
 class DetailAbout extends StatefulWidget {

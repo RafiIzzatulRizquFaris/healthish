@@ -9,7 +9,7 @@ import 'package:healthish/contract/about_contract.dart';
 import 'package:healthish/contract/doctor_contract.dart';
 import 'package:healthish/contract/event_contract.dart';
 import 'package:healthish/contract/news_contract.dart';
-import 'package:healthish/detail_screen/detail_about.dart';
+import 'package:healthish/detail_screen/about/detail_about.dart';
 import 'package:healthish/detail_screen/detail_event.dart';
 import 'package:healthish/presenter/about_presenter.dart';
 import 'package:healthish/presenter/doctor_presenter.dart';
