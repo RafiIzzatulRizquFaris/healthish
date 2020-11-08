@@ -96,7 +96,7 @@ class DetailDoctorState extends State<DetailDoctor> {
             child: Text(
               'Buat Janji',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 20,
               ),
             ),
           ),
@@ -244,7 +244,7 @@ class DetailDoctorState extends State<DetailDoctor> {
                               ),
                             ),
                             SizedBox(
-                              height: 80,
+                              height: 85,
                             )
                           ],
                         ),

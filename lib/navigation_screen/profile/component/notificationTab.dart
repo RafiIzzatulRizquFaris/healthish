@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthish/detail_screen/detail_control.dart';
 import '../../../constants.dart';
 
 class NotificationTab extends StatelessWidget {
@@ -8,7 +9,13 @@ class NotificationTab extends StatelessWidget {
       padding: EdgeInsets.only(top: 8),
       shrinkWrap: true,
       itemCount: 20,
-      itemBuilder: itemBuilderNotification,
+      itemBuilder: (BuildContext context, int index) => GestureDetector(
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => DetailControl()));
+        },
+        child: itemBuilderNotification(context, index),
+      ),
     );
   }
 
