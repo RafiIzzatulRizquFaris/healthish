@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/contract/guide_contract.dart';
-import 'package:healthish/login.dart';
+import 'package:healthish/main_navigation.dart';
 import 'package:healthish/presenter/guide_presenter.dart';
 
 class Guide extends StatefulWidget {
@@ -53,7 +53,7 @@ class GuideScreen extends State<Guide> implements GuideContractView {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Login(),
+                  builder: (context) => MainNavigation(),
                 ),
               );
             },
@@ -145,7 +145,7 @@ class GuideScreen extends State<Guide> implements GuideContractView {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Login(),
+                        builder: (context) => MainNavigation(),
                       ),
                     );
                   },
