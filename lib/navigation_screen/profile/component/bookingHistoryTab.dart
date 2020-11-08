@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthish/detail_screen/detail_control.dart';
 
 import '../../../constants.dart';
 
@@ -9,7 +10,13 @@ class BookingHistoryTab extends StatelessWidget {
       padding: EdgeInsets.only(top: 8),
       shrinkWrap: true,
       itemCount: 20,
-      itemBuilder: itemBuilderHistoryBooking,
+      itemBuilder: (BuildContext context, int index) => GestureDetector(
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => DetailControl()));
+        },
+        child: itemBuilderHistoryBooking(context, index),
+      ),
     );
   }
 
