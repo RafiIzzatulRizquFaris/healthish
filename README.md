@@ -32,9 +32,6 @@
     * [Built With](#built-with)
 * [Getting Started](#getting-started)
     * [Installation](#installation)
-* [Usage](#usage)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
 * [License](#license)
 * [Contact](#contact)
 * [Acknowledgements](#acknowledgements)
@@ -59,6 +56,28 @@
 
 * [Flutter](https://flutter.dev/)
 * [Firebase](https://firebase.google.com/)
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+To get a local copy up and running follow these simple steps.
+
+### Installation
+
+1. Clone the repo
+```sh
+git clone https://github.com/RafiIzzatulRizquFaris/healthish
+```
+2. Install Flutter packages
+```sh
+flutter pub get
+```
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
