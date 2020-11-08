@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:healthish/detail_screen/change_pasient/component/add_pasientsheet.dart';
+import 'package:healthish/detail_screen/change_pasient/component/add_patient_sheet.dart';
 
 import '../../constants.dart';
 
-class ChangePasient extends StatefulWidget {
-  ChangePasient({Key key}) : super(key: key);
+class ChangePatient extends StatefulWidget {
+  ChangePatient({Key key}) : super(key: key);
 
   @override
-  _ChangePasientState createState() => _ChangePasientState();
+  ChangePatientState createState() => ChangePatientState();
 }
 
-class _ChangePasientState extends State<ChangePasient> {
-  int _value = 1;
+class ChangePatientState extends State<ChangePatient> {
+  int _value = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -118,23 +118,30 @@ class _ChangePasientState extends State<ChangePasient> {
                         Text(
                           "Nama : Irfan Trianto",
                           style: TextStyle(
-                              color: Color(0xff8B8B8B),
-                              fontWeight: FontWeight.w500),
+                            color: Color(0xff8B8B8B),
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                         SizedBox(
                           height: 4,
                         ),
-                        Text("Jenis Kelamin : Laki - laki",
-                            style: TextStyle(
-                                color: Color(0xff8B8B8B),
-                                fontWeight: FontWeight.w500)),
+                        Text(
+                          "Jenis Kelamin : Laki - laki",
+                          style: TextStyle(
+                            color: Color(0xff8B8B8B),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                         SizedBox(
                           height: 4,
                         ),
-                        Text("Status : Saya Sendiri",
-                            style: TextStyle(
-                                color: Color(0xff8B8B8B),
-                                fontWeight: FontWeight.w500))
+                        Text(
+                          "Status : Saya Sendiri",
+                          style: TextStyle(
+                            color: Color(0xff8B8B8B),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )
                       ],
                     ),
                     GestureDetector(
@@ -160,8 +167,8 @@ class _ChangePasientState extends State<ChangePasient> {
               ),
             ),
             FlatButton(
-                onPressed: () {
-                  showModalBottomSheet(
+              onPressed: () {
+                showModalBottomSheet(
                   context: context,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
@@ -170,13 +177,15 @@ class _ChangePasientState extends State<ChangePasient> {
                     ),
                   ),
                   builder: (BuildContext context) {
-                    return AddPasientSheet();
-                  });
-                },
-                child: Text(
-                  "Tambah Baru",
-                  style: TextStyle(color: Constants.blueColor),
-                ))
+                    return AddPatientSheet();
+                  },
+                );
+              },
+              child: Text(
+                "Tambah Baru",
+                style: TextStyle(color: Constants.blueColor),
+              ),
+            )
           ],
         ),
       ),
