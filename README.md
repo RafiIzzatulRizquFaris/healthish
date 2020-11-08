@@ -46,19 +46,19 @@
 
 <div class="row">
     <div class="col">
-        <img src="assets/ss 1.png" alt="gambar ke 1.png">
+        <img style="width: 50%" src="assets/ss 1.png" alt="gambar ke 1.png">
     </div>
     <div class="col">
-        <img src="assets/ss 2.png" alt="gambar ke 2.png">
+        <img style="width: 50%" src="assets/ss 2.png" alt="gambar ke 2.png">
     </div>
     <div class="col">
-        <img src="assets/ss 3.png" alt="gambar ke 3.png">
+        <img style="width: 50%" src="assets/ss 3.png" alt="gambar ke 3.png">
     </div>
     <div class="col">
-        <img src="assets/ss 4.png" alt="gambar ke 4.png">
+        <img style="width: 50%" src="assets/ss 4.png" alt="gambar ke 4.png">
     </div>
     <div class="col">
-        <img src="assets/ss 5.png" alt="gambar ke 5.png">
+        <img style="width: 50%" src="assets/ss 5.png" alt="gambar ke 5.png">
     </div>
 </div>
 
@@ -71,16 +71,15 @@
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo.svg?style=flat-square
-[contributors-url]: https://github.com/github_username/repo/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo.svg?style=flat-square
-[forks-url]: https://github.com/github_username/repo/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo.svg?style=flat-square
-[stars-url]: https://github.com/github_username/repo/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo.svg?style=flat-square
-[issues-url]: https://github.com/github_username/repo/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo.svg?style=flat-square
-[license-url]: https://github.com/github_username/repo/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/RafiIzzatulRizquFaris/repo.svg?style=flat-square
+[contributors-url]: https://github.com/RafiIzzatulRizquFaris/healthish/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/RafiIzzatulRizquFaris/repo.svg?style=flat-square
+[forks-url]: https://github.com/RafiIzzatulRizquFaris/healthish/network/members
+[stars-shield]: https://img.shields.io/github/stars/RafiIzzatulRizquFaris/repo.svg?style=flat-square
+[stars-url]: https://github.com/RafiIzzatulRizquFaris/healthish/stargazers
+[issues-shield]: https://img.shields.io/github/issues/RafiIzzatulRizquFaris/repo.svg?style=flat-square
+[issues-url]: https://github.com/RafiIzzatulRizquFaris/healthish/issues
+[license-shield]: https://img.shields.io/github/license/RafiIzzatulRizquFaris/repo.svg?style=flat-square
+[license-url]: https://github.com/RafiIzzatulRizquFaris/healthish/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/github_username
-[product-screenshot]: images/screenshot.png
+[linkedin-url]: https://linkedin.com/in/RafiIzzatulRizquFaris
