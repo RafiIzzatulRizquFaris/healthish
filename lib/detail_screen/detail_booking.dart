@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthish/detail_screen/change_pasient/change_pasient.dart';
 import 'package:healthish/navigation_screen/booking_status.dart';
 
 import '../constants.dart';
@@ -124,7 +125,10 @@ class _DetailBookingState extends State<DetailBooking> {
                         FlatButton(
                           textColor: Constants.blueColor,
                           onPressed: () {
-                            // Respond to button press
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChangePasient()));
                           },
                           child: Text("Ganti Pasien"),
                         )
