@@ -85,7 +85,10 @@ class BookingState extends State<Booking> implements DoctorContractView {
                   ),
                 ),
                 onSubmitted: (value) {
-                  //  todo: add on submitted
+                  setState(() {
+                    loadingDoctor = true;
+                  });
+                  doctorPresenter.loadDoctorData(searchValue: value,);
                 },
               ),
             ),
