@@ -299,9 +299,7 @@ class DetailSearchState extends State<DetailSearch>
       decoration: BoxDecoration(
         border: Border.all(color: Constants.greyColor),
         color: Constants.whiteColor,
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
-        ),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: FlatButton(
         padding: EdgeInsets.all(0),
@@ -359,9 +357,7 @@ class DetailSearchState extends State<DetailSearch>
         height: MediaQuery.of(context).size.height / 3.3,
         decoration: BoxDecoration(
           color: Constants.whiteColor,
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
+          borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: Constants.greyColor,
           ),

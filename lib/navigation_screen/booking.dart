@@ -102,11 +102,11 @@ class BookingState extends State<Booking> implements DoctorContractView {
           height: 50,
           decoration: BoxDecoration(
             color: Constants.greyColor,
-            borderRadius: BorderRadius.all(Radius.circular(1000)),
+            borderRadius: BorderRadius.circular(1000),
           ),
           child: SizedBox.expand(
             child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(1000)),
+              borderRadius: BorderRadius.circular(1000),
               child: FittedBox(
                 fit: BoxFit.fill,
                 child: Image.network(listDoctor[index]['image']),
