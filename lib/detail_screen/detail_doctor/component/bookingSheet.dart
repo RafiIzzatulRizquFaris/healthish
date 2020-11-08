@@ -3,19 +3,19 @@ import 'package:flutter/widgets.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/detail_screen/detail_booking.dart';
 
-class BookingSheet extends StatefulWidget{
+class BookingSheet extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return BookingSheetState();
   }
-
 }
 
 class BookingSheetState extends State<BookingSheet> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  final String alertRegist = "Maaf, anda belum terdaftar dalam aplikasi. Harap daftar terlebih dahulu untuk dapat membooking jadwal dengan dokter yang bersangkutan";
+  final String alertRegist =
+      "Maaf, anda belum terdaftar dalam aplikasi. Harap daftar terlebih dahulu untuk dapat membooking jadwal dengan dokter yang bersangkutan";
   int selectedRadioTile;
 
   @override
@@ -26,33 +26,51 @@ class BookingSheetState extends State<BookingSheet> {
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
         ),
-        color: Colors.white,
+        color: Constants.whiteColor,
       ),
-      height: MediaQuery.of(context).size.height * 60 / 100,
+      height: MediaQuery.of(context).size.height * 0.7,
       child: Padding(
           padding: EdgeInsets.all(24),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(alertRegist),
+                Text(
+                  alertRegist,
+                  style:
+                      TextStyle(color: Constants.greyColorRegisterBottomSheet),
+                ),
                 SizedBox(
                   height: 24,
                 ),
-                Text("Nama"),
+                Text(
+                  "Nama",
+                  style: TextStyle(
+                    color: Constants.greyColorRegisterBottomSheet,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 SizedBox(
                   height: 8,
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Nama',
-                    border: OutlineInputBorder(),
+                    hintText: 'Nama',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 ),
                 SizedBox(
                   height: 14,
                 ),
-                Text("Jenis Kelamin"),
+                Text(
+                  "Jenis Kelamin",
+                  style: TextStyle(
+                    color: Constants.greyColorRegisterBottomSheet,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 SizedBox(
                   height: 8,
                 ),
@@ -82,27 +100,43 @@ class BookingSheetState extends State<BookingSheet> {
                 SizedBox(
                   height: 8,
                 ),
-                Text("No Handphone"),
+                Text(
+                  "No Handphone",
+                  style: TextStyle(
+                    color: Constants.greyColorRegisterBottomSheet,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 SizedBox(
                   height: 8,
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'No Handphone',
-                    border: OutlineInputBorder(),
+                    hintText: 'No Handphone',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 ),
                 SizedBox(
                   height: 14,
                 ),
-                Text("Email"),
+                Text(
+                  "Email",
+                  style: TextStyle(
+                    color: Constants.greyColorRegisterBottomSheet,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 SizedBox(
                   height: 8,
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Email',
-                    border: OutlineInputBorder(),
+                    hintText: 'Email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -113,7 +147,9 @@ class BookingSheetState extends State<BookingSheet> {
                   children: [
                     Expanded(
                       child: Container(
-                        margin: EdgeInsets.only(right: 5,),
+                        margin: EdgeInsets.only(
+                          right: 5,
+                        ),
                         width: MediaQuery.of(context).size.width / 2,
                         child: FlatButton(
                           padding: EdgeInsets.all(0),
@@ -131,7 +167,9 @@ class BookingSheetState extends State<BookingSheet> {
                     ),
                     Expanded(
                       child: Container(
-                        margin: EdgeInsets.only(left: 5,),
+                        margin: EdgeInsets.only(
+                          left: 5,
+                        ),
                         width: MediaQuery.of(context).size.width / 2,
                         child: FlatButton(
                           shape: RoundedRectangleBorder(

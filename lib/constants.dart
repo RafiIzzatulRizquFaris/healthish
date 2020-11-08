@@ -8,6 +8,7 @@ class Constants{
   static const Color greyColorGuide = Color(0xff999999);
   static const Color greyColorGuideIndicator = Color(0xffC4C4C4);
   static const Color greyColorCancel = Color(0xff333333);
+  static const Color greyColorRegisterBottomSheet = Color(0xff828282);
   static const Color blueColor = Color(0xff2962FF);
   static const Color blackColor = Color(0xff1E1E1D);
   static const Color redColor = Color(0xffFF5E20);

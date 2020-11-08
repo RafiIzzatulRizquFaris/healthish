@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/custom_tab_indicator.dart';
+import 'package:healthish/detail_screen/detail_account.dart';
 import 'package:healthish/navigation_screen/profile/component/bookingHistoryTab.dart';
 import 'package:healthish/navigation_screen/profile/component/notificationTab.dart';
 
@@ -86,7 +87,11 @@ class ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                             IconButton(
                               icon: Icon(Icons.more_horiz_rounded),
                               color: Constants.blackColor,
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context){
+                                  return DetailAccount();
+                                }));
+                              },
                             )
                           ],
                         ),
@@ -203,36 +208,4 @@ class ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
       ),
     );
   }
-
-  // List<Widget> notificationListView() {
-  //   List<Widget> list = List<Widget>();
-  //   for (int i = 0; i < 10; i++) {
-  //     list.add(Padding(
-  //       padding: EdgeInsets.all(8),
-  //       child: ListTile(
-  //         leading: Container(
-  //           width: 50,
-  //           height: 50,
-  //           decoration: BoxDecoration(
-  //             color: Constants.greyColor,
-  //             borderRadius: BorderRadius.all(Radius.circular(1000)),
-  //           ),
-  //         ),
-  //         title: Text(
-  //           "Dokter $i",
-  //           style: TextStyle(
-  //               fontWeight: FontWeight.bold,
-  //               fontSize: 14,
-  //               color: Constants.blackColor),
-  //         ),
-  //         subtitle: Text(
-  //           "Deskripsi singkat dokter $i",
-  //           style: TextStyle(color: Constants.greyColor),
-  //         ),
-  //       ),
-  //     ));
-  //   }
-  //   return list;
-  // }
-
 }
