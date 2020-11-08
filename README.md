@@ -3,7 +3,6 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -58,9 +57,8 @@
 
 ### Built With
 
-* []()
-* []()
-* []()
+* [Flutter](#flutter-link)
+* [Firebase](#firebase-link)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -74,5 +72,5 @@
 [issues-url]: https://github.com/RafiIzzatulRizquFaris/healthish/issues
 [license-shield]: https://img.shields.io/github/license/RafiIzzatulRizquFaris/repo.svg?style=flat-square
 [license-url]: https://github.com/RafiIzzatulRizquFaris/healthish/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/RafiIzzatulRizquFaris
+[flutter-link]: https://flutter.dev/
+[firebase-link]: https://firebase.google.com/
