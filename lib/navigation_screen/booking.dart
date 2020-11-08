@@ -17,6 +17,7 @@ class BookingState extends State<Booking> implements DoctorContractView {
   DoctorPresenter doctorPresenter;
   List<DocumentSnapshot> listDoctor = List<DocumentSnapshot>();
   bool loadingDoctor = true;
+  TextEditingController searchController = TextEditingController();
 
   BookingState() {
     doctorPresenter = DoctorPresenter(this);
@@ -48,82 +49,60 @@ class BookingState extends State<Booking> implements DoctorContractView {
           ),
         ),
       ),
-      body: loadingDoctor
-          ? Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Constants.blueColor,
-              ),
-            )
-          : ListView.builder(
-              itemCount: listDoctor.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DetailDoctor(
-                        academy: listDoctor[index]['academy'],
-                        credential: listDoctor[index]['credential'],
-                        description: listDoctor[index]['description'],
-                        image: listDoctor[index]['image'],
-                        name: listDoctor[index]['name'],
-                        specialist: listDoctor[index]['specialist'],
-                        scheduleDay: [
-                          listDoctor[index]['schedule'][0]['day'],
-                          listDoctor[index]['schedule'][1]['day'],
-                          listDoctor[index]['schedule'][2]['day']
-                        ],
-                        schedulePlace: [
-                          listDoctor[index]['schedule'][0]['place'],
-                          listDoctor[index]['schedule'][1]['place'],
-                          listDoctor[index]['schedule'][2]['place']
-                        ],
-                        scheduleTime: [
-                          listDoctor[index]['schedule'][0]['time'],
-                          listDoctor[index]['schedule'][1]['time'],
-                          listDoctor[index]['schedule'][2]['time']
-                        ],
-                      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: TextField(
+                controller: searchController,
+                style: TextStyle(
+                  color: Constants.blackColor,
+                ),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  fillColor: Constants.whiteColor,
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Constants.greyColor,
+                  ),
+                  hintText: 'Cari Dokter',
+                  hintStyle: TextStyle(
+                    color: Constants.greyColor,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Constants.greyColor,
                     ),
                   ),
-                  child: itemBuilderDoctor(context, index),
-                );
-              },
-            ),
-    );
-  }
-
-  Widget itemBuilderDoctor(BuildContext context, int index) {
-    return Padding(
-      padding: EdgeInsets.all(8),
-      child: ListTile(
-        leading: Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            color: Constants.greyColor,
-            borderRadius: BorderRadius.circular(1000),
-          ),
-          child: SizedBox.expand(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(1000),
-              child: FittedBox(
-                fit: BoxFit.fill,
-                child: Image.network(listDoctor[index]['image']),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: Constants.greyColor,
+                    ),
+                  ),
+                ),
+                onSubmitted: (value) {
+                  //  todo: add on submitted
+                },
               ),
             ),
-          ),
-        ),
-        title: Text(
-          listDoctor[index]['name'],
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-              color: Constants.blackColor),
-        ),
-        subtitle: Text(
-          listDoctor[index]['specialist'],
-          style: TextStyle(color: Constants.greyColor),
+            loadingDoctor
+                ? Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Constants.blueColor,
+                    ),
+                  )
+                : listDoctor.isEmpty
+                    ? Center(
+                        child: Text("Data Tidak Ditemukan"),
+                      )
+                    : Column(
+                        children: listItemDoctor(),
+                      )
+          ],
         ),
       ),
     );
@@ -141,5 +120,75 @@ class BookingState extends State<Booking> implements DoctorContractView {
       listDoctor = value;
       loadingDoctor = false;
     });
+  }
+
+  List<Widget> listItemDoctor() {
+    List<Widget> list = List<Widget>();
+    for (int i = 0; i < listDoctor.length; i++) {
+      list.add(GestureDetector(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailDoctor(
+              academy: listDoctor[i]['academy'],
+              credential: listDoctor[i]['credential'],
+              description: listDoctor[i]['description'],
+              image: listDoctor[i]['image'],
+              name: listDoctor[i]['name'],
+              specialist: listDoctor[i]['specialist'],
+              scheduleDay: [
+                listDoctor[i]['schedule'][0]['day'],
+                listDoctor[i]['schedule'][1]['day'],
+                listDoctor[i]['schedule'][2]['day']
+              ],
+              schedulePlace: [
+                listDoctor[i]['schedule'][0]['place'],
+                listDoctor[i]['schedule'][1]['place'],
+                listDoctor[i]['schedule'][2]['place']
+              ],
+              scheduleTime: [
+                listDoctor[i]['schedule'][0]['time'],
+                listDoctor[i]['schedule'][1]['time'],
+                listDoctor[i]['schedule'][2]['time']
+              ],
+            ),
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: ListTile(
+            leading: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Constants.greyColor,
+                borderRadius: BorderRadius.circular(1000),
+              ),
+              child: SizedBox.expand(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(1000),
+                  child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: Image.network(listDoctor[i]['image']),
+                  ),
+                ),
+              ),
+            ),
+            title: Text(
+              listDoctor[i]['name'],
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: Constants.blackColor),
+            ),
+            subtitle: Text(
+              listDoctor[i]['specialist'],
+              style: TextStyle(color: Constants.greyColor),
+            ),
+          ),
+        ),
+      ));
+    }
+    return list;
   }
 }
