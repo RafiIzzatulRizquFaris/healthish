@@ -7,7 +7,6 @@ import 'package:healthish/contract/event_contract.dart';
 import 'package:healthish/contract/facility_contract.dart';
 import 'package:healthish/detail_screen/detail_event.dart';
 import 'package:healthish/detail_screen/detail_facility.dart';
-import 'package:healthish/detail_screen/detail_search.dart';
 import 'package:healthish/presenter/event_presenter.dart';
 import 'package:healthish/presenter/facility_presenter.dart';
 
@@ -78,7 +77,7 @@ class LayananState extends State<Layanan>
                     Icons.search,
                     color: Constants.greyColor,
                   ),
-                  hintText: 'Search dokter, fasilitas, layanan',
+                  hintText: 'Cari fasilitas dan layanan rumah sakit',
                   hintStyle: TextStyle(
                     color: Constants.greyColor,
                   ),
@@ -96,9 +95,12 @@ class LayananState extends State<Layanan>
                   ),
                 ),
                 onSubmitted: (value) {
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return DetailSearch(value);
-                  }));
+                  setState(() {
+                    loadingEvent = true;
+                    loadingFacility = true;
+                  });
+                  eventPresenter.loadEventData(searchValue: value);
+                  facilityPresenter.loadFacilityData(searchValue: value);
                 },
               ),
             ),
@@ -135,11 +137,15 @@ class LayananState extends State<Layanan>
                                   backgroundColor: Constants.blueColor,
                                 ),
                               )
-                            : ListView.builder(
-                                itemCount: 3,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: itemBuilderFacility,
-                              ),
+                            : listFacility.isEmpty
+                                ? Center(
+                                    child: Text("Data tidak ditemukan"),
+                                  )
+                                : ListView.builder(
+                                    itemCount: listFacility.length,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: itemBuilderFacility,
+                                  ),
                       ),
                     ),
                   ),
@@ -179,10 +185,14 @@ class LayananState extends State<Layanan>
                               backgroundColor: Constants.blueColor,
                             ),
                           )
-                        : Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: eventPromoWidget(),
-                          ),
+                        : listEvent.isEmpty
+                            ? Center(
+                                child: Text("Data tidak ditemukan"),
+                              )
+                            : Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: eventPromoWidget(),
+                              ),
                   ),
                 ),
               ],
@@ -202,17 +212,15 @@ class LayananState extends State<Layanan>
       width: MediaQuery.of(context).size.width / 2.2,
       decoration: BoxDecoration(
         color: Constants.whiteColor,
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
-        ),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: Constants.greyColor,
         ),
       ),
       child: FlatButton(
         padding: EdgeInsets.all(0),
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context){
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
             return DetailFacility(
               desc: listFacility[index]['description'],
               imgUrl: listFacility[index]['image'],
@@ -237,7 +245,7 @@ class LayananState extends State<Layanan>
             Container(
               alignment: Alignment.bottomLeft,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderRadius: BorderRadius.circular(10),
                 gradient: LinearGradient(
                   colors: [
                     Color.fromARGB(200, 0, 0, 0),
@@ -277,9 +285,7 @@ class LayananState extends State<Layanan>
         height: MediaQuery.of(context).size.height / 3.3,
         decoration: BoxDecoration(
           color: Constants.whiteColor,
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
+          borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: Constants.greyColor,
           ),

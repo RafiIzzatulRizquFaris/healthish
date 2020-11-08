@@ -151,7 +151,7 @@ class MainNavigationState extends State<MainNavigation>
                 splashColor: Constants.redColor,
                 color: Constants.blueColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 onPressed: () {
                   setState(() {
@@ -191,9 +191,7 @@ class MainNavigationState extends State<MainNavigation>
                 splashColor: Constants.redColor,
                 color: Constants.blueColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(20),
-                  ),
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 onPressed: () {
                   Navigator.push(

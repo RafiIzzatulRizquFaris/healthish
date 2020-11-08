@@ -138,7 +138,7 @@ class HomeState extends State<Home>
                                 child: Text("Read"),
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                      BorderRadius.circular(10),
                                 ),
                                 onPressed: () {
                                   Navigator.push(context,
@@ -191,7 +191,7 @@ class HomeState extends State<Home>
                   Container(
                     height: 200,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderRadius: BorderRadius.circular(10),
                       child: GoogleMap(
                         mapType: MapType.normal,
                         initialCameraPosition: CameraPosition(
@@ -327,7 +327,7 @@ class HomeState extends State<Home>
         decoration: BoxDecoration(
             color:
                 i == carouselIndex ? Constants.blueColor : Constants.whiteColor,
-            borderRadius: BorderRadius.all(Radius.circular(20))),
+            borderRadius: BorderRadius.circular(20)),
         width: i == carouselIndex ? 25 : 12,
         height: 12,
       ));
@@ -414,9 +414,7 @@ class HomeState extends State<Home>
               child: Container(
                 decoration: BoxDecoration(
                   color: Constants.greyColor,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: listAbout.isNotEmpty
                     ? SizedBox.expand(
@@ -468,9 +466,7 @@ class HomeState extends State<Home>
       width: MediaQuery.of(context).size.width / 2.3,
       decoration: BoxDecoration(
         color: Constants.whiteColor,
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
-        ),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: FlatButton(
         padding: EdgeInsets.all(0),
@@ -574,9 +570,7 @@ class HomeState extends State<Home>
       width: MediaQuery.of(context).size.width / 1.8,
       decoration: BoxDecoration(
         color: Constants.whiteColor,
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
-        ),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: Constants.greyColor,
         ),

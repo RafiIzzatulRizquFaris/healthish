@@ -91,7 +91,7 @@ class AddPatientSheetState extends State<AddPatientSheet> {
                   decoration: ShapeDecoration(
                     shape: RoundedRectangleBorder(
                       side: BorderSide(width: 1.0, style: BorderStyle.solid),
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                   ),
                   child: DropdownButton<String>(

@@ -17,9 +17,7 @@ class ItemPartner extends StatelessWidget {
       width: MediaQuery.of(context).size.width / 2.2,
       decoration: BoxDecoration(
         color: Constants.whiteColor,
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
-        ),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: Constants.greyColor,
         ),
@@ -38,7 +36,7 @@ class ItemPartner extends StatelessWidget {
           Container(
             alignment: Alignment.bottomLeft,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderRadius: BorderRadius.circular(10),
               gradient: LinearGradient(
                 colors: [
                   Color.fromARGB(200, 0, 0, 0),
