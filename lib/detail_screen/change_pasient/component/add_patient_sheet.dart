@@ -9,7 +9,7 @@ class AddPatientSheet extends StatefulWidget {
 }
 
 class AddPatientSheetState extends State<AddPatientSheet> {
-  String dropdownValue = 'Pilih salah satu';
+  String dropdownValue;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +21,7 @@ class AddPatientSheetState extends State<AddPatientSheet> {
         ),
         color: Colors.white,
       ),
+      height: MediaQuery.of(context).size.height * 50 / 100,
       child: Padding(
         padding: EdgeInsets.only(
           top: 28,
@@ -85,7 +86,7 @@ class AddPatientSheetState extends State<AddPatientSheet> {
               height: 8,
             ),
             Container(
-              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.only(right: 10, left: 10),
               decoration: ShapeDecoration(
                 shape: RoundedRectangleBorder(
                   side: BorderSide(width: 1.0, style: BorderStyle.solid),
@@ -94,14 +95,15 @@ class AddPatientSheetState extends State<AddPatientSheet> {
               ),
               child: DropdownButton<String>(
                 value: dropdownValue,
+                isExpanded: true,
+                hint: Text("pilih Salah satu"),
                 elevation: 16,
-                style: TextStyle(color: Colors.deepPurple),
                 onChanged: (String newValue) {
                   setState(() {
                     dropdownValue = newValue;
                   });
                 },
-                items: <String>['Pilih salah satu', 'Two', 'Free', 'Four']
+                items: <String>['saya sendiri', 'keluarga saya']
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
