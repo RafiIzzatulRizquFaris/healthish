@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/detail_screen/about/detail_about.dart';
+import 'package:healthish/detail_screen/feedback_form.dart';
 import 'package:healthish/navigation_screen/booking.dart';
 import 'package:healthish/navigation_screen/home.dart';
 import 'package:healthish/navigation_screen/layanan.dart';
@@ -86,6 +87,7 @@ class MainNavigationState extends State<MainNavigation>
                 right: 10,
               ),
               child: FlatButton(
+                
                 padding: EdgeInsets.all(12),
                 child: Row(
                   children: [
@@ -109,7 +111,13 @@ class MainNavigationState extends State<MainNavigation>
                 color: Constants.blueColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20))),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FeedbackForm(),
+                      ));
+                },
               ),
             ),
           ),

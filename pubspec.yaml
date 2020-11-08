@@ -50,6 +50,7 @@ dependencies:
   percent_indicator: ^2.1.4
   permission_handler: any
   email_validator: any
+  webview_flutter: ^1.0.6
 
 dev_dependencies:
   flutter_test:

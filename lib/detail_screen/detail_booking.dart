@@ -229,7 +229,7 @@ class DetailBookingState extends State<DetailBooking> {
             child: Text(
               'Konfirmasi',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 20,
               ),
             ),
           ),
