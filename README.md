@@ -46,19 +46,19 @@
 
 <div class="row">
     <div class="col">
-        <img style="width: 50%" src="assets/ss 1.png" alt="gambar ke 1.png">
+        <img style="max-width: 30%" src="assets/ss 1.png" alt="gambar ke 1.png">
     </div>
     <div class="col">
-        <img style="width: 50%" src="assets/ss 2.png" alt="gambar ke 2.png">
+        <img style="max-width: 30%" src="assets/ss 2.png" alt="gambar ke 2.png">
     </div>
     <div class="col">
-        <img style="width: 50%" src="assets/ss 3.png" alt="gambar ke 3.png">
+        <img style="max-width: 30%" src="assets/ss 3.png" alt="gambar ke 3.png">
     </div>
     <div class="col">
-        <img style="width: 50%" src="assets/ss 4.png" alt="gambar ke 4.png">
+        <img style="max-width: 30%" src="assets/ss 4.png" alt="gambar ke 4.png">
     </div>
     <div class="col">
-        <img style="width: 50%" src="assets/ss 5.png" alt="gambar ke 5.png">
+        <img style="max-width: 30%" src="assets/ss 5.png" alt="gambar ke 5.png">
     </div>
 </div>
 
