@@ -101,7 +101,7 @@ class SplashState extends State<Splash> with TickerProviderStateMixin {
 
   movingToNextScreen() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var isGuided = sharedPreferences.get(Constants.KEY_GUIDE);
+    var isGuided = sharedPreferences.getBool(Constants.KEY_GUIDE);
     if (isGuided == null){
       Timer(
           Duration(

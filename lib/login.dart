@@ -25,6 +25,7 @@ class LoginState extends State<Login> {
         toolbarHeight: 100,
         backgroundColor: Colors.transparent,
         elevation: 0,
+        automaticallyImplyLeading: false,
         title: FlatButton(
           padding: EdgeInsets.all(15),
           child: Icon(
@@ -34,7 +35,9 @@ class LoginState extends State<Login> {
           ),
           shape: CircleBorder(),
           color: Constants.greyColorGuideIndicator,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         actions: [
           FlatButton(
