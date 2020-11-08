@@ -1,7 +1,9 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/detail_screen/detail_booking.dart';
+import 'package:healthish/radio_group.dart';
 
 class BookingSheet extends StatefulWidget {
   @override
@@ -14,22 +16,32 @@ class BookingSheetState extends State<BookingSheet> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   final String alertRegist =
       "Maaf, anda belum terdaftar dalam aplikasi. Harap daftar terlebih dahulu untuk dapat membooking jadwal dengan dokter yang bersangkutan";
-  int selectedRadioTile;
+  final formKey = GlobalKey<FormState>();
+  bool obscureText = true;
+  int radioGroupGender = -1;
+  String selectedValue;
+  List<RadioGroup> genderList = [
+    RadioGroup(0, "Laki - Laki"),
+    RadioGroup(1, "Perempuan"),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+    return Form(
+      key: formKey,
+      autovalidateMode: AutovalidateMode.always,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+          color: Constants.whiteColor,
         ),
-        color: Constants.whiteColor,
-      ),
-      height: MediaQuery.of(context).size.height * 0.7,
-      child: Padding(
+        child: Padding(
           padding: EdgeInsets.all(24),
           child: SingleChildScrollView(
             child: Column(
@@ -37,8 +49,7 @@ class BookingSheetState extends State<BookingSheet> {
               children: [
                 Text(
                   alertRegist,
-                  style:
-                      TextStyle(color: Constants.greyColorRegisterBottomSheet),
+                  style: TextStyle(color: Constants.greyColorRegisterBottomSheet),
                 ),
                 SizedBox(
                   height: 24,
@@ -54,6 +65,13 @@ class BookingSheetState extends State<BookingSheet> {
                   height: 8,
                 ),
                 TextFormField(
+                  controller: nameController,
+                  validator: (value) {
+                    if (value.isEmpty || value.length == 0) {
+                      return "Nama boleh kosong";
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     hintText: 'Nama',
                     border: OutlineInputBorder(
@@ -75,30 +93,26 @@ class BookingSheetState extends State<BookingSheet> {
                   height: 8,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Radio(
-                      value: 0,
-                      groupValue: 1,
-                      onChanged: (val) {},
-                    ),
-                    Text(
-                      'Pria',
-                      style: new TextStyle(fontSize: 16.0),
-                    ),
-                    Radio(
-                      value: 0,
-                      groupValue: 1,
-                      onChanged: (val) {},
-                    ),
-                    Text(
-                      'Wanita',
-                      style: new TextStyle(fontSize: 16.0),
-                    ),
-                  ],
+                  children: genderList
+                      .map((e) => Row(
+                            children: [
+                              Radio(
+                                value: e.index,
+                                groupValue: radioGroupGender,
+                                onChanged: (value) {
+                                  setState(() {
+                                    radioGroupGender = value;
+                                    selectedValue = e.text;
+                                  });
+                                },
+                              ),
+                              Text(e.text),
+                            ],
+                          ))
+                      .toList(),
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 14,
                 ),
                 Text(
                   "No Handphone",
@@ -111,6 +125,15 @@ class BookingSheetState extends State<BookingSheet> {
                   height: 8,
                 ),
                 TextFormField(
+                  controller: phoneController,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "Nomor telepon boleh kosong";
+                    } else if (value.length < 8) {
+                      return "Nomor telepon kurang dari 8 karakter";
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     hintText: 'No Handphone',
                     border: OutlineInputBorder(
@@ -132,10 +155,64 @@ class BookingSheetState extends State<BookingSheet> {
                   height: 8,
                 ),
                 TextFormField(
+                  controller: emailController,
+                  validator: (value) {
+                    if (EmailValidator.validate(value)) {
+                      return null;
+                    }
+                    return "Email yang dimasukkan salah";
+                  },
                   decoration: InputDecoration(
                     hintText: 'Email',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 14,
+                ),
+                Text(
+                  "Password",
+                  style: TextStyle(
+                    color: Constants.greyColorRegisterBottomSheet,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                TextFormField(
+                  controller: passwordController,
+                  obscureText: obscureText,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "Password tidak boleh kosong";
+                    } else if (value.length < 8) {
+                      return "Password kurang dari 8 karakter";
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        obscureText ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        if (obscureText) {
+                          setState(() {
+                            obscureText = false;
+                          });
+                        } else {
+                          setState(() {
+                            obscureText = true;
+                          });
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -191,7 +268,9 @@ class BookingSheetState extends State<BookingSheet> {
                 )
               ],
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
