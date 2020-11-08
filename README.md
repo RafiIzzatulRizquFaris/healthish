@@ -81,13 +81,13 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/RafiIzzatulRizquFaris/repo.svg?style=flat-square
-[contributors-url]: https://github.com/RafiIzzatulRizquFaris/healthish/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/RafiIzzatulRizquFaris/repo.svg?style=flat-square
-[forks-url]: https://github.com/RafiIzzatulRizquFaris/healthish/network/members
-[stars-shield]: https://img.shields.io/github/stars/RafiIzzatulRizquFaris/repo.svg?style=flat-square
-[stars-url]: https://github.com/RafiIzzatulRizquFaris/healthish/stargazers
-[issues-shield]: https://img.shields.io/github/issues/RafiIzzatulRizquFaris/repo.svg?style=flat-square
-[issues-url]: https://github.com/RafiIzzatulRizquFaris/healthish/issues
-[license-shield]: https://img.shields.io/github/license/RafiIzzatulRizquFaris/repo.svg?style=flat-square
+[contributors-shield]: https://img.shields.io/github/contributors/farasjibran/repo.svg?style=flat-square
+[contributors-url]: https://github.com/farasjibran/healthish/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/farasjibran/repo.svg?style=flat-square
+[forks-url]: https://github.com/farasjibran/healthish/network/members
+[stars-shield]: https://img.shields.io/github/stars/farasjibran/repo.svg?style=flat-square
+[stars-url]: https://github.com/farasjibran/healthish/stargazers
+[issues-shield]: https://img.shields.io/github/issues/farasjibran/repo.svg?style=flat-square
+[issues-url]: https://github.com/farasjibran/healthish/issues
+[license-shield]: https://img.shields.io/github/license/farasjibran/repo.svg?style=flat-square
 [license-url]: https://github.com/farasjibran/healthish/blob/master/LICENSE
