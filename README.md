@@ -8,22 +8,22 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-    <a href="https://github.com/RafiIzzatulRizquFaris/healthish">
-        <img src="assets/iconflutter.png" alt="Logo" width="80" height="80">
-    </a>
+  <a href="https://github.com/RafiIzzatulRizquFaris/healthish">
+    <img src="assets/iconflutter.png" alt="Logo" width="80" height="80">
+  </a>
 
-    <h3 align="center">HEALTHISH</h3>
+  <h3 align="center">HEALTHISH</h3>
 
-    <p align="center">
-        LOREM IPSUM SIR DOLOR AMET
-        <br />
-        <a href="https://github.com/RafiIzzatulRizquFaris/healthish"><strong>Explore the docs »</strong></a>
-        <br />
-        <br />
-        <a href="https://github.com/RafiIzzatulRizquFaris/healthish">View Demo</a>
-        ·
-        <a href="https://github.com/RafiIzzatulRizquFaris/healthish">Report Bug</a>
-    </p>
+  <p align="center">
+    LOREM IPSUM SIR DOLOR AMET
+    <br />
+    <a href="https://github.com/RafiIzzatulRizquFaris/healthish"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/RafiIzzatulRizquFaris/healthish">View Demo</a>
+    ·
+    <a href="https://github.com/RafiIzzatulRizquFaris/healthish">Report Bug</a>
+  </p>
 </p>
 
 <!-- TABLE OF CONTENTS -->
