@@ -81,18 +81,24 @@ class DetailDoctorState extends State<DetailDoctor> {
             ),
             onPressed: () {
               showModalBottomSheet(
-                  context: context,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
-                    ),
+                context: context,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
                   ),
-                  builder: (BuildContext context) {
-                    return BookingSheet();
-                  });
+                ),
+                builder: (BuildContext context) {
+                  return BookingSheet();
+                },
+              );
             },
-            child: Text('Buat Janji', style: TextStyle(fontSize: 20,),),
+            child: Text(
+              'Buat Janji',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
           ),
         ),
       ),

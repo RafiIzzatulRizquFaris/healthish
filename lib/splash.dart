@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/guide.dart';
+import 'package:healthish/main_navigation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -97,10 +99,26 @@ class SplashState extends State<Splash> with TickerProviderStateMixin {
     imageAnimationController.dispose();
   }
 
-  movingToNextScreen() {
-    Timer(Duration(seconds: 5,), (){
+  movingToNextScreen() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var isGuided = sharedPreferences.get(Constants.KEY_GUIDE);
+    if (isGuided == null){
+      Timer(
+          Duration(
+            seconds: 5,
+          ), () {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Guide(),
+            ));
+      });
+    } else {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Guide()));
-    });
+          context,
+          MaterialPageRoute(
+            builder: (context) => MainNavigation(),
+          ));
+    }
   }
 }
