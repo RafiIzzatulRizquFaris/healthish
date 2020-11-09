@@ -137,8 +137,7 @@ class HomeState extends State<Home>
                                 textColor: Constants.whiteColor,
                                 child: Text("Read"),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 onPressed: () {
                                   Navigator.push(context,
@@ -578,26 +577,15 @@ class HomeState extends State<Home>
       child: FlatButton(
         padding: EdgeInsets.all(0),
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) {
-                return DetailEvent(
-                  desc: listEvent[index]
-                      .data["description"]
-                      .toString(),
-                  title: listEvent[index]
-                      .data["title"]
-                      .toString(),
-                  date: listEvent[index]
-                      .data["date"]
-                      .toString(),
-                  imgUrl: listEvent[index]
-                      .data["image"]
-                      .toString(),
-                  type: listEvent[index]
-                      .data["type"]
-                      .toString(),
-                );
-              }));
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return DetailEvent(
+              desc: listEvent[index].data["description"].toString(),
+              title: listEvent[index].data["title"].toString(),
+              date: listEvent[index].data["date"].toString(),
+              imgUrl: listEvent[index].data["image"].toString(),
+              type: listEvent[index].data["type"].toString(),
+            );
+          }));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -705,7 +693,8 @@ class HomeState extends State<Home>
                         ],
                       ),
                       onPressed: () async {
-                        await launch('https://www.google.com/maps/search/?api=1&query=-6.318920, 106.852008');
+                        await launch(
+                            'https://www.google.com/maps/search/?api=1&query=-6.318920, 106.852008');
                       },
                     ),
                     FlatButton.icon(
