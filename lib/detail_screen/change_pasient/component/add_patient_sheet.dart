@@ -29,6 +29,7 @@ class AddPatientSheetState extends State<AddPatientSheet> {
             right: 24,
           ),
           child: SingleChildScrollView(
+            reverse: true,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -47,6 +48,7 @@ class AddPatientSheetState extends State<AddPatientSheet> {
                   height: 8,
                 ),
                 TextFormField(
+                  autofocus: true,
                   decoration: InputDecoration(
                     labelText: 'Nama',
                     border: OutlineInputBorder(),

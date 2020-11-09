@@ -24,7 +24,9 @@ class _BookingStatusState extends State<BookingStatus> {
               color: Constants.whiteColor,
               size: 150,
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Text(
               "Booking Sukses!",
               style: TextStyle(
@@ -32,12 +34,16 @@ class _BookingStatusState extends State<BookingStatus> {
                   fontWeight: FontWeight.w600,
                   fontSize: 30),
             ),
-            SizedBox(height: 16,),
+            SizedBox(
+              height: 16,
+            ),
             Text(
               "Kode booking anda",
               style: TextStyle(color: Constants.whiteColor, fontSize: 16),
             ),
-            SizedBox(height: 8,),
+            SizedBox(
+              height: 8,
+            ),
             Text(
               "BIJIDS123",
               style: TextStyle(
@@ -45,7 +51,9 @@ class _BookingStatusState extends State<BookingStatus> {
                   fontSize: 30,
                   fontWeight: FontWeight.w700),
             ),
-            SizedBox(height: 8,),
+            SizedBox(
+              height: 8,
+            ),
             Container(
               width: 280,
               child: Text(
@@ -78,7 +86,7 @@ class _BookingStatusState extends State<BookingStatus> {
                 FlatButton(
                   textColor: Constants.whiteColor,
                   onPressed: () {
-                    // Respond to button press
+                    Navigator.of(context).pop();
                   },
                   child: Text(
                     "Tidak kembali ke home",

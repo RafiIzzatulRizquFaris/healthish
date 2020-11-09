@@ -51,6 +51,7 @@ dependencies:
   permission_handler: any
   email_validator: any
   webview_flutter: ^1.0.6
+  transparent_image: ^1.0.0
 
 dev_dependencies:
   flutter_test:

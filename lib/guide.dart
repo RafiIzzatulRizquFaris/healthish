@@ -6,6 +6,7 @@ import 'package:healthish/constants.dart';
 import 'package:healthish/contract/guide_contract.dart';
 import 'package:healthish/main_navigation.dart';
 import 'package:healthish/presenter/guide_presenter.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class Guide extends StatefulWidget {
   @override
@@ -89,17 +90,10 @@ class GuideScreen extends State<Guide> implements GuideContractView {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.network(
-            listGuide[index]['image'],
-            loadingBuilder: (context, widget, imageLoad) {
-              if (imageLoad == null) {
-                return widget;
-              }
-              return CircularProgressIndicator(
-                backgroundColor: Constants.blueColor,
-              );
-            },
-          ),
+          FadeInImage.memoryNetwork(
+              height: 300,
+              placeholder: kTransparentImage,
+              image: listGuide[index]['image']),
           Padding(
             padding: EdgeInsets.only(
               top: 30,
