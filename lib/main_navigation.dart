@@ -7,7 +7,7 @@ import 'package:healthish/detail_screen/feedback_form.dart';
 import 'package:healthish/navigation_screen/booking.dart';
 import 'package:healthish/navigation_screen/home.dart';
 import 'package:healthish/navigation_screen/layanan.dart';
-import 'package:healthish/detail_screen/partner_career/partner_carrer.dart';
+import 'package:healthish/detail_screen/partner_career/partner_career.dart';
 import 'package:healthish/navigation_screen/profile/profile.dart';
 
 class MainNavigation extends StatefulWidget {

@@ -19,6 +19,7 @@ class Constants{
   static const String newsCollections = "news";
   static const String facilityCollections = "facility";
   static const String guideCollections = "guide";
+  static const String careerCollections = "career";
   static const String KEY_GUIDE = "guide";
   static const String KEY_LOGIN = "login";
 }

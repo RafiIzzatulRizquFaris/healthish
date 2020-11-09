@@ -7,5 +7,5 @@ class PartnerContractPresenter {
 
 class PartnerContractView {
   onSuccesPartnerData(List<DocumentSnapshot> value) {}
-  onError() {}
+  onErrorPartnerData(error) {}
 }
