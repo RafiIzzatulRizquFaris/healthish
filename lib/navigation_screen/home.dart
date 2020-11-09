@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,6 +48,12 @@ class HomeState extends State<Home>
   bool loadingNews = true;
   final Set<Marker> markers = {};
   LatLng currentPosition = LatLng(-6.318920, 106.852008);
+
+  final Completer<GoogleMapController> mapController = Completer();
+  Future mapFuture = Future.delayed(
+    Duration(seconds: 1),
+    () => true,
+  );
 
   HomeState() {
     eventPresenter = EventPresenter(this);
@@ -137,8 +145,7 @@ class HomeState extends State<Home>
                                 textColor: Constants.whiteColor,
                                 child: Text("Read"),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 onPressed: () {
                                   Navigator.push(context,
@@ -192,14 +199,24 @@ class HomeState extends State<Home>
                     height: 200,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: GoogleMap(
-                        mapType: MapType.normal,
-                        initialCameraPosition: CameraPosition(
-                          target: currentPosition,
-                          zoom: 14.0,
-                        ),
-                        markers: markers,
-                      ),
+                      child: FutureBuilder(
+                          future: mapFuture,
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData){
+                              return Center(child: CircularProgressIndicator(backgroundColor: Constants.whiteColor,),);
+                            }
+                            return GoogleMap(
+                              mapType: MapType.normal,
+                              initialCameraPosition: CameraPosition(
+                                target: currentPosition,
+                                zoom: 14.0,
+                              ),
+                              markers: markers,
+                              onMapCreated: (controller) {
+                                mapController.complete(controller);
+                              },
+                            );
+                          }),
                     ),
                   ),
                   SizedBox(
@@ -578,26 +595,15 @@ class HomeState extends State<Home>
       child: FlatButton(
         padding: EdgeInsets.all(0),
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) {
-                return DetailEvent(
-                  desc: listEvent[index]
-                      .data["description"]
-                      .toString(),
-                  title: listEvent[index]
-                      .data["title"]
-                      .toString(),
-                  date: listEvent[index]
-                      .data["date"]
-                      .toString(),
-                  imgUrl: listEvent[index]
-                      .data["image"]
-                      .toString(),
-                  type: listEvent[index]
-                      .data["type"]
-                      .toString(),
-                );
-              }));
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return DetailEvent(
+              desc: listEvent[index].data["description"].toString(),
+              title: listEvent[index].data["title"].toString(),
+              date: listEvent[index].data["date"].toString(),
+              imgUrl: listEvent[index].data["image"].toString(),
+              type: listEvent[index].data["type"].toString(),
+            );
+          }));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -705,7 +711,8 @@ class HomeState extends State<Home>
                         ],
                       ),
                       onPressed: () async {
-                        await launch('https://www.google.com/maps/search/?api=1&query=-6.318920, 106.852008');
+                        await launch(
+                            'https://www.google.com/maps/search/?api=1&query=-6.318920, 106.852008');
                       },
                     ),
                     FlatButton.icon(
