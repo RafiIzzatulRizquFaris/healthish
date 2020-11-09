@@ -39,17 +39,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<div class="row">
-    <div class="col">
-        <img width="250" src="assets/ss 1.png" alt="gambar ke 1.png">
-        <img width="250" src="assets/ss 2.png" alt="gambar ke 2.png">
-        <img width="250" src="assets/ss 3.png" alt="gambar ke 3.png">
-    </div>
-    <div class="col">
-        <img width="250" src="assets/ss 5.png" alt="gambar ke 5.png">
-        <img width="250" src="assets/ss 4.png" alt="gambar ke 4.png">
-    </div>
-</div>
+[![Product Name Screen Shot][product-screenshot]](https://github.com/RafiIzzatulRizquFaris/healthish)
 
 
 ### Built With
@@ -91,3 +81,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 [issues-url]: https://github.com/RafiIzzatulRizquFaris/healthish/issues
 [license-shield]: https://img.shields.io/github/license/RafiIzzatulRizquFaris/healthish.svg?style=flat-square
 [license-url]: https://github.com/farasjibran/healthish/blob/master/LICENSE
+[product-screenshot]: assets/1.svg
