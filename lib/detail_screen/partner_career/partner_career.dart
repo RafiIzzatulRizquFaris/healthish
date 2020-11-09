@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:healthish/contract/career_contract.dart';
 import 'package:healthish/contract/partner_contract.dart';
-
+import 'package:healthish/detail_screen/partner_career/component/item_career.dart';
 import 'package:healthish/detail_screen/partner_career/component/item_partner.dart';
+import 'package:healthish/presenter/career_presenter.dart';
 import 'package:healthish/presenter/partner_presenter.dart';
-
 import '../../constants.dart';
 
 class PartnerCareer extends StatefulWidget {
@@ -13,20 +14,26 @@ class PartnerCareer extends StatefulWidget {
 }
 
 class PartnerCareerState extends State<PartnerCareer>
-    implements PartnerContractView {
+    implements PartnerContractView, CareerContractView {
   TextEditingController searchController = TextEditingController();
-  List<DocumentSnapshot> partnerdata = List<DocumentSnapshot>();
-  bool isLoadingPartner = true;
+  List<DocumentSnapshot> partnerData = List<DocumentSnapshot>();
+  List<DocumentSnapshot> carrerData = List<DocumentSnapshot>();
 
   PartnerPresenter partnerPresenter;
+  CareerPresenter careerPresenter;
+  bool isLoadingPartner = true;
+  bool isloadingCarrer = true;
+
   PartnerCareerState() {
     partnerPresenter = PartnerPresenter(this);
+    careerPresenter = CareerPresenter(this);
   }
 
   @override
   void initState() {
     super.initState();
     partnerPresenter.loadPartnerData();
+    careerPresenter.loadCareer();
   }
 
   @override
@@ -39,7 +46,7 @@ class PartnerCareerState extends State<PartnerCareer>
           alignment: Alignment.bottomLeft,
           padding: EdgeInsets.all(20),
           child: Text(
-            "Patner & Carrer",
+            "Patner & Career",
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Constants.blackColor,
@@ -51,6 +58,7 @@ class PartnerCareerState extends State<PartnerCareer>
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
@@ -120,11 +128,12 @@ class PartnerCareerState extends State<PartnerCareer>
                             )
                           : Container(
                               child: ListView.builder(
-                                itemCount: partnerdata.length,
+                                itemCount: partnerData.length,
                                 scrollDirection: Axis.horizontal,
-                                itemBuilder: (BuildContext context,
-                                        int index) =>
-                                    ItemPartner(image: partnerdata[index]['image']),
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                        ItemPartner(
+                                            image: partnerData[index]['image']),
                               ),
                             ),
                     ),
@@ -132,41 +141,44 @@ class PartnerCareerState extends State<PartnerCareer>
                 ],
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 20,
-                    right: 20,
-                    left: 20,
-                  ),
-                  child: Text(
-                    "Lowongan",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                      color: Constants.blackColor,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                right: 20,
+                left: 20,
+              ),
+              child: Text(
+                "Lowongan",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  color: Constants.blackColor,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 30,
-                    left: 20,
-                    right: 20,
-                    bottom: 40,
-                  ),
-                  child: Container(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [],
-                    ),
-                  ),
-                ),
-              ],
+                textAlign: TextAlign.left,
+              ),
             ),
+            Padding(
+                padding: EdgeInsets.only(
+                  top: 30,
+                  left: 20,
+                  right: 20,
+                  bottom: 40,
+                ),
+                child: isloadingCarrer
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          backgroundColor: Constants.blueColor,
+                        ),
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                          itemCount: carrerData.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) =>
+                              ItemCareer(carrerData: carrerData[index]),
+                        ),
+                      ))
           ],
         ),
       ),
@@ -174,16 +186,30 @@ class PartnerCareerState extends State<PartnerCareer>
   }
 
   @override
-  onError() {
-    // TODO: implement onError
-    throw UnimplementedError();
+  onSuccesPartnerData(List<DocumentSnapshot> value) {
+    setState(() {
+      partnerData = value;
+      isLoadingPartner = false;
+    });
   }
 
   @override
-  onSuccesPartnerData(List<DocumentSnapshot> value) {
+  onSuccessCareerData(List<DocumentSnapshot> value) {
     setState(() {
-      partnerdata = value;
-      isLoadingPartner = false;
+      carrerData = value;
+      isloadingCarrer = false;
     });
+  }
+
+  @override
+  onErrorCareerData(error) {
+    // TODO: implement onErrorCarrerData
+    print("Error Carrer data : $error");
+  }
+
+  @override
+  onErrorPartnerData(error) {
+    // TODO: implement onErrorPartnerData
+    throw UnimplementedError();
   }
 }

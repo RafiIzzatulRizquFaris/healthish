@@ -19,6 +19,6 @@ class PartnerPresenter implements PartnerContractPresenter {
   loadPartnerData() {
     getPartnerData()
         .then((value) => patnerContractView.onSuccesPartnerData(value))
-        .catchError((error) => patnerContractView.onError());
+        .catchError((error) => patnerContractView.onErrorPartnerData(error));
   }
 }
