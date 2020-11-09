@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../constants.dart';
 
 class ItemPartner extends StatelessWidget {
-  int index;
-  ItemPartner(int index) {
-    index = index;
-  }
+  final String image;
+
+  const ItemPartner({Key key, this.image}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,7 +13,8 @@ class ItemPartner extends StatelessWidget {
         left: 10,
         right: 10,
       ),
-      width: MediaQuery.of(context).size.width / 2.2,
+      height: 100,
+      width: 150,
       decoration: BoxDecoration(
         color: Constants.whiteColor,
         borderRadius: BorderRadius.circular(10),
@@ -34,30 +34,10 @@ class ItemPartner extends StatelessWidget {
             ),
           ),
           Container(
-            alignment: Alignment.bottomLeft,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromARGB(200, 0, 0, 0),
-                  Color.fromARGB(0, 0, 0, 0),
-                ],
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-              ),
-            ),
-            padding: EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 10,
-            ),
-            child: Text(
-              "Kamar Pasien",
-              maxLines: 2,
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Constants.whiteColor,
-                fontSize: 16,
-              ),
+            alignment: Alignment.center,
+            child: Image.network(
+              image,
+              width: 130.0,
             ),
           ),
         ],

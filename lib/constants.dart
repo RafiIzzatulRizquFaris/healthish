@@ -15,6 +15,7 @@ class Constants{
   static const String eventCollections = "event";
   static const String aboutCollections = "about";
   static const String doctorCollections = "doctor";
+  static const String patnerCollections = "partner";
   static const String newsCollections = "news";
   static const String facilityCollections = "facility";
   static const String guideCollections = "guide";
