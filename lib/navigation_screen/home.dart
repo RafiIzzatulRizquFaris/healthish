@@ -225,46 +225,62 @@ class HomeState extends State<Home>
                               );
                             },
                           ),
-                          showMapInfo ? Positioned(
-                            right: 8,
-                            left: 8,
-                            bottom: 8,
-                            child: Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Constants.whiteColor,
-                                ),
-                                child: Row(
-                                  children: [
-                                  Container(
-                                      height: 50,
-                                      width: 50,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Constants.greyColor,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("RS. SMKDEV", style: TextStyle(fontWeight: FontWeight.bold,), textAlign: TextAlign.start,),
-                                        SizedBox(
-                                          height: 8,
+                          showMapInfo
+                              ? Positioned(
+                                  right: 8,
+                                  left: 8,
+                                  bottom: 8,
+                                  child: Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child:  Container(
+                                        padding: EdgeInsets.only(
+                                          top: 10,
+                                          bottom: 10,
                                         ),
-                                        Text("Jl. Margacipta no. 29\nBuah Batu, Bandung", style: TextStyle(color: Constants.greyColor,), textAlign: TextAlign.start,),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ) : Container(),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: Constants.whiteColor,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Constants.darkGreyColor,
+                                              blurRadius: 50,
+                                            ),
+                                          ],
+                                        ),
+                                        child: ListTile(
+                                          onTap: () async {
+                                            await launch(
+                                                'https://www.google.com/maps/search/?api=1&query=-6.318920, 106.852008');
+                                          },
+                                          leading: Container(
+                                            height: 50,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: Constants.greyColor,
+                                            ),
+                                          ),
+                                          title: Text(
+                                            "RS. SMKDEV",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                          subtitle: Text(
+                                            "Jl. Margacipta no. 29\nBuah Batu, Bandung",
+                                            style: TextStyle(
+                                              color: Constants.greyColor,
+                                            ),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        ),
+                                      ),
+                                  ),
+                                )
+                              : Container(),
                         ],
                       ),
                     ),
@@ -421,7 +437,7 @@ class HomeState extends State<Home>
         position: currentPosition,
         icon: BitmapDescriptor.defaultMarker,
         onTap: () {
-          if (showMapInfo){
+          if (showMapInfo) {
             setState(() {
               showMapInfo = false;
             });
