@@ -72,11 +72,11 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Rafi Izzatul Risqu Faris - [@your_instagram](https://twitter.com/your_username) - email@example.com
+Rafi Izzatul Risqu Faris - [@quipar33](https://www.instagram.com/quipar33/) - risqufaris@gmail.com
 
-Rifat Khadafi - [@your_instagram](https://twitter.com/your_username) - email@example.com
+Rifat Khadafi - [@_khadavit](https://www.instagram.com/_khadavit/) - khadafy67@gmail.com
 
-Muhammad Farras Jibran - [@your_instagram](https://twitter.com/your_username) - email@example.com
+Muhammad Farras Jibran - [@farasjbrn](https://www.instagram.com/farasjbrn/) - farasjibran@gmail.com
 
 Project Link: [https://github.com/RafiIzzatulRizquFaris/healthish](https://github.com/RafiIzzatulRizquFaris/healthish)
 
@@ -87,13 +87,6 @@ Project Link: [https://github.com/RafiIzzatulRizquFaris/healthish](https://githu
 * [Img Shields](https://shields.io)
 * [Choose an Open Source License](https://choosealicense.com)
 * [GitHub Pages](https://pages.github.com)
-* [Animate.css](https://daneden.github.io/animate.css)
-* [Loaders.css](https://connoratherton.com/loaders)
-* [Slick Carousel](https://kenwheeler.github.io/slick)
-* [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
-* [Sticky Kit](http://leafo.net/sticky-kit)
-* [JVectorMap](http://jvectormap.com)
-* [Font Awesome](https://fontawesome.com)
 
 
 
