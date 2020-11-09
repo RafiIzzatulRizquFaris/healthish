@@ -6,6 +6,7 @@ import 'package:healthish/constants.dart';
 import 'package:healthish/contract/guide_contract.dart';
 import 'package:healthish/main_navigation.dart';
 import 'package:healthish/presenter/guide_presenter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class Guide extends StatefulWidget {
@@ -22,6 +23,7 @@ class GuideScreen extends State<Guide> implements GuideContractView {
   bool loadingGuide = true;
   int lastIndex = 0;
   int currentPage = 0;
+  SharedPreferences preferences;
 
   GuideScreen() {
     guidePresenter = GuidePresenter(this);
@@ -50,7 +52,9 @@ class GuideScreen extends State<Guide> implements GuideContractView {
                 color: Constants.darkGreyColor,
               ),
             ),
-            onPressed: () {
+            onPressed: () async {
+              preferences = await SharedPreferences.getInstance();
+              preferences.setBool(Constants.KEY_GUIDE, true);
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
@@ -135,7 +139,9 @@ class GuideScreen extends State<Guide> implements GuideContractView {
                   ),
                   shape: CircleBorder(),
                   color: Constants.blueColor,
-                  onPressed: () {
+                  onPressed: () async{
+                    preferences = await SharedPreferences.getInstance();
+                    preferences.setBool(Constants.KEY_GUIDE, true);
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

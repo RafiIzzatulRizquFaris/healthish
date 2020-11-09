@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,8 +46,15 @@ class HomeState extends State<Home>
   bool loadingAbout = true;
   bool loadingDoctor = true;
   bool loadingNews = true;
+  bool showMapInfo = false;
   final Set<Marker> markers = {};
   LatLng currentPosition = LatLng(-6.318920, 106.852008);
+
+  final Completer<GoogleMapController> mapController = Completer();
+  Future mapFuture = Future.delayed(
+    Duration(seconds: 1),
+    () => true,
+  );
 
   HomeState() {
     eventPresenter = EventPresenter(this);
@@ -191,13 +200,72 @@ class HomeState extends State<Home>
                     height: 200,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: GoogleMap(
-                        mapType: MapType.normal,
-                        initialCameraPosition: CameraPosition(
-                          target: currentPosition,
-                          zoom: 14.0,
-                        ),
-                        markers: markers,
+                      child: Stack(
+                        children: [
+                          FutureBuilder(
+                            future: mapFuture,
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    backgroundColor: Constants.whiteColor,
+                                  ),
+                                );
+                              }
+                              return GoogleMap(
+                                mapType: MapType.normal,
+                                initialCameraPosition: CameraPosition(
+                                  target: currentPosition,
+                                  zoom: 14.0,
+                                ),
+                                markers: markers,
+                                onMapCreated: (controller) {
+                                  mapController.complete(controller);
+                                },
+                              );
+                            },
+                          ),
+                          showMapInfo ? Positioned(
+                            right: 8,
+                            left: 8,
+                            bottom: 8,
+                            child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Constants.whiteColor,
+                                ),
+                                child: Row(
+                                  children: [
+                                  Container(
+                                      height: 50,
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Constants.greyColor,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("RS. SMKDEV", style: TextStyle(fontWeight: FontWeight.bold,), textAlign: TextAlign.start,),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text("Jl. Margacipta no. 29\nBuah Batu, Bandung", style: TextStyle(color: Constants.greyColor,), textAlign: TextAlign.start,),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ) : Container(),
+                        ],
                       ),
                     ),
                   ),
@@ -352,12 +420,16 @@ class HomeState extends State<Home>
         markerId: MarkerId("-6.318920, 106.852008"),
         position: currentPosition,
         icon: BitmapDescriptor.defaultMarker,
-        infoWindow: InfoWindow(
-          title: "Medical center",
-          snippet: "This is medical center",
-        ),
         onTap: () {
-          print("tapped");
+          if (showMapInfo){
+            setState(() {
+              showMapInfo = false;
+            });
+          } else {
+            setState(() {
+              showMapInfo = true;
+            });
+          }
         },
       ),
     );
