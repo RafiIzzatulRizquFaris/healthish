@@ -44,6 +44,7 @@ class BookingSheetState extends State<BookingSheet> {
         child: Padding(
           padding: EdgeInsets.all(24),
           child: SingleChildScrollView(
+            reverse: true,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
