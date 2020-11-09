@@ -66,11 +66,11 @@ git clone https://github.com/RafiIzzatulRizquFaris/healthish
 flutter pub get
 ```
 
-<!-- LICENSE -->
+<!-- LICENSE 
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
+-->
 
 <!-- CONTACT -->
 ## Contact
