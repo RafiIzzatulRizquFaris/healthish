@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:healthish/constants.dart';
+import 'package:healthish/helper/constants.dart';
 import 'package:healthish/contract/guide_contract.dart';
 
 class GuidePresenter implements GuideContractPresenter {
