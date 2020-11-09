@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:healthish/contract/partner_contract.dart';
+
 import 'package:healthish/detail_screen/partner_career/component/item_partner.dart';
+import 'package:healthish/presenter/partner_presenter.dart';
 
 import '../../constants.dart';
 
@@ -8,8 +12,22 @@ class PartnerCareer extends StatefulWidget {
   PartnerCareerState createState() => PartnerCareerState();
 }
 
-class PartnerCareerState extends State<PartnerCareer> {
+class PartnerCareerState extends State<PartnerCareer>
+    implements PartnerContractView {
   TextEditingController searchController = TextEditingController();
+  List<DocumentSnapshot> partnerdata = List<DocumentSnapshot>();
+  bool isLoadingPartner = true;
+
+  PartnerPresenter partnerPresenter;
+  PartnerCareerState() {
+    partnerPresenter = PartnerPresenter(this);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    partnerPresenter.loadPartnerData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +88,7 @@ class PartnerCareerState extends State<PartnerCareer> {
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 2.2,
+              height: MediaQuery.of(context).size.height / 3.2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -94,14 +112,21 @@ class PartnerCareerState extends State<PartnerCareer> {
                     child: Padding(
                       padding: EdgeInsets.only(
                           top: 30, left: 10, right: 20, bottom: 40),
-                      child: Container(
-                        child: ListView.builder(
-                          itemCount: 3,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, int index) =>
-                              ItemPartner(index),
-                        ),
-                      ),
+                      child: isLoadingPartner
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                backgroundColor: Constants.blueColor,
+                              ),
+                            )
+                          : Container(
+                              child: ListView.builder(
+                                itemCount: partnerdata.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (BuildContext context,
+                                        int index) =>
+                                    ItemPartner(image: partnerdata[index]['image']),
+                              ),
+                            ),
                     ),
                   ),
                 ],
@@ -146,5 +171,19 @@ class PartnerCareerState extends State<PartnerCareer> {
         ),
       ),
     );
+  }
+
+  @override
+  onError() {
+    // TODO: implement onError
+    throw UnimplementedError();
+  }
+
+  @override
+  onSuccesPartnerData(List<DocumentSnapshot> value) {
+    setState(() {
+      partnerdata = value;
+      isLoadingPartner = false;
+    });
   }
 }
