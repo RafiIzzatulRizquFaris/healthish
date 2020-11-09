@@ -97,15 +97,15 @@ Project Link: [https://github.com/RafiIzzatulRizquFaris/healthish](https://githu
 
 <!-- Image In Aplication Using With Drible -->
 ## Inspiration Design & Asset
-*[Asset Use In This Project]()
+* [Asset Use In This Project]()
     * [Ambulance Gif](https://dribbble.com/shots/4577082-Ambulance)
     * [Image 1](https://dribbble.com/shots/14189284-Medical-Checkup-Illustration)
     * [Image 2](https://dribbble.com/shots/14189258-Medical-Student-Illustration)
     * [Image 3](https://dribbble.com/shots/14190757-Dentist-Illustration)
     * [Image 4](https://dribbble.com/shots/14190753-Surgery-Process-Illustration)
-*[Inspiration Design]()
-    *[Home & All In This Project](https://www.figma.com/file/SEiBYR7ei8KzrZcjwuHdlk/App-Development-Challenge-01-Public?node-id=0%3A1)
-    *[Splash Screen & Login - Register](https://www.figma.com/file/Nm1J2nByVED2fGZYCmPFQy/Health-Care?node-id=0%3A1)
+* [Inspiration Design]()
+    * [Home & All In This Project](https://www.figma.com/file/SEiBYR7ei8KzrZcjwuHdlk/App-Development-Challenge-01-Public?node-id=0%3A1)
+    * [Splash Screen & Login - Register](https://www.figma.com/file/Nm1J2nByVED2fGZYCmPFQy/Health-Care?node-id=0%3A1)
 
 
 <!-- Link Using Markdown -->
