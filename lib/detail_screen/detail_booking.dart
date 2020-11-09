@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:healthish/detail_screen/change_pasient/change_patient.dart';
 import 'package:healthish/detail_screen/booking_status.dart';
+import 'package:intl/intl.dart';
 
 import '../constants.dart';
 
@@ -12,6 +13,8 @@ class DetailBooking extends StatefulWidget {
 }
 
 class DetailBookingState extends State<DetailBooking> {
+  String _date = DateFormat('EEEE dd-MM-yyyy').format(DateTime.now());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,7 +173,7 @@ class DetailBookingState extends State<DetailBooking> {
                         Row(
                           children: [
                             Text(
-                              "Jumat, 23 Oct 2020",
+                              _date,
                               style: TextStyle(color: Color(0xffEE7421)),
                             ),
                             IconButton(
@@ -178,7 +181,18 @@ class DetailBookingState extends State<DetailBooking> {
                                   Icons.calendar_today_outlined,
                                   color: Constants.blueColor,
                                 ),
-                                onPressed: () {})
+                                onPressed: () {
+                                  showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime.now(),
+                                          lastDate: DateTime(2050))
+                                      .then((value) {
+                                    setState(() {
+                                      _date = DateFormat('EEEE dd-MM-yyyy').format(value);
+                                    });
+                                  });
+                                })
                           ],
                         )
                       ],
