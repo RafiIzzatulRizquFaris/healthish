@@ -2,12 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:healthish/helper/constants.dart';
 import 'package:healthish/contract/event_contract.dart';
+import 'package:healthish/helper/constants.dart';
+
 import 'package:healthish/contract/facility_contract.dart';
+import 'package:healthish/presenter/event_presenter.dart';
 import 'package:healthish/screen/detail_event/detail_event.dart';
 import 'package:healthish/screen/detail_facility/detail_facility.dart';
-import 'package:healthish/presenter/event_presenter.dart';
+
 import 'package:healthish/presenter/facility_presenter.dart';
 
 class ServiceScreen extends StatefulWidget {
@@ -27,7 +29,7 @@ class ServiceScreenState extends State<ServiceScreen>
   bool loadingEvent = true;
   bool loadingFacility = true;
 
-  LayananState() {
+  ServiceScreenState() {
     eventPresenter = EventPresenter(this);
     facilityPresenter = FacilityPresenter(this);
   }
@@ -365,7 +367,7 @@ class ServiceScreenState extends State<ServiceScreen>
   @override
   onErrorEventData(error) {
     // TODO: implement onErrorEventData
-    throw UnimplementedError();
+    print("Error : $error");
   }
 
   @override
@@ -379,7 +381,7 @@ class ServiceScreenState extends State<ServiceScreen>
   @override
   onErrorFacilityData(error) {
     // TODO: implement onErrorFacilityData
-    throw UnimplementedError();
+    print("Error : $error");
   }
 
   @override
