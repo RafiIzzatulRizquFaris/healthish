@@ -11,47 +11,62 @@ class FeedbackForm extends StatefulWidget {
 }
 
 class FeedbackState extends State<FeedbackForm> {
+  bool isLoading = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(90),
-        child: Container(
-          alignment: Alignment.bottomLeft,
-          padding: EdgeInsets.all(20),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              IconButton(
-                iconSize: 28,
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Constants.blackColor,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(90),
+          child: Container(
+            alignment: Alignment.bottomLeft,
+            padding: EdgeInsets.all(20),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                IconButton(
+                  iconSize: 28,
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Constants.blackColor,
+                  ),
+                  onPressed: () {
+                    return Navigator.pop(context);
+                  },
                 ),
-                onPressed: () {
-                  return Navigator.pop(context);
-                },
-              ),
-              SizedBox(
-                width: 8,
-              ),
-              Text(
-                "Feedback",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Constants.blackColor,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 24,
+                SizedBox(
+                  width: 8,
                 ),
-              ),
-            ],
+                Text(
+                  "Feedback",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Constants.blackColor,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 24,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-      body: WebView(
-        javascriptMode: JavascriptMode.unrestricted,
-          initialUrl:
-              "https://docs.google.com/forms/d/e/1FAIpQLSeD5kYUdc-lDTlqhrezl0v1E6q-n8j3aI59hHdxA6z2FTpgVw/viewform"),
-    );
+        body: Stack(
+          children: [
+            WebView(
+                javascriptMode: JavascriptMode.unrestricted,
+                onPageFinished: (finish) {
+                  setState(() {
+                    isLoading = false;
+                  });
+                },
+                initialUrl:
+                    "https://docs.google.com/forms/d/e/1FAIpQLSeD5kYUdc-lDTlqhrezl0v1E6q-n8j3aI59hHdxA6z2FTpgVw/viewform"),
+            isLoading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Stack(),
+          ],
+        ));
   }
 }
