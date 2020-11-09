@@ -1,8 +1,11 @@
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+<div align="center">
+  <a href="https://github.com/RafiIzzatulRizquFaris/healthish/stargazers"><img src="https://img.shields.io/github/stars/RafiIzzatulRizquFaris/healthish" alt="Stars Badge"/></a>
+<a href="https://github.com/RafiIzzatulRizquFaris/healthish/network/members"><img src="https://img.shields.io/github/forks/RafiIzzatulRizquFaris/healthish" alt="Forks Badge"/></a>
+<a href="https://github.com/RafiIzzatulRizquFaris/healthish/pulls"><img src="https://img.shields.io/github/issues-pr/RafiIzzatulRizquFaris/healthish" alt="Pull Requests Badge"/></a>
+<a href="https://github.com/RafiIzzatulRizquFaris/healthish/issues"><img src="https://img.shields.io/github/issues/RafiIzzatulRizquFaris/healthish" alt="Issues Badge"/></a>
+<a href="https://github.com/RafiIzzatulRizquFaris/healthish/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/RafiIzzatulRizquFaris/healthish?color=2b9348"></a>
+<a href="https://github.com/RafiIzzatulRizquFaris/healthish/blob/master/LICENSE"><img src="https://img.shields.io/github/license/RafiIzzatulRizquFaris/healthish?color=2b9348" alt="License Badge"/></a>
+</div>
 
 <!-- PROJECT LOGO -->
 <br />
@@ -90,16 +93,4 @@ Project Link: [https://github.com/RafiIzzatulRizquFaris/healthish](https://githu
 
 
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/RafiIzzatulRizquFaris/healthish.svg?style=flat-square
-[contributors-url]: https://github.com/RafiIzzatulRizquFaris/healthish/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/RafiIzzatulRizquFaris/healthish.svg?style=flat-square
-[forks-url]: https://github.com/RafiIzzatulRizquFaris/healthish/network/members
-[stars-shield]: https://img.shields.io/github/stars/RafiIzzatulRizquFaris/healthish.svg?style=flat-square
-[stars-url]: https://github.com/RafiIzzatulRizquFaris/healthish/stargazers
-[issues-shield]: https://img.shields.io/github/issues/RafiIzzatulRizquFaris/healthish.svg?style=flat-square
-[issues-url]: https://github.com/RafiIzzatulRizquFaris/healthish/issues
-[license-shield]: https://img.shields.io/github/license/RafiIzzatulRizquFaris/healthish.svg?style=flat-square
-[license-url]: https://github.com/farasjibran/healthish/blob/master/LICENSE
 [product-screenshot]: assets/1.svg
