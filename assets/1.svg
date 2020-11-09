@@ -255,8 +255,8 @@
 </mask>
 <g mask="url(#mask8)">
 <rect x="908" y="102" width="251" height="507" fill="#2962FF"/>
-<rect x="908" y="213" width="251" height="427" fill="white"/>
-<rect x="917" y="179" width="231" height="436" fill="url(#pattern3)"/>
+<rect x="908" y="274" width="251" height="366" fill="white"/>
+<rect x="915" y="179" width="236" height="436" fill="url(#pattern3)"/>
 </g>
 <g filter="url(#filter38_i)">
 <path d="M1016.43 133.178C1016.43 131.619 1017.69 130.355 1019.25 130.355H1045.06C1046.61 130.355 1047.88 131.619 1047.88 133.178C1047.88 134.737 1046.61 136 1045.06 136H1019.25C1017.69 136 1016.43 134.737 1016.43 133.178Z" fill="#161616"/>
@@ -969,7 +969,7 @@
 <feBlend mode="normal" in2="effect3_innerShadow" result="effect4_innerShadow"/>
 </filter>
 <pattern id="pattern3" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image2" transform="translate(-0.023214) scale(0.000968915 0.000513347)"/>
+<use xlink:href="#image2" transform="translate(-0.0121289) scale(0.000948387 0.000513347)"/>
 </pattern>
 <filter id="filter38_i" x="1016.43" y="130.355" width="31.4519" height="5.64521" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
