@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/contract/career_contract.dart';
 import 'package:healthish/contract/partner_contract.dart';
+import 'package:healthish/detail_screen/detail_event.dart';
 import 'package:healthish/detail_screen/partner_career/component/item_career.dart';
 import 'package:healthish/detail_screen/partner_career/component/item_partner.dart';
 import 'package:healthish/presenter/career_presenter.dart';
@@ -132,8 +133,25 @@ class PartnerCareerState extends State<PartnerCareer>
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder:
                                     (BuildContext context, int index) =>
-                                        ItemPartner(
-                                            image: partnerData[index]['image']),
+                                        GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => DetailEvent(
+                                                  imgUrl: partnerData[index]
+                                                      ['image'],
+                                                  title: partnerData[index]
+                                                      ['title'],
+                                                  type: "career",
+                                                  desc: partnerData[index]
+                                                      ['description'],
+                                                  date: "",
+                                                )));
+                                  },
+                                  child: ItemPartner(
+                                      image: partnerData[index]['image']),
+                                ),
                               ),
                             ),
                     ),
@@ -176,7 +194,21 @@ class PartnerCareerState extends State<PartnerCareer>
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) =>
-                              ItemCareer(carrerData: carrerData[index]),
+                              GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailEvent(
+                                        date: carrerData[index]["date"],
+                                        imgUrl: carrerData[index]['image'],
+                                        title: carrerData[index]['title'],
+                                        type: "career",
+                                        desc: carrerData[index]['description'],
+                                      )));
+                            },
+                            child: ItemCareer(carrerData: carrerData[index]),
+                          ),
                         ),
                       ))
           ],
