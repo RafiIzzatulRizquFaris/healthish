@@ -102,7 +102,7 @@ class SplashState extends State<Splash> with TickerProviderStateMixin {
   movingToNextScreen() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var isGuided = sharedPreferences.getBool(Constants.KEY_GUIDE);
-    if (isGuided == null){
+    if (isGuided == null) {
       Timer(
           Duration(
             seconds: 5,
@@ -114,11 +114,16 @@ class SplashState extends State<Splash> with TickerProviderStateMixin {
             ));
       });
     } else {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MainNavigation(),
-          ));
+      Timer(
+          Duration(
+            seconds: 5,
+          ), () {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MainNavigation(),
+            ));
+      });
     }
   }
 }

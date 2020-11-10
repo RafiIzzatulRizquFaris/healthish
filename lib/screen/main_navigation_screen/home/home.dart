@@ -80,246 +80,262 @@ class HomeState extends State<Home>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SafeArea(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 2.5,
-                child: Stack(
-                  children: [
-                    carouselEvent(),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromARGB(200, 0, 0, 0),
-                            Color.fromARGB(0, 0, 0, 0),
-                          ],
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                        ),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 10,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            loadingEvent
-                                ? "lorem ipsum"
-                                : listEvent[carouselIndex].data["title"],
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            loadingEvent
-                                ? "lorem ipsum"
-                                : listEvent[carouselIndex].data["description"],
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: dotWidget(),
-                              ),
-                              RaisedButton(
-                                color: Constants.blueColor,
-                                textColor: Constants.whiteColor,
-                                child: Text("Read"),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                onPressed: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return DetailEvent(
-                                      desc: listEvent[carouselIndex]
-                                          .data["description"]
-                                          .toString(),
-                                      title: listEvent[carouselIndex]
-                                          .data["title"]
-                                          .toString(),
-                                      date: listEvent[carouselIndex]
-                                          .data["date"]
-                                          .toString(),
-                                      imgUrl: listEvent[carouselIndex]
-                                          .data["image"]
-                                          .toString(),
-                                      type: listEvent[carouselIndex]
-                                          .data["type"]
-                                          .toString(),
-                                    );
-                                  }));
-                                },
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Temui Kami",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    height: 200,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Stack(
-                        children: [
-                          FutureBuilder(
-                            future: mapFuture,
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    backgroundColor: Constants.whiteColor,
-                                  ),
-                                );
-                              }
-                              return GoogleMap(
-                                mapType: MapType.normal,
-                                initialCameraPosition: CameraPosition(
-                                  target: currentPosition,
-                                  zoom: 14.0,
-                                ),
-                                markers: markers,
-                                onMapCreated: (controller) {
-                                  mapController.complete(controller);
-                                },
-                              );
-                            },
-                          ),
-                          showMapInfo ? Positioned(
-                            right: 8,
-                            left: 8,
-                            bottom: 8,
-                            child: Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Constants.whiteColor,
-                                ),
-                                child: Row(
-                                  children: [
-                                  Container(
-                                      height: 50,
-                                      width: 50,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Constants.greyColor,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("RS. SMKDEV", style: TextStyle(fontWeight: FontWeight.bold,), textAlign: TextAlign.start,),
-                                        SizedBox(
-                                          height: 8,
-                                        ),
-                                        Text("Jl. Margacipta no. 29\nBuah Batu, Bandung", style: TextStyle(color: Constants.greyColor,), textAlign: TextAlign.start,),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ) : Container(),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  firstAndSecondPlace(
-                    listAbout.isNotEmpty
-                        ? listAbout[0]["place_list"][0]["name"].toString()
-                        : "Place Name",
-                    listAbout.isNotEmpty
-                        ? listAbout[0]["place_list"][0]["address"].toString()
-                        : "Place Name",
-                    listAbout.isNotEmpty
-                        ? listAbout[0]["place_list"][0]["weekday"].toString()
-                        : "Place Name",
-                    listAbout.isNotEmpty
-                        ? listAbout[0]["place_list"][0]["weekend"].toString()
-                        : "Place Name",
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  firstAndSecondPlace(
-                    listAbout.isNotEmpty
-                        ? listAbout[0]["place_list"][1]["name"].toString()
-                        : "Place Name",
-                    listAbout.isNotEmpty
-                        ? listAbout[0]["place_list"][1]["address"].toString()
-                        : "Place Name",
-                    listAbout.isNotEmpty
-                        ? listAbout[0]["place_list"][1]["weekday"].toString()
-                        : "Place Name",
-                    listAbout.isNotEmpty
-                        ? listAbout[0]["place_list"][1]["weekend"].toString()
-                        : "Place Name",
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  thirdPlace(
-                    listAbout.isNotEmpty
-                        ? listAbout[0]["place_list"][2]["name"].toString()
-                        : "Place Name",
-                    listAbout.isNotEmpty
-                        ? listAbout[0]["place_list"][2]["weekday"].toString()
-                        : "Place Weekday",
-                    listAbout.isNotEmpty
-                        ? listAbout[0]["place_list"][2]["weekend"].toString()
-                        : "Place Weekend",
-                  ),
-                ],
-              ),
-            ),
+            // SafeArea(
+            //   child: Container(
+            //     width: MediaQuery.of(context).size.width,
+            //     height: MediaQuery.of(context).size.height / 2.5,
+            //     child: Stack(
+            //       children: [
+            //         carouselEvent(),
+            //         Container(
+            //           width: MediaQuery.of(context).size.width,
+            //           decoration: BoxDecoration(
+            //             gradient: LinearGradient(
+            //               colors: [
+            //                 Color.fromARGB(200, 0, 0, 0),
+            //                 Color.fromARGB(0, 0, 0, 0),
+            //               ],
+            //               begin: Alignment.bottomCenter,
+            //               end: Alignment.topCenter,
+            //             ),
+            //           ),
+            //           padding: EdgeInsets.symmetric(
+            //             vertical: 10,
+            //             horizontal: 10,
+            //           ),
+            //           child: Column(
+            //             mainAxisAlignment: MainAxisAlignment.end,
+            //             crossAxisAlignment: CrossAxisAlignment.start,
+            //             children: [
+            //               Text(
+            //                 loadingEvent
+            //                     ? ""
+            //                     : listEvent[carouselIndex].data["title"],
+            //                 maxLines: 2,
+            //                 overflow: TextOverflow.ellipsis,
+            //                 style: TextStyle(
+            //                   color: Colors.white,
+            //                   fontWeight: FontWeight.bold,
+            //                   fontSize: 20,
+            //                 ),
+            //               ),
+            //               SizedBox(
+            //                 height: 5,
+            //               ),
+            //               Text(
+            //                 loadingEvent
+            //                     ? ""
+            //                     : listEvent[carouselIndex].data["description"],
+            //                 maxLines: 2,
+            //                 overflow: TextOverflow.ellipsis,
+            //                 style: TextStyle(
+            //                   color: Colors.white,
+            //                 ),
+            //               ),
+            //               SizedBox(
+            //                 height: 8,
+            //               ),
+            //               Row(
+            //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //                 children: [
+            //                   Row(
+            //                     children: dotWidget(),
+            //                   ),
+            //                   RaisedButton(
+            //                     color: Constants.blueColor,
+            //                     textColor: Constants.whiteColor,
+            //                     child: Text("Read"),
+            //                     shape: RoundedRectangleBorder(
+            //                       borderRadius: BorderRadius.circular(10),
+            //                     ),
+            //                     onPressed: () {
+            //                       Navigator.push(context,
+            //                           MaterialPageRoute(builder: (context) {
+            //                         return DetailEvent(
+            //                           desc: listEvent[carouselIndex]
+            //                               .data["description"]
+            //                               .toString(),
+            //                           title: listEvent[carouselIndex]
+            //                               .data["title"]
+            //                               .toString(),
+            //                           date: listEvent[carouselIndex]
+            //                               .data["date"]
+            //                               .toString(),
+            //                           imgUrl: listEvent[carouselIndex]
+            //                               .data["image"]
+            //                               .toString(),
+            //                           type: listEvent[carouselIndex]
+            //                               .data["type"]
+            //                               .toString(),
+            //                         );
+            //                       }));
+            //                     },
+            //                   ),
+            //                 ],
+            //               )
+            //             ],
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // Container(
+            //   padding: EdgeInsets.all(20),
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Text(
+            //         "Temui Kami",
+            //         style: TextStyle(
+            //           fontSize: 18,
+            //           fontWeight: FontWeight.w800,
+            //         ),
+            //         textAlign: TextAlign.left,
+            //       ),
+            //       SizedBox(
+            //         height: 20,
+            //       ),
+            //       Container(
+            //         height: 200,
+            //         child: ClipRRect(
+            //           borderRadius: BorderRadius.circular(10),
+            //           child: Stack(
+            //             children: [
+            //               FutureBuilder(
+            //                 future: mapFuture,
+            //                 builder: (context, snapshot) {
+            //                   if (!snapshot.hasData) {
+            //                     return Center(
+            //                       child: CircularProgressIndicator(
+            //                         backgroundColor: Constants.whiteColor,
+            //                       ),
+            //                     );
+            //                   }
+            //                   return GoogleMap(
+            //                     mapType: MapType.normal,
+            //                     initialCameraPosition: CameraPosition(
+            //                       target: currentPosition,
+            //                       zoom: 14.0,
+            //                     ),
+            //                     markers: markers,
+            //                     onMapCreated: (controller) {
+            //                       mapController.complete(controller);
+            //                     },
+            //                   );
+            //                 },
+            //               ),
+            //               showMapInfo
+            //                   ? Positioned(
+            //                       right: 8,
+            //                       left: 8,
+            //                       bottom: 8,
+            //                       child: Align(
+            //                         alignment: Alignment.bottomLeft,
+            //                         child: Container(
+            //                           padding: EdgeInsets.all(10),
+            //                           decoration: BoxDecoration(
+            //                             borderRadius: BorderRadius.circular(10),
+            //                             color: Constants.whiteColor,
+            //                           ),
+            //                           child: Row(
+            //                             children: [
+            //                               Container(
+            //                                 height: 50,
+            //                                 width: 50,
+            //                                 decoration: BoxDecoration(
+            //                                   borderRadius:
+            //                                       BorderRadius.circular(10),
+            //                                   color: Constants.greyColor,
+            //                                 ),
+            //                               ),
+            //                               SizedBox(
+            //                                 width: 8,
+            //                               ),
+            //                               Column(
+            //                                 crossAxisAlignment:
+            //                                     CrossAxisAlignment.start,
+            //                                 children: [
+            //                                   Text(
+            //                                     "RS. SMKDEV",
+            //                                     style: TextStyle(
+            //                                       fontWeight: FontWeight.bold,
+            //                                     ),
+            //                                     textAlign: TextAlign.start,
+            //                                   ),
+            //                                   SizedBox(
+            //                                     height: 8,
+            //                                   ),
+            //                                   Text(
+            //                                     "Jl. Margacipta no. 29\nBuah Batu, Bandung",
+            //                                     style: TextStyle(
+            //                                       color: Constants.greyColor,
+            //                                     ),
+            //                                     textAlign: TextAlign.start,
+            //                                   ),
+            //                                 ],
+            //                               )
+            //                             ],
+            //                           ),
+            //                         ),
+            //                       ),
+            //                     )
+            //                   : Container(),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //       SizedBox(
+            //         height: 20,
+            //       ),
+            //       firstAndSecondPlace(
+            //         listAbout.isNotEmpty
+            //             ? listAbout[0]["place_list"][0]["name"].toString()
+            //             : "Place Name",
+            //         listAbout.isNotEmpty
+            //             ? listAbout[0]["place_list"][0]["address"].toString()
+            //             : "Place Name",
+            //         listAbout.isNotEmpty
+            //             ? listAbout[0]["place_list"][0]["weekday"].toString()
+            //             : "Place Name",
+            //         listAbout.isNotEmpty
+            //             ? listAbout[0]["place_list"][0]["weekend"].toString()
+            //             : "Place Name",
+            //       ),
+            //       SizedBox(
+            //         height: 20,
+            //       ),
+            //       firstAndSecondPlace(
+            //         listAbout.isNotEmpty
+            //             ? listAbout[0]["place_list"][1]["name"].toString()
+            //             : "Place Name",
+            //         listAbout.isNotEmpty
+            //             ? listAbout[0]["place_list"][1]["address"].toString()
+            //             : "Place Name",
+            //         listAbout.isNotEmpty
+            //             ? listAbout[0]["place_list"][1]["weekday"].toString()
+            //             : "Place Name",
+            //         listAbout.isNotEmpty
+            //             ? listAbout[0]["place_list"][1]["weekend"].toString()
+            //             : "Place Name",
+            //       ),
+            //       SizedBox(
+            //         height: 20,
+            //       ),
+            //       thirdPlace(
+            //         listAbout.isNotEmpty
+            //             ? listAbout[0]["place_list"][2]["name"].toString()
+            //             : "Place Name",
+            //         listAbout.isNotEmpty
+            //             ? listAbout[0]["place_list"][2]["weekday"].toString()
+            //             : "Place Weekday",
+            //         listAbout.isNotEmpty
+            //             ? listAbout[0]["place_list"][2]["weekend"].toString()
+            //             : "Place Weekend",
+            //       ),
+            //     ],
+            //   ),
+            // ),
             sectionAboutUs(),
             sectionLatestNews(),
             sectionContact(),
@@ -421,7 +437,7 @@ class HomeState extends State<Home>
         position: currentPosition,
         icon: BitmapDescriptor.defaultMarker,
         onTap: () {
-          if (showMapInfo){
+          if (showMapInfo) {
             setState(() {
               showMapInfo = false;
             });
