@@ -2,8 +2,11 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
+import 'package:healthish/contract/login_contract.dart';
 import 'package:healthish/main_navigation.dart';
+import 'package:healthish/presenter/login_presenter.dart';
 import 'package:healthish/register.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -12,11 +15,17 @@ class Login extends StatefulWidget {
   }
 }
 
-class LoginState extends State<Login> {
+class LoginState extends State<Login> implements LoginContractView {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool obscureText = true;
   final formKey = GlobalKey<FormState>();
+  LoginPresenter loginPresenter;
+  bool loadingLogin = false;
+
+  LoginState() {
+    loginPresenter = LoginPresenter(this);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,152 +61,229 @@ class LoginState extends State<Login> {
           ),
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.all(20),
-        child: Form(
-          key: formKey,
-          autovalidateMode: AutovalidateMode.always,
-          child: ListView(
-            children: [
-              Text(
-                "Selamat Datang!",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                  color: Constants.blueColor,
-                ),
+      body: loadingLogin
+          ? Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Constants.blueColor,
               ),
-              SizedBox(
-                height: 8,
-              ),
-              Text(
-                "Masukkan data login anda untuk melanjutkan",
-                style: TextStyle(
-                  color: Constants.greyColorGuideIndicator,
-                ),
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              Text(
-                "Email",
-                style: TextStyle(
-                  color: Constants.blueColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              TextFormField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  hintText: "Email",
-                  prefixIcon: Icon(Icons.person_outline_rounded),
-                ),
-                validator: (value){
-                  if (EmailValidator.validate(value)){
-                    return null;
-                  }
-                  return "Email yang dimasukkan salah";
-                },
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Text(
-                "Password",
-                style: TextStyle(
-                  color: Constants.blueColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              TextFormField(
-                controller: passwordController,
-                obscureText: obscureText,
-                validator: (value) {
-                  if (value.isEmpty){
-                    return "Password tidak boleh kosong";
-                  }else if (value.length < 8){
-                    return "Password kurang dari 8 karakter";
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  hintText: "Password",
-                  prefixIcon: Icon(Icons.lock_outline_rounded),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      obscureText ? Icons.visibility_off : Icons.visibility,
-                    ),
-                    onPressed: (){
-                      if(obscureText){
-                        setState(() {
-                          obscureText = false;
-                        });
-                      }else{
-                        setState(() {
-                          obscureText = true;
-                        });
-                      }
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              FlatButton(
-                padding: EdgeInsets.all(15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                color: Constants.blueColor,
-                child: Text(
-                  "Masuk",
-                  style: TextStyle(
-                    color: Constants.whiteColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
-                ),
-                onPressed: () {
-                  if (formKey.currentState.validate()){
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                      return MainNavigation();
-                    }));
-                  }else{
-                    // TODO: error
-                  }
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Belum mempunyai akun? ",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  FlatButton(
-                    padding: EdgeInsets.all(0),
-                    child: Text(
-                      "Daftar Sekarang",
+            )
+          : Container(
+              padding: EdgeInsets.all(20),
+              child: Form(
+                key: formKey,
+                autovalidateMode: AutovalidateMode.always,
+                child: ListView(
+                  children: [
+                    Text(
+                      "Selamat Datang!",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        fontSize: 24,
                         color: Constants.blueColor,
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return Register();
-                      }));
-                    },
-                  )
-                ],
-              )
-            ],
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      "Masukkan data login anda untuk melanjutkan",
+                      style: TextStyle(
+                        color: Constants.greyColorGuideIndicator,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Text(
+                      "Email",
+                      style: TextStyle(
+                        color: Constants.blueColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextFormField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        hintText: "Email",
+                        prefixIcon: Icon(Icons.person_outline_rounded),
+                      ),
+                      validator: (value) {
+                        if (EmailValidator.validate(value)) {
+                          return null;
+                        }
+                        return "Email yang dimasukkan salah";
+                      },
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Text(
+                      "Password",
+                      style: TextStyle(
+                        color: Constants.blueColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextFormField(
+                      controller: passwordController,
+                      obscureText: obscureText,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return "Password tidak boleh kosong";
+                        } else if (value.length < 8) {
+                          return "Password kurang dari 8 karakter";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Password",
+                        prefixIcon: Icon(Icons.lock_outline_rounded),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            obscureText
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          onPressed: () {
+                            if (obscureText) {
+                              setState(() {
+                                obscureText = false;
+                              });
+                            } else {
+                              setState(() {
+                                obscureText = true;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    FlatButton(
+                      padding: EdgeInsets.all(15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      color: Constants.blueColor,
+                      child: Text(
+                        "Masuk",
+                        style: TextStyle(
+                          color: Constants.whiteColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                        ),
+                      ),
+                      onPressed: () {
+                        if (formKey.currentState.validate()) {
+                          setState(() {
+                            loadingLogin = true;
+                          });
+                          loginPresenter.loadLoginData(
+                              emailController.text.toString(),
+                              passwordController.text.toString());
+                        } else {
+                          // TODO: error
+                        }
+                      },
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Belum mempunyai akun? ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        FlatButton(
+                          padding: EdgeInsets.all(0),
+                          child: Text(
+                            "Daftar Sekarang",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Constants.blueColor,
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return Register();
+                              }),
+                            );
+                          },
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+    );
+  }
+
+  @override
+  setLoginData(String response) {
+    if (response == Constants.SUCCESS_RESPONSE) {
+      setState(() {
+        loadingLogin = false;
+      });
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return MainNavigation();
+      }));
+    } else if (response == Constants.WRONG_PASSWORD_RESPONSE) {
+      setState(() {
+        loadingLogin = false;
+      });
+      errorAlert("Gagal Login", "Password yang anda masukkan salah");
+    } else {
+      errorAlert("Gagal Login", "Akun Anda Tidak Terdaftar");
+    }
+  }
+
+  @override
+  setOnErrorLogin(error) {
+    setState(() {
+      loadingLogin = false;
+    });
+    errorAlert("Gagal Login", "Cek Koneksi Internet Anda Dan Coba Kembali");
+  }
+
+  errorAlert(String title, String subtitle) {
+    return Alert(
+      context: context,
+      title: title,
+      desc: subtitle,
+      type: AlertType.warning,
+      buttons: [
+        DialogButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(
+            "OK",
+            style: TextStyle(color: Colors.white, fontSize: 20),
           ),
         ),
+      ],
+      style: AlertStyle(
+        animationType: AnimationType.grow,
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+        descStyle: TextStyle(fontWeight: FontWeight.bold),
+        descTextAlign: TextAlign.start,
+        animationDuration: Duration(milliseconds: 400),
+        alertBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(
+            color: Colors.grey,
+          ),
+        ),
+        titleStyle: TextStyle(
+          color: Colors.red,
+        ),
+        alertAlignment: Alignment.center,
       ),
-    );
+    ).show();
   }
 }
