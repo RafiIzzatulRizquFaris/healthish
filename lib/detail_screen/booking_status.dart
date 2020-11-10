@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
+import 'package:healthish/main_navigation.dart';
 
 class BookingStatus extends StatefulWidget {
   BookingStatus({Key key}) : super(key: key);
@@ -80,7 +81,12 @@ class _BookingStatusState extends State<BookingStatus> {
                 RaisedButton(
                   textColor: Constants.blueColor,
                   color: Constants.whiteColor,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MainNavigation()));
+                  },
                   child: Text('Lihat Histori'),
                 ),
                 FlatButton(

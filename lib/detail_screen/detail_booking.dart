@@ -25,6 +25,7 @@ class DetailBooking extends StatefulWidget {
 class DetailBookingState extends State<DetailBooking>
     implements PatientContractView {
   String _date = DateFormat('EEEE dd-MM-yyyy').format(DateTime.now());
+  String _time = DateFormat('HH:mm').format(DateTime.now());
   PatientPresenter patientPresenter;
   bool loadingPatient = true;
   List<DocumentSnapshot> listPatient = List<DocumentSnapshot>();
@@ -184,11 +185,10 @@ class DetailBookingState extends State<DetailBooking>
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                ChangePatient(
-                                                  selectedPatient: selectedPatient,
-                                                  userId: widget.idUser,
-                                                ),
+                                            builder: (context) => ChangePatient(
+                                              selectedPatient: selectedPatient,
+                                              userId: widget.idUser,
+                                            ),
                                           ),
                                         ).then((value) {
                                           setState(() {
@@ -257,6 +257,7 @@ class DetailBookingState extends State<DetailBooking>
                                     setState(() {
                                       _date = DateFormat('EEEE dd-MM-yyyy')
                                           .format(value);
+                                      _time = DateFormat('HH:mm').format(value);
                                     });
                                   });
                                 })
