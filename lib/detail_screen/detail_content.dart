@@ -1,29 +1,19 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:healthish/constants.dart';
 
-class DetailEvent extends StatefulWidget {
-  final String imgUrl;
-  final String title;
-  final String date;
-  final String desc;
+import '../constants.dart';
+
+class DetailContent extends StatefulWidget {
   final String type;
+  final DocumentSnapshot dataContent;
 
-  DetailEvent({
-    this.imgUrl,
-    this.title,
-    this.date,
-    this.desc,
-    this.type,
-  });
+  DetailContent({Key key, this.type, this.dataContent}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return DetailEventState();
-  }
+  DetailContentState createState() => DetailContentState();
 }
 
-class DetailEventState extends State<DetailEvent> {
+class DetailContentState extends State<DetailContent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +39,7 @@ class DetailEventState extends State<DetailEvent> {
                 width: 8,
               ),
               Text(
-                "Event & Promo",
+                widget.type,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Constants.blackColor,
@@ -74,7 +64,7 @@ class DetailEventState extends State<DetailEvent> {
               child: SizedBox.expand(
                 child: FittedBox(
                   fit: BoxFit.fill,
-                  child: Image.network(widget.imgUrl),
+                  child: Image.network(widget.dataContent["image"]),
                 ),
               ),
             ),
@@ -108,7 +98,7 @@ class DetailEventState extends State<DetailEvent> {
                 left: 20,
               ),
               child: Text(
-                widget.title,
+                widget.dataContent['title'],
                 style: TextStyle(
                   color: Constants.blackColor,
                   fontWeight: FontWeight.bold,
@@ -116,26 +106,14 @@ class DetailEventState extends State<DetailEvent> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: 8,
-                left: 20,
-              ),
-              child: Text(
-                widget.date,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Constants.greyColor,
-                ),
-              ),
-            ),
+            checkDate(),
             Padding(
               padding: EdgeInsets.only(
                 top: 12,
                 left: 20,
               ),
               child: Text(
-                "${widget.type} - ${widget.desc}",
+                "${widget.type} - ${widget.dataContent["description"]}",
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
@@ -144,6 +122,25 @@ class DetailEventState extends State<DetailEvent> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget checkDate() {
+    if (widget.type == "Partner" || widget.type == "Fasilitas") {
+      return Container();
+    }
+    return Padding(
+      padding: EdgeInsets.only(
+        top: 8,
+        left: 20,
+      ),
+      child: Text(
+        widget.dataContent['date'],
+        style: TextStyle(
+          fontSize: 14,
+          color: Constants.greyColor,
         ),
       ),
     );

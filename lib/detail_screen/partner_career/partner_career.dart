@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/contract/career_contract.dart';
 import 'package:healthish/contract/partner_contract.dart';
-import 'package:healthish/detail_screen/detail_event.dart';
+import 'package:healthish/detail_screen/detail_content.dart';
 import 'package:healthish/detail_screen/partner_career/component/item_career.dart';
 import 'package:healthish/detail_screen/partner_career/component/item_partner.dart';
 import 'package:healthish/presenter/career_presenter.dart';
@@ -18,7 +18,7 @@ class PartnerCareerState extends State<PartnerCareer>
     implements PartnerContractView, CareerContractView {
   TextEditingController searchController = TextEditingController();
   List<DocumentSnapshot> partnerData = List<DocumentSnapshot>();
-  List<DocumentSnapshot> carrerData = List<DocumentSnapshot>();
+  List<DocumentSnapshot> careerData = List<DocumentSnapshot>();
 
   PartnerPresenter partnerPresenter;
   CareerPresenter careerPresenter;
@@ -138,15 +138,10 @@ class PartnerCareerState extends State<PartnerCareer>
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => DetailEvent(
-                                                  imgUrl: partnerData[index]
-                                                      ['image'],
-                                                  title: partnerData[index]
-                                                      ['title'],
-                                                  type: "career",
-                                                  desc: partnerData[index]
-                                                      ['description'],
-                                                  date: "",
+                                            builder: (context) => DetailContent(
+                                                  type: "Partner",
+                                                  dataContent:
+                                                      partnerData[index],
                                                 )));
                                   },
                                   child: ItemPartner(
@@ -190,7 +185,7 @@ class PartnerCareerState extends State<PartnerCareer>
                       )
                     : Expanded(
                         child: ListView.builder(
-                          itemCount: carrerData.length,
+                          itemCount: careerData.length,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) =>
@@ -199,15 +194,12 @@ class PartnerCareerState extends State<PartnerCareer>
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => DetailEvent(
-                                        date: carrerData[index]["date"],
-                                        imgUrl: carrerData[index]['image'],
-                                        title: carrerData[index]['title'],
-                                        type: "career",
-                                        desc: carrerData[index]['description'],
-                                      )));
+                                      builder: (context) => DetailContent(
+                                            type: "Career",
+                                            dataContent: careerData[index],
+                                          )));
                             },
-                            child: ItemCareer(carrerData: carrerData[index]),
+                            child: ItemCareer(careerData: careerData[index]),
                           ),
                         ),
                       ))
@@ -228,7 +220,7 @@ class PartnerCareerState extends State<PartnerCareer>
   @override
   onSuccessCareerData(List<DocumentSnapshot> value) {
     setState(() {
-      carrerData = value;
+      careerData = value;
       isloadingCarrer = false;
     });
   }
