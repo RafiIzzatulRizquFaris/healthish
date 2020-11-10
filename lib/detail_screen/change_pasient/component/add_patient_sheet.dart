@@ -14,17 +14,19 @@ class AddPatientSheet extends StatefulWidget {
   AddPatientSheetState createState() => AddPatientSheetState();
 }
 
-class AddPatientSheetState extends State<AddPatientSheet> implements AddPatientContractView {
-  String dropdownValue;
-  String radioValue;
+class AddPatientSheetState extends State<AddPatientSheet>
+    implements AddPatientContractView {
   TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  Constants constants = Constants();
   AddPatientPresenter addPatientPresenter;
   ProgressDialog loadingDialog;
-  TextEditingController nameController = TextEditingController();
   int radioGroupGender = -1;
+  String dropdownValue;
+  String radioValue;
 
-  AddPatientSheetState(){
+  AddPatientSheetState() {
     addPatientPresenter = AddPatientPresenter(this);
   }
 
@@ -218,11 +220,16 @@ class AddPatientSheetState extends State<AddPatientSheet> implements AddPatientC
                             String gender = radioValue.trim().toString();
                             String status = dropdownValue.trim().toString();
                             String name = nameController.text.trim().toString();
-                            if (status.length > 0 && gender.length > 0 && formKey.currentState.validate() && name.length > 0){
+                            if (status.length > 0 &&
+                                gender.length > 0 &&
+                                formKey.currentState.validate() &&
+                                name.length > 0) {
                               await loadingDialog.show();
-                              addPatientPresenter.loadAddPatientData(widget.idUser, name, gender, status);
-                            }else{
-                              errorAlert("Gagal Menambah Pasien", "Silahkan isi semua kolom pengisian");
+                              addPatientPresenter.loadAddPatientData(
+                                  widget.idUser, name, gender, status);
+                            } else {
+                              constants.errorAlert("Gagal Menambah Pasien",
+                                  "Silahkan isi semua kolom pengisian", context);
                             }
                           },
                           child: Text('Tambah'),
@@ -244,47 +251,12 @@ class AddPatientSheetState extends State<AddPatientSheet> implements AddPatientC
     );
   }
 
-  errorAlert(String title, String subtitle) {
-    return Alert(
-      context: context,
-      title: title,
-      desc: subtitle,
-      type: AlertType.warning,
-      buttons: [
-        DialogButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(
-            "OK",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-        ),
-      ],
-      style: AlertStyle(
-        animationType: AnimationType.grow,
-        isCloseButton: false,
-        isOverlayTapDismiss: false,
-        descStyle: TextStyle(fontWeight: FontWeight.bold),
-        descTextAlign: TextAlign.center,
-        animationDuration: Duration(milliseconds: 400),
-        alertBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(
-            color: Colors.grey,
-          ),
-        ),
-        titleStyle: TextStyle(
-          color: Colors.red,
-        ),
-        alertAlignment: Alignment.center,
-      ),
-    ).show();
-  }
-
   @override
   onErrorAddPatient(error) async {
     print(error.toString());
     await loadingDialog.hide();
-    errorAlert("Error", "Gagal menambah pasien. \n Sesuatu terjadi");
+    constants.errorAlert(
+        "Error", "Gagal menambah pasien. \n Sesuatu terjadi", context);
   }
 
   @override
@@ -328,7 +300,7 @@ class AddPatientSheetState extends State<AddPatientSheet> implements AddPatientC
       ).show();
     } else {
       await loadingDialog.hide();
-      errorAlert("Error", "Gagal menambah pasien");
+      constants.errorAlert("Error", "Gagal menambah pasien", context);
     }
   }
 }

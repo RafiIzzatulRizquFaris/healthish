@@ -29,14 +29,14 @@ class DetailAccount extends StatefulWidget {
 
 class DetailAccountState extends State<DetailAccount>
     implements ChangePasswordContractView {
-  ProgressDialog loadingDialog;
   final formKey = GlobalKey<FormState>();
-  ChangePasswordPresenter changePasswordPresenter;
-
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-
+  Constants constants = Constants();
   bool obscureText = true;
+  ChangePasswordPresenter changePasswordPresenter;
+  ProgressDialog loadingDialog;
+
 
   DetailAccountState() {
     changePasswordPresenter = ChangePasswordPresenter(this);
@@ -386,8 +386,8 @@ class DetailAccountState extends State<DetailAccount>
                                       .trim()
                                       .toString());
                             } else {
-                              errorAlert("Gagal Memperbarui Password",
-                                  "Password baru dan konfimasi password tidak sama");
+                              constants.errorAlert("Gagal Memperbarui Password",
+                                  "Password baru dan konfimasi password tidak sama", context);
                             }
                           }
                         },
@@ -416,47 +416,11 @@ class DetailAccountState extends State<DetailAccount>
     );
   }
 
-  errorAlert(String title, String subtitle) {
-    return Alert(
-      context: context,
-      title: title,
-      desc: subtitle,
-      type: AlertType.warning,
-      buttons: [
-        DialogButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(
-            "OK",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-        ),
-      ],
-      style: AlertStyle(
-        animationType: AnimationType.grow,
-        isCloseButton: false,
-        isOverlayTapDismiss: false,
-        descStyle: TextStyle(fontWeight: FontWeight.bold),
-        descTextAlign: TextAlign.center,
-        animationDuration: Duration(milliseconds: 400),
-        alertBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(
-            color: Colors.grey,
-          ),
-        ),
-        titleStyle: TextStyle(
-          color: Colors.red,
-        ),
-        alertAlignment: Alignment.center,
-      ),
-    ).show();
-  }
-
   @override
   onErrorChangePassword(error) async {
     print(error.toString());
     await loadingDialog.hide();
-    errorAlert("Error", "Gagal merubah password. \n Sesuatu terjadi");
+    constants.errorAlert("Error", "Gagal merubah password. \n Sesuatu terjadi", context);
   }
 
   @override
@@ -501,7 +465,7 @@ class DetailAccountState extends State<DetailAccount>
       ).show();
     } else {
       await loadingDialog.hide();
-      errorAlert("Error", "Gagal merubah password");
+      constants.errorAlert("Error", "Gagal merubah password", context);
     }
   }
 }

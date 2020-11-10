@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Constants{
 
@@ -33,4 +35,40 @@ class Constants{
   static const String FAILED_RESPONSE = "failed";
   static const String WRONG_PASSWORD_RESPONSE = "wrong";
   static const String ALREADY_RESPONSE = "already";
+
+  errorAlert(String title, String subtitle, BuildContext ctx) {
+    return Alert(
+      context: ctx,
+      title: title,
+      desc: subtitle,
+      type: AlertType.warning,
+      buttons: [
+        DialogButton(
+          onPressed: () => Navigator.pop(ctx),
+          child: Text(
+            "OK",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        ),
+      ],
+      style: AlertStyle(
+        animationType: AnimationType.grow,
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+        descStyle: TextStyle(fontWeight: FontWeight.bold),
+        descTextAlign: TextAlign.center,
+        animationDuration: Duration(milliseconds: 400),
+        alertBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(
+            color: Colors.grey,
+          ),
+        ),
+        titleStyle: TextStyle(
+          color: Colors.red,
+        ),
+        alertAlignment: Alignment.center,
+      ),
+    ).show();
+  }
 }

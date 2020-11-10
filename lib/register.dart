@@ -2,6 +2,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
+import 'package:healthish/contract/register_contract.dart';
+import 'package:healthish/presenter/register_presenter.dart';
 import 'package:healthish/radio_group.dart';
 
 class Register extends StatefulWidget {
@@ -11,19 +13,29 @@ class Register extends StatefulWidget {
   }
 }
 
-class RegisterState extends State<Register> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  bool obscureText = true;
+class RegisterState extends State<Register> implements RegisterContractView {
   final formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  RegisterPresenter registerPresenter;
+  bool obscureText = true;
   int radioGroupGender = -1;
   String selectedValue;
   List<RadioGroup> genderList = [
     RadioGroup(0, "Laki - Laki"),
     RadioGroup(1, "Perempuan"),
   ];
+
+  RegisterState() {
+    registerPresenter = RegisterPresenter(this);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,18 +46,18 @@ class RegisterState extends State<Register> {
         elevation: 0,
         automaticallyImplyLeading: false,
         title: FlatButton(
-            padding: EdgeInsets.all(15),
-            child: Icon(
-              Icons.arrow_back_rounded,
-              color: Constants.whiteColor,
-              size: 25,
-            ),
-            shape: CircleBorder(),
-            color: Constants.greyColorGuideIndicator,
-            onPressed: () {
-              Navigator.pop(context);
-            },
+          padding: EdgeInsets.all(15),
+          child: Icon(
+            Icons.arrow_back_rounded,
+            color: Constants.whiteColor,
+            size: 25,
           ),
+          shape: CircleBorder(),
+          color: Constants.greyColorGuideIndicator,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         actions: [
           FlatButton(
             child: Text(
@@ -244,7 +256,16 @@ class RegisterState extends State<Register> {
                 ),
                 onPressed: () {
                   if (formKey.currentState.validate()) {
-                    // TODO: masukin ke main_navigation
+                    if (selectedValue.isNotEmpty ||
+                        selectedValue.trim().length > 0) {
+                      registerPresenter.loadRegisterData(
+                        nameController.text.trim().toString(),
+                        emailController.text.trim().toString(),
+                        passwordController.text.trim().toString(),
+                        selectedValue.trim().toString(),
+                        phoneController.text.trim().toString(),
+                      );
+                    } else {}
                   } else {
                     // TODO: error
                   }
@@ -270,7 +291,7 @@ class RegisterState extends State<Register> {
                         color: Constants.blueColor,
                       ),
                     ),
-                    onTap: (){
+                    onTap: () {
                       Navigator.pop(context);
                     },
                   ),
@@ -281,5 +302,17 @@ class RegisterState extends State<Register> {
         ),
       ),
     );
+  }
+
+  @override
+  setOnErrorRegister(error) {
+    // TODO: implement setOnErrorRegister
+    throw UnimplementedError();
+  }
+
+  @override
+  setRegisterData(String response) {
+    // TODO: implement setRegisterData
+    throw UnimplementedError();
   }
 }
