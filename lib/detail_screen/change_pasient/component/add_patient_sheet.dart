@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/contract/add_patient_contract.dart';
 import 'package:healthish/presenter/add_patient_presenter.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class AddPatientSheet extends StatefulWidget {
   final String idUser;
@@ -241,41 +240,7 @@ class AddPatientSheetState extends State<AddPatientSheet>
   onSuccessAddPatient(String status) async {
     if (status == Constants.SUCCESS_RESPONSE) {
       await constants.progressDialog(context).hide();
-      Alert(
-        context: context,
-        title: "Sukses",
-        desc: "Anda berhasil menambah daftar pasien",
-        type: AlertType.success,
-        buttons: [
-          DialogButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              "Ok",
-              style: TextStyle(color: Constants.whiteColor, fontSize: 20),
-            ),
-          ),
-        ],
-        style: AlertStyle(
-          animationType: AnimationType.grow,
-          isCloseButton: false,
-          isOverlayTapDismiss: false,
-          descStyle: TextStyle(fontWeight: FontWeight.bold),
-          descTextAlign: TextAlign.center,
-          animationDuration: Duration(milliseconds: 400),
-          alertBorder: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: BorderSide(
-              color: Colors.grey,
-            ),
-          ),
-          titleStyle: TextStyle(
-            color: Constants.blueColor,
-          ),
-          alertAlignment: Alignment.center,
-        ),
-      ).show();
+      constants.successAlert("Sukses", "Anda berhasil menambah daftar pasien", context);
     } else {
       await constants.progressDialog(context).hide();
       constants.errorAlert("Error", "Gagal menambah pasien", context);

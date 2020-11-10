@@ -404,42 +404,7 @@ class DetailAccountState extends State<DetailAccount>
   onSuccessChangePassword(String response) async {
     if (response == Constants.SUCCESS_RESPONSE) {
       await constants.progressDialog(context).hide();
-      Alert(
-        context: context,
-        title: "Sukses",
-        desc: "Anda berhasil mengubah password",
-        type: AlertType.success,
-        buttons: [
-          DialogButton(
-            onPressed: () {
-
-              Navigator.pop(context);
-            },
-            child: Text(
-              "Ok",
-              style: TextStyle(color: Constants.whiteColor, fontSize: 20),
-            ),
-          ),
-        ],
-        style: AlertStyle(
-          animationType: AnimationType.grow,
-          isCloseButton: false,
-          isOverlayTapDismiss: false,
-          descStyle: TextStyle(fontWeight: FontWeight.bold),
-          descTextAlign: TextAlign.center,
-          animationDuration: Duration(milliseconds: 400),
-          alertBorder: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: BorderSide(
-              color: Colors.grey,
-            ),
-          ),
-          titleStyle: TextStyle(
-            color: Constants.blueColor,
-          ),
-          alertAlignment: Alignment.center,
-        ),
-      ).show();
+      constants.successAlert("Sukses", "Anda berhasil mengubah password", context);
     } else {
       await constants.progressDialog(context).hide();
       constants.errorAlert("Error", "Gagal merubah password", context);

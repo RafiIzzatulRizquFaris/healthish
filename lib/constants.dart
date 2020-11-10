@@ -61,6 +61,44 @@ class Constants{
     return loadingDialog;
   }
 
+  successAlert(String title, String subtitle, BuildContext ctx){
+    return Alert(
+      context: ctx,
+      title: title,
+      desc: subtitle,
+      type: AlertType.success,
+      buttons: [
+        DialogButton(
+          onPressed: () {
+            Navigator.pop(ctx);
+          },
+          child: Text(
+            "Ok",
+            style: TextStyle(color: Constants.whiteColor, fontSize: 20),
+          ),
+        ),
+      ],
+      style: AlertStyle(
+        animationType: AnimationType.grow,
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+        descStyle: TextStyle(fontWeight: FontWeight.bold),
+        descTextAlign: TextAlign.center,
+        animationDuration: Duration(milliseconds: 400),
+        alertBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(
+            color: Colors.grey,
+          ),
+        ),
+        titleStyle: TextStyle(
+          color: Constants.blueColor,
+        ),
+        alertAlignment: Alignment.center,
+      ),
+    ).show();
+  }
+
   errorAlert(String title, String subtitle, BuildContext ctx) {
     return Alert(
       context: ctx,
