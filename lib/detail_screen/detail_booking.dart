@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:healthish/contract/patient_contract.dart';
 import 'package:healthish/detail_screen/change_pasient/change_patient.dart';
 import 'package:healthish/detail_screen/booking_status.dart';
+import 'package:healthish/presenter/patient_presenter.dart';
 import 'package:intl/intl.dart';
 
 import '../constants.dart';
@@ -11,14 +14,31 @@ class DetailBooking extends StatefulWidget {
   final String specialist;
   final String idDoctor;
   final String idUser;
-  DetailBooking({this.image, this.name, this.specialist, this.idDoctor, this.idUser});
+
+  DetailBooking(
+      {this.image, this.name, this.specialist, this.idDoctor, this.idUser});
 
   @override
   DetailBookingState createState() => DetailBookingState();
 }
 
-class DetailBookingState extends State<DetailBooking> {
+class DetailBookingState extends State<DetailBooking>
+    implements PatientContractView {
   String _date = DateFormat('EEEE dd-MM-yyyy').format(DateTime.now());
+  PatientPresenter patientPresenter;
+  bool loadingPatient = true;
+  List<DocumentSnapshot> listPatient = List<DocumentSnapshot>();
+  int selectedPatient = 0;
+
+  DetailBookingState() {
+    patientPresenter = PatientPresenter(this);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    patientPresenter.loadPatientData(widget.idUser);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +65,7 @@ class DetailBookingState extends State<DetailBooking> {
                 width: 8,
               ),
               Text(
-                "Booking Confirm",
+                "Konfirmasi Booking",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Constants.blackColor,
@@ -64,45 +84,33 @@ class DetailBookingState extends State<DetailBooking> {
             children: [
               Padding(
                 padding: EdgeInsets.all(18),
-                child: Row(
-                  children: [
-                    Flexible(
-                      flex: 1,
+                child: ListTile(
+                  leading: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(1000),
+                      color: Constants.greyColor,
+                    ),
+                    width: 100,
+                    height: 100,
+                    child: SizedBox.expand(
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100.0),
-                        child: Image.network(
-                          widget.image,
+                        borderRadius: BorderRadius.circular(1000),
+                        child: FittedBox(
                           fit: BoxFit.fill,
-                          height: 100.0,
+                          child: Image.network(widget.image),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 24,
-                    ),
-                    Flexible(
-                      flex: 2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.name,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            widget.specialist,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
+                  ),
+                  title: Text(
+                    widget.name,
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                  ),
+                  subtitle: Text(
+                    widget.specialist,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400, color: Colors.grey),
+                  ),
                 ),
               ),
               Divider(
@@ -118,51 +126,103 @@ class DetailBookingState extends State<DetailBooking> {
                       fontSize: 20),
                 ),
               ),
-              Container(
-                color: const Color(0xfff4f4f4),
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Booking Untuk",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 18),
+              listPatient.isEmpty
+                  ? Container(
+                      alignment: Alignment.center,
+                      color: const Color(0xfff4f4f4),
+                      child: Padding(
+                        padding: EdgeInsets.all(20),
+                        child: FlatButton(
+                          textColor: Constants.blueColor,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChangePatient(
+                                  selectedPatient: selectedPatient,
+                                  userId: widget.idUser,
+                                ),
+                              ),
+                            ).then((value) {
+                              setState(() {
+                                loadingPatient = true;
+                                selectedPatient = value;
+                              });
+                              patientPresenter.loadPatientData(widget.idUser);
+                            });
+                          },
+                          child: Text("Tambah Pasien"),
+                        ),
+                      ),
+                    )
+                  : loadingPatient
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor: Constants.blueColor,
                           ),
-                          FlatButton(
-                            textColor: Constants.blueColor,
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ChangePatient()));
-                            },
-                            child: Text("Ganti Pasien"),
-                          )
-                        ],
-                      ),
-                      Text(
-                        "Nama : Irfan Trianto",
-                        style: TextStyle(color: Color(0xff8B8B8B)),
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text("Jenis Kelamin : Laki - laki",
-                          style: TextStyle(color: Color(0xff8B8B8B))),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text("Status : Saya Sendiri",
-                          style: TextStyle(color: Color(0xff8B8B8B)))
-                    ],
-                  ),
-                ),
-              ),
+                        )
+                      : Container(
+                          color: const Color(0xfff4f4f4),
+                          child: Padding(
+                            padding: EdgeInsets.all(20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Booking Untuk",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18),
+                                    ),
+                                    FlatButton(
+                                      textColor: Constants.blueColor,
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ChangePatient(
+                                                  selectedPatient: selectedPatient,
+                                                  userId: widget.idUser,
+                                                ),
+                                          ),
+                                        ).then((value) {
+                                          setState(() {
+                                            loadingPatient = true;
+                                            selectedPatient = value;
+                                          });
+                                          patientPresenter
+                                              .loadPatientData(widget.idUser);
+                                        });
+                                      },
+                                      child: Text("Ganti Pasien"),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  "Nama : ${listPatient[selectedPatient].data['name']}",
+                                  style: TextStyle(color: Color(0xff8B8B8B)),
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                    "Jenis Kelamin : ${listPatient[selectedPatient].data['gender']}",
+                                    style: TextStyle(color: Color(0xff8B8B8B))),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                    "Status : ${listPatient[selectedPatient].data['status']}",
+                                    style: TextStyle(color: Color(0xff8B8B8B)))
+                              ],
+                            ),
+                          ),
+                        ),
               Padding(
                 padding: EdgeInsets.only(top: 8, left: 20, right: 20),
                 child: Column(
@@ -195,7 +255,8 @@ class DetailBookingState extends State<DetailBooking> {
                                           lastDate: DateTime(2050))
                                       .then((value) {
                                     setState(() {
-                                      _date = DateFormat('EEEE dd-MM-yyyy').format(value);
+                                      _date = DateFormat('EEEE dd-MM-yyyy')
+                                          .format(value);
                                     });
                                   });
                                 })
@@ -256,5 +317,19 @@ class DetailBookingState extends State<DetailBooking> {
         ),
       ),
     );
+  }
+
+  @override
+  onErrorPatientData(error) {
+    // TODO: implement onErrorPatientData
+    throw UnimplementedError();
+  }
+
+  @override
+  onSuccessPatientData(List<DocumentSnapshot> value) {
+    setState(() {
+      listPatient = value;
+      loadingPatient = false;
+    });
   }
 }
