@@ -25,6 +25,7 @@ class LoginPresenter implements LoginContractPresenter {
         await preferences.setString(
             Constants.KEY_ID, querySnapshot.documents[0].documentID.toString());
         await preferences.setBool(Constants.KEY_LOGIN, true);
+        await preferences.setBool(Constants.KEY_GUIDE, true);
         return Constants.SUCCESS_RESPONSE;
       } else {
         return Constants.WRONG_PASSWORD_RESPONSE;
