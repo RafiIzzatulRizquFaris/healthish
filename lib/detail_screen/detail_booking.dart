@@ -24,11 +24,13 @@ class DetailBooking extends StatefulWidget {
 
 class DetailBookingState extends State<DetailBooking>
     implements PatientContractView {
-  String _date = DateFormat('EEEE dd-MM-yyyy').format(DateTime.now());
+  String date = DateFormat('EEEE dd-MM-yyyy').format(DateTime.now());
   PatientPresenter patientPresenter;
   bool loadingPatient = true;
   List<DocumentSnapshot> listPatient = List<DocumentSnapshot>();
   int selectedPatient = 0;
+
+  TextEditingController messageController = TextEditingController();
 
   DetailBookingState() {
     patientPresenter = PatientPresenter(this);
@@ -184,11 +186,10 @@ class DetailBookingState extends State<DetailBooking>
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                ChangePatient(
-                                                  selectedPatient: selectedPatient,
-                                                  userId: widget.idUser,
-                                                ),
+                                            builder: (context) => ChangePatient(
+                                              selectedPatient: selectedPatient,
+                                              userId: widget.idUser,
+                                            ),
                                           ),
                                         ).then((value) {
                                           setState(() {
@@ -239,7 +240,7 @@ class DetailBookingState extends State<DetailBooking>
                         Row(
                           children: [
                             Text(
-                              _date,
+                              date,
                               style: TextStyle(color: Color(0xffEE7421)),
                             ),
                             IconButton(
@@ -249,13 +250,14 @@ class DetailBookingState extends State<DetailBooking>
                                 ),
                                 onPressed: () {
                                   showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime.now(),
-                                          lastDate: DateTime(2050))
-                                      .then((value) {
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime.now(),
+                                    lastDate: DateTime(2050),
+                                  ).then((value) {
+                                    print(value);
                                     setState(() {
-                                      _date = DateFormat('EEEE dd-MM-yyyy')
+                                      date = DateFormat('EEEE dd-MM-yyyy')
                                           .format(value);
                                     });
                                   });
@@ -275,6 +277,7 @@ class DetailBookingState extends State<DetailBooking>
                       height: 8,
                     ),
                     TextFormField(
+                      controller: messageController,
                       maxLines: 4,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
@@ -304,8 +307,12 @@ class DetailBookingState extends State<DetailBooking>
               borderRadius: BorderRadius.circular(5),
             ),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => BookingStatus()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BookingStatus(),
+                ),
+              );
             },
             child: Text(
               'Konfirmasi',
