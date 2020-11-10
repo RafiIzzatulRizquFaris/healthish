@@ -4,7 +4,6 @@ import 'package:healthish/constants.dart';
 import 'package:healthish/contract/change_password_contract.dart';
 import 'package:healthish/main_navigation.dart';
 import 'package:healthish/presenter/change_password_presenter.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,7 +34,6 @@ class DetailAccountState extends State<DetailAccount>
   Constants constants = Constants();
   bool obscureText = true;
   ChangePasswordPresenter changePasswordPresenter;
-  ProgressDialog loadingDialog;
 
 
   DetailAccountState() {
@@ -44,27 +42,6 @@ class DetailAccountState extends State<DetailAccount>
 
   @override
   Widget build(BuildContext context) {
-    loadingDialog = ProgressDialog(
-      context,
-      type: ProgressDialogType.Normal,
-      isDismissible: false,
-    );
-    loadingDialog.style(
-      message: "Loading",
-      progressWidget: Container(
-        padding: EdgeInsets.all(8.0),
-        child: CircularProgressIndicator(
-          backgroundColor: Constants.blueColor,
-        ),
-      ),
-      backgroundColor: Colors.white,
-      elevation: 10.0,
-      insetAnimCurve: Curves.easeInOut,
-      messageTextStyle: TextStyle(
-        color: Constants.blueColor,
-      ),
-    );
-
     return Scaffold(
       backgroundColor: Constants.whiteColor,
       appBar: PreferredSize(
@@ -193,11 +170,11 @@ class DetailAccountState extends State<DetailAccount>
                   ),
                   DialogButton(
                     onPressed: () async {
-                      await loadingDialog.show();
+                      await constants.progressDialog(context).show();
                       SharedPreferences preferences =
                           await SharedPreferences.getInstance();
                       await preferences.clear();
-                      await loadingDialog.hide();
+                      await constants.progressDialog(context).hide();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -379,7 +356,7 @@ class DetailAccountState extends State<DetailAccount>
                                 confirmPasswordController.text
                                     .toString()
                                     .trim()) {
-                              await loadingDialog.show();
+                              await constants.progressDialog(context).show();
                               changePasswordPresenter.loadPasswordData(
                                   id: widget.id,
                                   password: newPasswordController.text
@@ -419,14 +396,14 @@ class DetailAccountState extends State<DetailAccount>
   @override
   onErrorChangePassword(error) async {
     print(error.toString());
-    await loadingDialog.hide();
+    await constants.progressDialog(context).hide();
     constants.errorAlert("Error", "Gagal merubah password. \n Sesuatu terjadi", context);
   }
 
   @override
   onSuccessChangePassword(String response) async {
     if (response == Constants.SUCCESS_RESPONSE) {
-      await loadingDialog.hide();
+      await constants.progressDialog(context).hide();
       Alert(
         context: context,
         title: "Sukses",
@@ -464,7 +441,7 @@ class DetailAccountState extends State<DetailAccount>
         ),
       ).show();
     } else {
-      await loadingDialog.hide();
+      await constants.progressDialog(context).hide();
       constants.errorAlert("Error", "Gagal merubah password", context);
     }
   }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/contract/add_patient_contract.dart';
 import 'package:healthish/presenter/add_patient_presenter.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class AddPatientSheet extends StatefulWidget {
@@ -21,7 +20,6 @@ class AddPatientSheetState extends State<AddPatientSheet>
   final formKey = GlobalKey<FormState>();
   Constants constants = Constants();
   AddPatientPresenter addPatientPresenter;
-  ProgressDialog loadingDialog;
   int radioGroupGender = -1;
   String dropdownValue;
   String radioValue;
@@ -37,26 +35,6 @@ class AddPatientSheetState extends State<AddPatientSheet>
 
   @override
   Widget build(BuildContext context) {
-    loadingDialog = ProgressDialog(
-      context,
-      type: ProgressDialogType.Normal,
-      isDismissible: false,
-    );
-    loadingDialog.style(
-      message: "Loading",
-      progressWidget: Container(
-        padding: EdgeInsets.all(8.0),
-        child: CircularProgressIndicator(
-          backgroundColor: Constants.blueColor,
-        ),
-      ),
-      backgroundColor: Colors.white,
-      elevation: 10.0,
-      insetAnimCurve: Curves.easeInOut,
-      messageTextStyle: TextStyle(
-        color: Constants.blueColor,
-      ),
-    );
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -224,7 +202,7 @@ class AddPatientSheetState extends State<AddPatientSheet>
                                 gender.length > 0 &&
                                 formKey.currentState.validate() &&
                                 name.length > 0) {
-                              await loadingDialog.show();
+                              await constants.progressDialog(context).show();
                               addPatientPresenter.loadAddPatientData(
                                   widget.idUser, name, gender, status);
                             } else {
@@ -254,7 +232,7 @@ class AddPatientSheetState extends State<AddPatientSheet>
   @override
   onErrorAddPatient(error) async {
     print(error.toString());
-    await loadingDialog.hide();
+    await constants.progressDialog(context).hide();
     constants.errorAlert(
         "Error", "Gagal menambah pasien. \n Sesuatu terjadi", context);
   }
@@ -262,7 +240,7 @@ class AddPatientSheetState extends State<AddPatientSheet>
   @override
   onSuccessAddPatient(String status) async {
     if (status == Constants.SUCCESS_RESPONSE) {
-      await loadingDialog.hide();
+      await constants.progressDialog(context).hide();
       Alert(
         context: context,
         title: "Sukses",
@@ -299,7 +277,7 @@ class AddPatientSheetState extends State<AddPatientSheet>
         ),
       ).show();
     } else {
-      await loadingDialog.hide();
+      await constants.progressDialog(context).hide();
       constants.errorAlert("Error", "Gagal menambah pasien", context);
     }
   }

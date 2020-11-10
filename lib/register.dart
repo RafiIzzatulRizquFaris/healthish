@@ -19,6 +19,7 @@ class RegisterState extends State<Register> implements RegisterContractView {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+  Constants constants = Constants();
   RegisterPresenter registerPresenter;
   bool obscureText = true;
   int radioGroupGender = -1;

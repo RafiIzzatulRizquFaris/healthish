@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Constants{
@@ -35,6 +36,30 @@ class Constants{
   static const String FAILED_RESPONSE = "failed";
   static const String WRONG_PASSWORD_RESPONSE = "wrong";
   static const String ALREADY_RESPONSE = "already";
+
+  ProgressDialog progressDialog(BuildContext ctx){
+    ProgressDialog loadingDialog = ProgressDialog(
+      ctx,
+      type: ProgressDialogType.Normal,
+      isDismissible: false,
+    );
+    loadingDialog.style(
+      message: "Loading",
+      progressWidget: Container(
+        padding: EdgeInsets.all(8.0),
+        child: CircularProgressIndicator(
+          backgroundColor: Constants.blueColor,
+        ),
+      ),
+      backgroundColor: Colors.white,
+      elevation: 10.0,
+      insetAnimCurve: Curves.easeInOut,
+      messageTextStyle: TextStyle(
+        color: Constants.blueColor,
+      ),
+    );
+    return loadingDialog;
+  }
 
   errorAlert(String title, String subtitle, BuildContext ctx) {
     return Alert(
