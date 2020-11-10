@@ -23,6 +23,7 @@ class Constants{
   static const String guideCollections = "guide";
   static const String careerCollections = "career";
   static const String userCollections = "user";
+  static const String patientCollections = "patient";
 
   static const String KEY_GUIDE = "guide";
   static const String KEY_LOGIN = "login";
