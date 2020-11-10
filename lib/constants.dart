@@ -32,4 +32,5 @@ class Constants{
   static const String SUCCESS_RESPONSE = "success";
   static const String FAILED_RESPONSE = "failed";
   static const String WRONG_PASSWORD_RESPONSE = "wrong";
+  static const String ALREADY_RESPONSE = "already";
 }
