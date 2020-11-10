@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/contract/register_contract.dart';
+import 'package:healthish/main_navigation.dart';
 import 'package:healthish/presenter/register_presenter.dart';
 import 'package:healthish/radio_group.dart';
 
@@ -255,10 +256,11 @@ class RegisterState extends State<Register> implements RegisterContractView {
                     fontSize: 24,
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   if (formKey.currentState.validate()) {
                     if (selectedValue.isNotEmpty ||
                         selectedValue.trim().length > 0) {
+                      await constants.progressDialog(context).show();
                       registerPresenter.loadRegisterData(
                         nameController.text.trim().toString(),
                         emailController.text.trim().toString(),
@@ -266,9 +268,11 @@ class RegisterState extends State<Register> implements RegisterContractView {
                         selectedValue.trim().toString(),
                         phoneController.text.trim().toString(),
                       );
-                    } else {}
+                    } else {
+                      constants.errorAlert("Gagal Mendaftarkan Akun", "Silahkan isi semua kolom isian", context);
+                    }
                   } else {
-                    // TODO: error
+                    constants.errorAlert("Gagal Mendaftarkan Akun", "Silahkan isi semua kolom isian", context);
                   }
                 },
               ),
@@ -306,14 +310,29 @@ class RegisterState extends State<Register> implements RegisterContractView {
   }
 
   @override
-  setOnErrorRegister(error) {
-    // TODO: implement setOnErrorRegister
-    throw UnimplementedError();
+  setOnErrorRegister(error) async {
+    print(error.toString());
+    await constants.progressDialog(context).hide();
+    constants.errorAlert(
+        "Error", "Gagal Mendaftarkan Akun. \n Sesuatu Terjadi", context);
   }
 
   @override
-  setRegisterData(String response) {
-    // TODO: implement setRegisterData
-    throw UnimplementedError();
+  setRegisterData(String response) async {
+    if (response == Constants.SUCCESS_RESPONSE) {
+      await constants.progressDialog(context).hide();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MainNavigation(),
+        ),
+      );
+    } else if (response == Constants.ALREADY_RESPONSE) {
+      await constants.progressDialog(context).hide();
+      constants.errorAlert("Gagal Mendaftarkan Akun", "Email yang anda gunakan sudah terdaftar\nSilahkan gunakan email lain atau Masuk", context);
+    } else {
+      await constants.progressDialog(context).hide();
+      constants.errorAlert("Error", "Gagal Mendaftarkan Akun", context);
+    }
   }
 }
