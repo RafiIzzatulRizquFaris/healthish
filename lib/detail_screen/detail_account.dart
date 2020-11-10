@@ -1,8 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
+import 'package:healthish/main_navigation.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailAccount extends StatefulWidget {
+  final String id;
+  final String image;
+  final String name;
+  final String gender;
+
+  DetailAccount({this.image, this.name, this.gender, this.id});
+
   @override
   State<StatefulWidget> createState() {
     return DetailAccountState();
@@ -10,8 +21,31 @@ class DetailAccount extends StatefulWidget {
 }
 
 class DetailAccountState extends State<DetailAccount> {
+  ProgressDialog loadingDialog;
+
   @override
   Widget build(BuildContext context) {
+    loadingDialog = ProgressDialog(
+      context,
+      type: ProgressDialogType.Normal,
+      isDismissible: false,
+    );
+    loadingDialog.style(
+      message: "Loading",
+      progressWidget: Container(
+        padding: EdgeInsets.all(8.0),
+        child: CircularProgressIndicator(
+          backgroundColor: Constants.blueColor,
+        ),
+      ),
+      backgroundColor: Colors.white,
+      elevation: 10.0,
+      insetAnimCurve: Curves.easeInOut,
+      messageTextStyle: TextStyle(
+        color: Constants.blueColor,
+      ),
+    );
+
     return Scaffold(
       backgroundColor: Constants.whiteColor,
       appBar: PreferredSize(
@@ -58,25 +92,25 @@ class DetailAccountState extends State<DetailAccount> {
                 color: Constants.greyColor,
                 borderRadius: BorderRadius.circular(1000),
               ),
-              // child: SizedBox.expand(
-              //   child: ClipRRect(
-              //     borderRadius: BorderRadius.all(Radius.circular(1000)),
-              //     child: FittedBox(
-              //       fit: BoxFit.fill,
-              //       child: Image.network(listDoctor[index]['image']),
-              //     ),
-              //   ),
-              // ),
+              child: SizedBox.expand(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(1000)),
+                  child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: Image.network(widget.image),
+                  ),
+                ),
+              ),
             ),
             title: Text(
-              "Name",
+              widget.name,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                   color: Constants.blackColor),
             ),
             subtitle: Text(
-              "Gender",
+              widget.gender,
               style: TextStyle(color: Constants.greyColor),
             ),
           ),
@@ -121,6 +155,65 @@ class DetailAccountState extends State<DetailAccount> {
               Icons.arrow_forward_ios_outlined,
               color: Constants.blackColor,
             ),
+            onTap: () {
+              Alert(
+                context: context,
+                title: "Keluar Akun",
+                desc: "Apakah anda yakin untuk mengeluarkan akun?",
+                type: AlertType.info,
+                buttons: [
+                  DialogButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(
+                      "Batal",
+                      style:
+                          TextStyle(color: Constants.whiteColor, fontSize: 20),
+                    ),
+                    color: Colors.grey,
+                  ),
+                  DialogButton(
+                    onPressed: () async {
+                      await loadingDialog.show();
+                      SharedPreferences preferences =
+                          await SharedPreferences.getInstance();
+                      await preferences.clear();
+                      await loadingDialog.hide();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MainNavigation(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Setuju",
+                      style: TextStyle(
+                        color: Constants.whiteColor,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ],
+                style: AlertStyle(
+                  animationType: AnimationType.grow,
+                  isCloseButton: false,
+                  isOverlayTapDismiss: false,
+                  descStyle: TextStyle(fontWeight: FontWeight.bold),
+                  descTextAlign: TextAlign.center,
+                  animationDuration: Duration(milliseconds: 400),
+                  alertBorder: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide(
+                      color: Colors.grey,
+                    ),
+                  ),
+                  titleStyle: TextStyle(
+                    color: Constants.blueColor,
+                  ),
+                  alertAlignment: Alignment.center,
+                ),
+              ).show();
+            },
           ),
           Container(
             margin: EdgeInsets.all(30),

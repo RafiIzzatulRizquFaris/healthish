@@ -32,6 +32,7 @@ class ProfileState extends State<Profile>
   String gender = "gender";
   String telephone = "telephone";
   String image = "image";
+  String id = "id";
   PreferredSize appBar = PreferredSize(
     preferredSize: Size.fromHeight(100),
     child: Container(
@@ -146,7 +147,12 @@ class ProfileState extends State<Profile>
                                           Navigator.push(context,
                                               MaterialPageRoute(
                                                   builder: (context) {
-                                            return DetailAccount();
+                                            return DetailAccount(
+                                              image: image,
+                                              name: name,
+                                              gender: gender,
+                                              id: id,
+                                            );
                                           }));
                                         },
                                       )
@@ -288,9 +294,11 @@ class ProfileState extends State<Profile>
         isLogin = null;
       });
     } else {
+      String prefId = preferences.getString(Constants.KEY_ID).toString();
       userPresenter
-          .loadUserData(preferences.getString(Constants.KEY_ID).toString());
+          .loadUserData(prefId);
       setState(() {
+        id = prefId;
         isLogin = loginPref;
         loadingUser = true;
       });
