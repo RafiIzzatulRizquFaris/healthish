@@ -109,7 +109,7 @@ class HomeState extends State<Home>
                         children: [
                           Text(
                             loadingEvent
-                                ? "lorem ipsum"
+                                ? ""
                                 : listEvent[carouselIndex].data["title"],
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -124,7 +124,7 @@ class HomeState extends State<Home>
                           ),
                           Text(
                             loadingEvent
-                                ? "lorem ipsum"
+                                ? ""
                                 : listEvent[carouselIndex].data["description"],
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -291,16 +291,16 @@ class HomeState extends State<Home>
                   firstAndSecondPlace(
                     listAbout.isNotEmpty
                         ? listAbout[0]["place_list"][0]["name"].toString()
-                        : "Place Name",
+                        : "",
                     listAbout.isNotEmpty
                         ? listAbout[0]["place_list"][0]["address"].toString()
-                        : "Place Name",
+                        : "",
                     listAbout.isNotEmpty
                         ? listAbout[0]["place_list"][0]["weekday"].toString()
-                        : "Place Name",
+                        : "",
                     listAbout.isNotEmpty
                         ? listAbout[0]["place_list"][0]["weekend"].toString()
-                        : "Place Name",
+                        : "",
                   ),
                   SizedBox(
                     height: 20,
@@ -308,16 +308,16 @@ class HomeState extends State<Home>
                   firstAndSecondPlace(
                     listAbout.isNotEmpty
                         ? listAbout[0]["place_list"][1]["name"].toString()
-                        : "Place Name",
+                        : "",
                     listAbout.isNotEmpty
                         ? listAbout[0]["place_list"][1]["address"].toString()
-                        : "Place Name",
+                        : "",
                     listAbout.isNotEmpty
                         ? listAbout[0]["place_list"][1]["weekday"].toString()
-                        : "Place Name",
+                        : "",
                     listAbout.isNotEmpty
                         ? listAbout[0]["place_list"][1]["weekend"].toString()
-                        : "Place Name",
+                        : "",
                   ),
                   SizedBox(
                     height: 20,
@@ -325,13 +325,13 @@ class HomeState extends State<Home>
                   thirdPlace(
                     listAbout.isNotEmpty
                         ? listAbout[0]["place_list"][2]["name"].toString()
-                        : "Place Name",
+                        : "",
                     listAbout.isNotEmpty
                         ? listAbout[0]["place_list"][2]["weekday"].toString()
-                        : "Place Weekday",
+                        : "",
                     listAbout.isNotEmpty
                         ? listAbout[0]["place_list"][2]["weekend"].toString()
-                        : "Place Weekend",
+                        : "",
                   ),
                 ],
               ),
