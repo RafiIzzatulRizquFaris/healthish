@@ -11,7 +11,7 @@ class PartnerPresenter implements PartnerContractPresenter {
   @override
   Future<List<DocumentSnapshot>> getPartnerData() async {
     QuerySnapshot querySnapshot =
-        await firestore.collection(Constants.patnerCollections).getDocuments();
+        await firestore.collection(Constants.partnerCollections).getDocuments();
     return querySnapshot.documents;
   }
 
