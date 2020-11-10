@@ -6,7 +6,12 @@ import 'package:intl/intl.dart';
 import '../constants.dart';
 
 class DetailBooking extends StatefulWidget {
-  DetailBooking({Key key}) : super(key: key);
+  final String image;
+  final String name;
+  final String specialist;
+  final String idDoctor;
+  final String idUser;
+  DetailBooking({this.image, this.name, this.specialist, this.idDoctor, this.idUser});
 
   @override
   DetailBookingState createState() => DetailBookingState();
@@ -66,7 +71,8 @@ class DetailBookingState extends State<DetailBooking> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100.0),
                         child: Image.network(
-                          "https://www.rssatyanegara.com/wp-content/files_mf/1411616552Dr.ImansyahSpPD.jpg",
+                          widget.image,
+                          fit: BoxFit.fill,
                           height: 100.0,
                         ),
                       ),
@@ -80,7 +86,7 @@ class DetailBookingState extends State<DetailBooking> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Dokter 1",
+                            widget.name,
                             style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 18),
                           ),
@@ -88,7 +94,7 @@ class DetailBookingState extends State<DetailBooking> {
                             height: 8,
                           ),
                           Text(
-                            "Umum",
+                            widget.specialist,
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: Colors.grey),

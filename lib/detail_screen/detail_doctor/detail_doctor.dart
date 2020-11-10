@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:healthish/detail_screen/detail_booking.dart';
 import 'package:healthish/detail_screen/detail_doctor/component/bookingSheet.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
 
 class DetailDoctor extends StatefulWidget {
+  final String id;
   final String name;
   final String image;
   final String specialist;
@@ -24,7 +27,7 @@ class DetailDoctor extends StatefulWidget {
     this.scheduleDay,
     this.scheduleTime,
     this.schedulePlace,
-    this.image,
+    this.image, this.id,
   });
 
   @override
@@ -79,19 +82,37 @@ class DetailDoctorState extends State<DetailDoctor> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+            onPressed: () async {
+              SharedPreferences preferences =
+                  await SharedPreferences.getInstance();
+              if (preferences.getBool(Constants.KEY_LOGIN) == null) {
+                showModalBottomSheet(
+                  context: context,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
                   ),
-                ),
-                builder: (BuildContext context) {
-                  return BookingSheet();
-                },
-              );
+                  builder: (BuildContext context) {
+                    return BookingSheet();
+                  },
+                );
+              } else {
+                String idUser = preferences.getString(Constants.KEY_ID).toString();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailBooking(
+                      name: widget.name,
+                      image: widget.image,
+                      specialist: widget.specialist,
+                      idDoctor: widget.id,
+                      idUser: idUser,
+                    ),
+                  ),
+                );
+              }
             },
             child: Text(
               'Buat Janji',
