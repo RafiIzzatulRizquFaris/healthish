@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:healthish/contract/career_contract.dart';
 import 'package:healthish/contract/partner_contract.dart';
 import 'package:healthish/detail_screen/detail_content.dart';
-import 'package:healthish/detail_screen/detail_event.dart';
 import 'package:healthish/detail_screen/partner_career/component/item_career.dart';
 import 'package:healthish/detail_screen/partner_career/component/item_partner.dart';
 import 'package:healthish/presenter/career_presenter.dart';

@@ -128,7 +128,7 @@ class DetailContentState extends State<DetailContent> {
   }
 
   Widget checkDate() {
-    if (widget.type == "Partner") {
+    if (widget.type == "Partner" || widget.type == "Fasilitas") {
       return Container();
     }
     return Padding(

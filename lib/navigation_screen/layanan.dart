@@ -5,8 +5,7 @@ import 'package:flutter/painting.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/contract/event_contract.dart';
 import 'package:healthish/contract/facility_contract.dart';
-import 'package:healthish/detail_screen/detail_event.dart';
-import 'package:healthish/detail_screen/detail_facility.dart';
+import 'package:healthish/detail_screen/detail_content.dart';
 import 'package:healthish/presenter/event_presenter.dart';
 import 'package:healthish/presenter/facility_presenter.dart';
 
@@ -221,11 +220,8 @@ class LayananState extends State<Layanan>
         padding: EdgeInsets.all(0),
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return DetailFacility(
-              desc: listFacility[index]['description'],
-              imgUrl: listFacility[index]['image'],
-              title: listFacility[index]['title'],
-            );
+            return DetailContent(
+                type: "Fasilitas", dataContent: listFacility[index]);
           }));
         },
         child: Stack(
@@ -294,12 +290,9 @@ class LayananState extends State<Layanan>
           padding: EdgeInsets.all(0),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return DetailEvent(
-                desc: listEvent[i].data["description"].toString(),
-                title: listEvent[i].data["title"].toString(),
-                date: listEvent[i].data["date"].toString(),
-                imgUrl: listEvent[i].data["image"].toString(),
-                type: listEvent[i].data["type"].toString(),
+              return DetailContent(
+                type: "Event",
+                dataContent: listEvent[i],
               );
             }));
           },

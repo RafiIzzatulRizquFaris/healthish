@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +11,7 @@ import 'package:healthish/contract/doctor_contract.dart';
 import 'package:healthish/contract/event_contract.dart';
 import 'package:healthish/contract/news_contract.dart';
 import 'package:healthish/detail_screen/about/detail_about.dart';
-import 'package:healthish/detail_screen/detail_event.dart';
+import 'package:healthish/detail_screen/detail_content.dart';
 import 'package:healthish/presenter/about_presenter.dart';
 import 'package:healthish/presenter/doctor_presenter.dart';
 import 'package:healthish/presenter/event_presenter.dart';
@@ -149,26 +148,14 @@ class HomeState extends State<Home>
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 onPressed: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return DetailEvent(
-                                      desc: listEvent[carouselIndex]
-                                          .data["description"]
-                                          .toString(),
-                                      title: listEvent[carouselIndex]
-                                          .data["title"]
-                                          .toString(),
-                                      date: listEvent[carouselIndex]
-                                          .data["date"]
-                                          .toString(),
-                                      imgUrl: listEvent[carouselIndex]
-                                          .data["image"]
-                                          .toString(),
-                                      type: listEvent[carouselIndex]
-                                          .data["type"]
-                                          .toString(),
-                                    );
-                                  }));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailContent(
+                                                type: "Event",
+                                                dataContent:
+                                                    listEvent[carouselIndex],
+                                              )));
                                 },
                               ),
                             ],
@@ -232,52 +219,51 @@ class HomeState extends State<Home>
                                   bottom: 8,
                                   child: Align(
                                     alignment: Alignment.bottomLeft,
-                                    child:  Container(
-                                        padding: EdgeInsets.only(
-                                          top: 10,
-                                          bottom: 10,
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                        top: 10,
+                                        bottom: 10,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Constants.whiteColor,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Constants.darkGreyColor,
+                                            blurRadius: 50,
+                                          ),
+                                        ],
+                                      ),
+                                      child: ListTile(
+                                        onTap: () async {
+                                          await launch(
+                                              'https://www.google.com/maps/search/?api=1&query=-6.318920, 106.852008');
+                                        },
+                                        leading: Container(
+                                          height: 50,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Constants.greyColor,
+                                          ),
                                         ),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Constants.whiteColor,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Constants.darkGreyColor,
-                                              blurRadius: 50,
-                                            ),
-                                          ],
+                                        title: Text(
+                                          "RS. SMKDEV",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.start,
                                         ),
-                                        child: ListTile(
-                                          onTap: () async {
-                                            await launch(
-                                                'https://www.google.com/maps/search/?api=1&query=-6.318920, 106.852008');
-                                          },
-                                          leading: Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: Constants.greyColor,
-                                            ),
+                                        subtitle: Text(
+                                          "Jl. Margacipta no. 29\nBuah Batu, Bandung",
+                                          style: TextStyle(
+                                            color: Constants.greyColor,
                                           ),
-                                          title: Text(
-                                            "RS. SMKDEV",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            textAlign: TextAlign.start,
-                                          ),
-                                          subtitle: Text(
-                                            "Jl. Margacipta no. 29\nBuah Batu, Bandung",
-                                            style: TextStyle(
-                                              color: Constants.greyColor,
-                                            ),
-                                            textAlign: TextAlign.start,
-                                          ),
+                                          textAlign: TextAlign.start,
                                         ),
                                       ),
+                                    ),
                                   ),
                                 )
                               : Container(),
@@ -665,15 +651,13 @@ class HomeState extends State<Home>
       child: FlatButton(
         padding: EdgeInsets.all(0),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return DetailEvent(
-              desc: listEvent[index].data["description"].toString(),
-              title: listEvent[index].data["title"].toString(),
-              date: listEvent[index].data["date"].toString(),
-              imgUrl: listEvent[index].data["image"].toString(),
-              type: listEvent[index].data["type"].toString(),
-            );
-          }));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DetailContent(
+                        type: "Event",
+                        dataContent: listEvent[index],
+                      )));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
