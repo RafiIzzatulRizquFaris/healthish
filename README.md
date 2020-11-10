@@ -4,7 +4,6 @@
 <a href="https://github.com/RafiIzzatulRizquFaris/healthish/pulls"><img src="https://img.shields.io/github/issues-pr/RafiIzzatulRizquFaris/healthish" alt="Pull Requests Badge"/></a>
 <a href="https://github.com/RafiIzzatulRizquFaris/healthish/issues"><img src="https://img.shields.io/github/issues/RafiIzzatulRizquFaris/healthish" alt="Issues Badge"/></a>
 <a href="https://github.com/RafiIzzatulRizquFaris/healthish/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/RafiIzzatulRizquFaris/healthish?color=2b9348"></a>
-<a href="https://github.com/RafiIzzatulRizquFaris/healthish/blob/master/LICENSE"><img src="https://img.shields.io/github/license/RafiIzzatulRizquFaris/healthish?color=2b9348" alt="License Badge"/></a>
 </div>
 
 <!-- PROJECT LOGO -->
