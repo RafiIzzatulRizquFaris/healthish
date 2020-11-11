@@ -87,7 +87,6 @@ class MainNavigationState extends State<MainNavigation>
                 right: 10,
               ),
               child: FlatButton(
-                
                 padding: EdgeInsets.all(12),
                 child: Row(
                   children: [
@@ -110,13 +109,15 @@ class MainNavigationState extends State<MainNavigation>
                 splashColor: Constants.redColor,
                 color: Constants.blueColor,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FeedbackForm(),
-                      ));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FeedbackForm(),
+                    ),
+                  );
                 },
               ),
             ),
@@ -157,6 +158,9 @@ class MainNavigationState extends State<MainNavigation>
                   setState(() {
                     selectedIndex = 4;
                   });
+                  animationController.reverse();
+                  secondAnimationController.reverse();
+                  thirdAnimationController.reverse();
                 },
               ),
             ),
