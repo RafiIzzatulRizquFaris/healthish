@@ -260,8 +260,10 @@ class DetailAccountState extends State<DetailAccount>
           autovalidateMode: AutovalidateMode.always,
           child: Container(
             child: Center(
-              child: ListView(
-                shrinkWrap: true,
+              child: SingleChildScrollView(
+                reverse: true,
+                child: Column(
+                
                 children: [
                   Text(
                     "Ganti Password",
@@ -407,8 +409,12 @@ class DetailAccountState extends State<DetailAccount>
                       ),
                     ),
                   ),
+                   Padding(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom)),
                 ],
               ),
+              )
             ),
           ),
         );
