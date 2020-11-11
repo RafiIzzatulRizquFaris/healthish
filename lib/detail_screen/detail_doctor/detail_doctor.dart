@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/detail_screen/detail_booking.dart';
-import 'package:healthish/detail_screen/detail_doctor/component/bookingSheet.dart';
+import 'package:healthish/detail_screen/detail_doctor/component/booking_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
@@ -27,7 +27,8 @@ class DetailDoctor extends StatefulWidget {
     this.scheduleDay,
     this.scheduleTime,
     this.schedulePlace,
-    this.image, this.id,
+    this.image,
+    this.id,
   });
 
   @override
@@ -95,7 +96,12 @@ class DetailDoctorState extends State<DetailDoctor> {
                     ),
                   ),
                   builder: (BuildContext context) {
-                    return BookingSheet();
+                    return BookingSheet(
+                      name: widget.name,
+                      image: widget.image,
+                      specialist: widget.specialist,
+                      idDoctor: widget.id,
+                    );
                   },
                 );
               } else {
