@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PartnerContractPresenter {
-  getPartnerData() {}
-  loadPartnerData(){}
+  getPartnerData({String searchValue}) {}
+  loadPartnerData({String searchValue}){}
 }
 
 class PartnerContractView {
-  onSuccesPartnerData(List<DocumentSnapshot> value) {}
+  onSuccessPartnerData(List<DocumentSnapshot> value) {}
   onErrorPartnerData(error) {}
 }

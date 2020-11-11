@@ -10,16 +10,30 @@ class CareerPresenter implements CareerContractPresenter {
   CareerPresenter(this.careerContractView);
 
   @override
-  Future<List<DocumentSnapshot>> getCareer() async {
-    QuerySnapshot querySnapshot =
-        await firestore.collection(Constants.careerCollections).getDocuments();
+  Future<List<DocumentSnapshot>> getCareer({String searchValue}) async {
+    if (searchValue == null || searchValue.isEmpty || searchValue.length == 0) {
+      QuerySnapshot querySnapshot = await firestore
+          .collection(Constants.careerCollections)
+          .getDocuments();
+      return querySnapshot.documents;
+    }
+    QuerySnapshot querySnapshot = await firestore
+        .collection(Constants.careerCollections)
+        .where("title", isEqualTo: searchValue)
+        .getDocuments();
     return querySnapshot.documents;
   }
 
   @override
-  loadCareer() {
-    getCareer()
-        .then((value) => careerContractView.onSuccessCareerData(value))
-        .catchError((error) => careerContractView.onErrorCareerData(error));
+  loadCareer({String searchValue}) {
+    if (searchValue == null || searchValue.isEmpty || searchValue.length == 0) {
+      getCareer()
+          .then((value) => careerContractView.onSuccessCareerData(value))
+          .catchError((error) => careerContractView.onErrorCareerData(error));
+    } else {
+      getCareer(searchValue: searchValue)
+          .then((value) => careerContractView.onSuccessCareerData(value))
+          .catchError((error) => careerContractView.onErrorCareerData(error));
+    }
   }
 }

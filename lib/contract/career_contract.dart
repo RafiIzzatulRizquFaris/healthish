@@ -6,6 +6,6 @@ class CareerContractView {
 }
 
 class CareerContractPresenter {
-  getCareer() {}
-  loadCareer() {}
+  getCareer({String searchValue}) {}
+  loadCareer({String searchValue}) {}
 }
