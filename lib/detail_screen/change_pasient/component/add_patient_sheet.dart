@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:healthish/constants.dart';
 import 'package:healthish/contract/add_patient_contract.dart';
 import 'package:healthish/presenter/add_patient_presenter.dart';
-import 'package:progress_dialog/progress_dialog.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class AddPatientSheet extends StatefulWidget {
   final String idUser;
@@ -14,17 +12,18 @@ class AddPatientSheet extends StatefulWidget {
   AddPatientSheetState createState() => AddPatientSheetState();
 }
 
-class AddPatientSheetState extends State<AddPatientSheet> implements AddPatientContractView {
+class AddPatientSheetState extends State<AddPatientSheet>
+    implements AddPatientContractView {
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  Constants constants = Constants();
+  AddPatientPresenter addPatientPresenter;
+  int radioGroupGender = -1;
   String dropdownValue;
   String radioValue;
-  TextEditingController passwordController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
-  AddPatientPresenter addPatientPresenter;
-  ProgressDialog loadingDialog;
-  TextEditingController nameController = TextEditingController();
-  int radioGroupGender = -1;
 
-  AddPatientSheetState(){
+  AddPatientSheetState() {
     addPatientPresenter = AddPatientPresenter(this);
   }
 
@@ -35,26 +34,6 @@ class AddPatientSheetState extends State<AddPatientSheet> implements AddPatientC
 
   @override
   Widget build(BuildContext context) {
-    loadingDialog = ProgressDialog(
-      context,
-      type: ProgressDialogType.Normal,
-      isDismissible: false,
-    );
-    loadingDialog.style(
-      message: "Loading",
-      progressWidget: Container(
-        padding: EdgeInsets.all(8.0),
-        child: CircularProgressIndicator(
-          backgroundColor: Constants.blueColor,
-        ),
-      ),
-      backgroundColor: Colors.white,
-      elevation: 10.0,
-      insetAnimCurve: Curves.easeInOut,
-      messageTextStyle: TextStyle(
-        color: Constants.blueColor,
-      ),
-    );
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -218,11 +197,16 @@ class AddPatientSheetState extends State<AddPatientSheet> implements AddPatientC
                             String gender = radioValue.trim().toString();
                             String status = dropdownValue.trim().toString();
                             String name = nameController.text.trim().toString();
-                            if (status.length > 0 && gender.length > 0 && formKey.currentState.validate() && name.length > 0){
-                              await loadingDialog.show();
-                              addPatientPresenter.loadAddPatientData(widget.idUser, name, gender, status);
-                            }else{
-                              errorAlert("Gagal Menambah Pasien", "Silahkan isi semua kolom pengisian");
+                            if (status.length > 0 &&
+                                gender.length > 0 &&
+                                formKey.currentState.validate() &&
+                                name.length > 0) {
+                              await constants.progressDialog(context).show();
+                              addPatientPresenter.loadAddPatientData(
+                                  widget.idUser, name, gender, status);
+                            } else {
+                              constants.errorAlert("Gagal Menambah Pasien",
+                                  "Silahkan isi semua kolom pengisian", context);
                             }
                           },
                           child: Text('Tambah'),
@@ -244,91 +228,22 @@ class AddPatientSheetState extends State<AddPatientSheet> implements AddPatientC
     );
   }
 
-  errorAlert(String title, String subtitle) {
-    return Alert(
-      context: context,
-      title: title,
-      desc: subtitle,
-      type: AlertType.warning,
-      buttons: [
-        DialogButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(
-            "OK",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-        ),
-      ],
-      style: AlertStyle(
-        animationType: AnimationType.grow,
-        isCloseButton: false,
-        isOverlayTapDismiss: false,
-        descStyle: TextStyle(fontWeight: FontWeight.bold),
-        descTextAlign: TextAlign.center,
-        animationDuration: Duration(milliseconds: 400),
-        alertBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(
-            color: Colors.grey,
-          ),
-        ),
-        titleStyle: TextStyle(
-          color: Colors.red,
-        ),
-        alertAlignment: Alignment.center,
-      ),
-    ).show();
-  }
-
   @override
   onErrorAddPatient(error) async {
     print(error.toString());
-    await loadingDialog.hide();
-    errorAlert("Error", "Gagal menambah pasien. \n Sesuatu terjadi");
+    await constants.progressDialog(context).hide();
+    constants.errorAlert(
+        "Error", "Gagal menambah pasien. \n Sesuatu terjadi", context);
   }
 
   @override
   onSuccessAddPatient(String status) async {
     if (status == Constants.SUCCESS_RESPONSE) {
-      await loadingDialog.hide();
-      Alert(
-        context: context,
-        title: "Sukses",
-        desc: "Anda berhasil menambah daftar pasien",
-        type: AlertType.success,
-        buttons: [
-          DialogButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              "Ok",
-              style: TextStyle(color: Constants.whiteColor, fontSize: 20),
-            ),
-          ),
-        ],
-        style: AlertStyle(
-          animationType: AnimationType.grow,
-          isCloseButton: false,
-          isOverlayTapDismiss: false,
-          descStyle: TextStyle(fontWeight: FontWeight.bold),
-          descTextAlign: TextAlign.center,
-          animationDuration: Duration(milliseconds: 400),
-          alertBorder: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: BorderSide(
-              color: Colors.grey,
-            ),
-          ),
-          titleStyle: TextStyle(
-            color: Constants.blueColor,
-          ),
-          alertAlignment: Alignment.center,
-        ),
-      ).show();
+      await constants.progressDialog(context).hide();
+      constants.successAlert("Sukses", "Anda berhasil menambah daftar pasien", context);
     } else {
-      await loadingDialog.hide();
-      errorAlert("Error", "Gagal menambah pasien");
+      await constants.progressDialog(context).hide();
+      constants.errorAlert("Error", "Gagal menambah pasien", context);
     }
   }
 }

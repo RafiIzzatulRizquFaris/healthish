@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Constants{
 
@@ -33,4 +36,102 @@ class Constants{
   static const String FAILED_RESPONSE = "failed";
   static const String WRONG_PASSWORD_RESPONSE = "wrong";
   static const String ALREADY_RESPONSE = "already";
+
+  ProgressDialog progressDialog(BuildContext ctx){
+    ProgressDialog loadingDialog = ProgressDialog(
+      ctx,
+      type: ProgressDialogType.Normal,
+      isDismissible: false,
+    );
+    loadingDialog.style(
+      message: "Loading",
+      progressWidget: Container(
+        padding: EdgeInsets.all(8.0),
+        child: CircularProgressIndicator(
+          backgroundColor: Constants.blueColor,
+        ),
+      ),
+      backgroundColor: Colors.white,
+      elevation: 10.0,
+      insetAnimCurve: Curves.easeInOut,
+      messageTextStyle: TextStyle(
+        color: Constants.blueColor,
+      ),
+    );
+    return loadingDialog;
+  }
+
+  successAlert(String title, String subtitle, BuildContext ctx){
+    return Alert(
+      context: ctx,
+      title: title,
+      desc: subtitle,
+      type: AlertType.success,
+      buttons: [
+        DialogButton(
+          onPressed: () {
+            Navigator.pop(ctx);
+          },
+          child: Text(
+            "Ok",
+            style: TextStyle(color: Constants.whiteColor, fontSize: 20),
+          ),
+        ),
+      ],
+      style: AlertStyle(
+        animationType: AnimationType.grow,
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+        descStyle: TextStyle(fontWeight: FontWeight.bold),
+        descTextAlign: TextAlign.center,
+        animationDuration: Duration(milliseconds: 400),
+        alertBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(
+            color: Colors.grey,
+          ),
+        ),
+        titleStyle: TextStyle(
+          color: Constants.blueColor,
+        ),
+        alertAlignment: Alignment.center,
+      ),
+    ).show();
+  }
+
+  errorAlert(String title, String subtitle, BuildContext ctx) {
+    return Alert(
+      context: ctx,
+      title: title,
+      desc: subtitle,
+      type: AlertType.warning,
+      buttons: [
+        DialogButton(
+          onPressed: () => Navigator.pop(ctx),
+          child: Text(
+            "OK",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        ),
+      ],
+      style: AlertStyle(
+        animationType: AnimationType.grow,
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+        descStyle: TextStyle(fontWeight: FontWeight.bold),
+        descTextAlign: TextAlign.center,
+        animationDuration: Duration(milliseconds: 400),
+        alertBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(
+            color: Colors.grey,
+          ),
+        ),
+        titleStyle: TextStyle(
+          color: Colors.red,
+        ),
+        alertAlignment: Alignment.center,
+      ),
+    ).show();
+  }
 }

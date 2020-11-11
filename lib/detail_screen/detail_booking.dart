@@ -244,25 +244,26 @@ class DetailBookingState extends State<DetailBooking>
                               style: TextStyle(color: Color(0xffEE7421)),
                             ),
                             IconButton(
-                                icon: Icon(
-                                  Icons.calendar_today_outlined,
-                                  color: Constants.blueColor,
-                                ),
-                                onPressed: () {
-                                  showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime.now(),
-                                    lastDate: DateTime(2050),
-                                  ).then((value) {
-                                    print(value);
-                                    setState(() {
-                                      date = DateFormat('EEEE dd-MM-yyyy HH:mm')
-                                          .format(value);
-                                      time = DateFormat('HH:mm').format(value);
-                                    });
+                              icon: Icon(
+                                Icons.calendar_today_outlined,
+                                color: Constants.blueColor,
+                              ),
+                              onPressed: () {
+                                showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime(2050),
+                                ).then((value) {
+                                  print(value);
+                                  setState(() {
+                                    date = DateFormat('EEEE dd-MM-yyyy')
+                                        .format(value);
+                                    time = DateFormat('HH:mm').format(value);
                                   });
-                                })
+                                });
+                              },
+                            )
                           ],
                         )
                       ],

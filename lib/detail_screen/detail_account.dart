@@ -4,7 +4,6 @@ import 'package:healthish/constants.dart';
 import 'package:healthish/contract/change_password_contract.dart';
 import 'package:healthish/main_navigation.dart';
 import 'package:healthish/presenter/change_password_presenter.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,14 +28,13 @@ class DetailAccount extends StatefulWidget {
 
 class DetailAccountState extends State<DetailAccount>
     implements ChangePasswordContractView {
-  ProgressDialog loadingDialog;
   final formKey = GlobalKey<FormState>();
-  ChangePasswordPresenter changePasswordPresenter;
-
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-
+  Constants constants = Constants();
   bool obscureText = true;
+  ChangePasswordPresenter changePasswordPresenter;
+
 
   DetailAccountState() {
     changePasswordPresenter = ChangePasswordPresenter(this);
@@ -44,27 +42,6 @@ class DetailAccountState extends State<DetailAccount>
 
   @override
   Widget build(BuildContext context) {
-    loadingDialog = ProgressDialog(
-      context,
-      type: ProgressDialogType.Normal,
-      isDismissible: false,
-    );
-    loadingDialog.style(
-      message: "Loading",
-      progressWidget: Container(
-        padding: EdgeInsets.all(8.0),
-        child: CircularProgressIndicator(
-          backgroundColor: Constants.blueColor,
-        ),
-      ),
-      backgroundColor: Colors.white,
-      elevation: 10.0,
-      insetAnimCurve: Curves.easeInOut,
-      messageTextStyle: TextStyle(
-        color: Constants.blueColor,
-      ),
-    );
-
     return Scaffold(
       backgroundColor: Constants.whiteColor,
       appBar: PreferredSize(
@@ -193,11 +170,11 @@ class DetailAccountState extends State<DetailAccount>
                   ),
                   DialogButton(
                     onPressed: () async {
-                      await loadingDialog.show();
+                      await constants.progressDialog(context).show();
                       SharedPreferences preferences =
                           await SharedPreferences.getInstance();
                       await preferences.clear();
-                      await loadingDialog.hide();
+                      await constants.progressDialog(context).hide();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -381,15 +358,15 @@ class DetailAccountState extends State<DetailAccount>
                                 confirmPasswordController.text
                                     .toString()
                                     .trim()) {
-                              await loadingDialog.show();
+                              await constants.progressDialog(context).show();
                               changePasswordPresenter.loadPasswordData(
                                   id: widget.id,
                                   password: newPasswordController.text
                                       .trim()
                                       .toString());
                             } else {
-                              errorAlert("Gagal Memperbarui Password",
-                                  "Password baru dan konfimasi password tidak sama");
+                              constants.errorAlert("Gagal Memperbarui Password",
+                                  "Password baru dan konfimasi password tidak sama", context);
                             }
                           }
                         },
@@ -422,92 +399,21 @@ class DetailAccountState extends State<DetailAccount>
     );
   }
 
-  errorAlert(String title, String subtitle) {
-    return Alert(
-      context: context,
-      title: title,
-      desc: subtitle,
-      type: AlertType.warning,
-      buttons: [
-        DialogButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(
-            "OK",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-        ),
-      ],
-      style: AlertStyle(
-        animationType: AnimationType.grow,
-        isCloseButton: false,
-        isOverlayTapDismiss: false,
-        descStyle: TextStyle(fontWeight: FontWeight.bold),
-        descTextAlign: TextAlign.center,
-        animationDuration: Duration(milliseconds: 400),
-        alertBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(
-            color: Colors.grey,
-          ),
-        ),
-        titleStyle: TextStyle(
-          color: Colors.red,
-        ),
-        alertAlignment: Alignment.center,
-      ),
-    ).show();
-  }
-
   @override
   onErrorChangePassword(error) async {
     print(error.toString());
-    await loadingDialog.hide();
-    errorAlert("Error", "Gagal merubah password. \n Sesuatu terjadi");
+    await constants.progressDialog(context).hide();
+    constants.errorAlert("Error", "Gagal merubah password. \n Sesuatu terjadi", context);
   }
 
   @override
   onSuccessChangePassword(String response) async {
     if (response == Constants.SUCCESS_RESPONSE) {
-      await loadingDialog.hide();
-      Alert(
-        context: context,
-        title: "Sukses",
-        desc: "Anda berhasil mengubah password",
-        type: AlertType.success,
-        buttons: [
-          DialogButton(
-            onPressed: () {
-
-              Navigator.pop(context);
-            },
-            child: Text(
-              "Ok",
-              style: TextStyle(color: Constants.whiteColor, fontSize: 20),
-            ),
-          ),
-        ],
-        style: AlertStyle(
-          animationType: AnimationType.grow,
-          isCloseButton: false,
-          isOverlayTapDismiss: false,
-          descStyle: TextStyle(fontWeight: FontWeight.bold),
-          descTextAlign: TextAlign.center,
-          animationDuration: Duration(milliseconds: 400),
-          alertBorder: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: BorderSide(
-              color: Colors.grey,
-            ),
-          ),
-          titleStyle: TextStyle(
-            color: Constants.blueColor,
-          ),
-          alertAlignment: Alignment.center,
-        ),
-      ).show();
+      await constants.progressDialog(context).hide();
+      constants.successAlert("Sukses", "Anda berhasil mengubah password", context);
     } else {
-      await loadingDialog.hide();
-      errorAlert("Error", "Gagal merubah password");
+      await constants.progressDialog(context).hide();
+      constants.errorAlert("Error", "Gagal merubah password", context);
     }
   }
 }
