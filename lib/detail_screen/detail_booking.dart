@@ -254,12 +254,18 @@ class DetailBookingState extends State<DetailBooking>
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime.now(),
                                   lastDate: DateTime(2050),
-                                ).then((value) {
-                                  print(value);
-                                  setState(() {
-                                    date = DateFormat('EEEE dd-MM-yyyy')
-                                        .format(value);
-                                    time = DateFormat('HH:mm').format(value);
+                                ).then((valueDate) {
+                                  print(valueDate);
+                                  showTimePicker(
+                                    initialTime: TimeOfDay.now(),
+                                    context: context,
+                                  ).then((valueTime) {
+                                    print(valueTime);
+                                    setState(() {
+                                      date = DateFormat('EEEE dd-MM-yyyy')
+                                          .format(valueDate);
+                                      time = valueTime.format(context);
+                                    });
                                   });
                                 });
                               },
