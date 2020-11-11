@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:healthish/contract/add_booking_contract.dart';
 import 'package:healthish/contract/patient_contract.dart';
 import 'package:healthish/detail_screen/booking_status.dart';
+import 'package:healthish/presenter/add_booking_presenter.dart';
 import 'package:healthish/presenter/patient_presenter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
@@ -23,19 +25,24 @@ class DetailBooking extends StatefulWidget {
 }
 
 class DetailBookingState extends State<DetailBooking>
-    implements PatientContractView {
+    implements PatientContractView, AddBookingContractView {
+  String showDate =
+      DateFormat('EEEE dd-MM-yyyy', 'in_ID').format(DateTime.now());
   String date = DateFormat('dd-MM-yyyy').format(DateTime.now());
   String time = DateFormat('HH:mm').format(DateTime.now());
   String day = DateFormat('EEEE', 'in_ID').format(DateTime.now());
   PatientPresenter patientPresenter;
+  AddBookingPresenter addBookingPresenter;
   bool loadingPatient = true;
   List<DocumentSnapshot> listPatient = List<DocumentSnapshot>();
+  Constants constants = Constants();
   int selectedPatient = 0;
 
   TextEditingController messageController = TextEditingController();
 
   DetailBookingState() {
     patientPresenter = PatientPresenter(this);
+    addBookingPresenter = AddBookingPresenter(this);
   }
 
   @override
@@ -243,7 +250,7 @@ class DetailBookingState extends State<DetailBooking>
                         Row(
                           children: [
                             Text(
-                              date,
+                              showDate,
                               style: TextStyle(color: Color(0xffEE7421)),
                             ),
                             IconButton(
@@ -263,17 +270,28 @@ class DetailBookingState extends State<DetailBooking>
                                     context: context,
                                     builder: (context, child) {
                                       return MediaQuery(
-                                        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true,),
+                                        data: MediaQuery.of(context).copyWith(
+                                          alwaysUse24HourFormat: true,
+                                        ),
                                         child: child,
                                       );
                                     },
                                   ).then((valueTime) {
                                     final now = new DateTime.now();
-                                    final dt = DateTime(now.year, now.month, now.day, valueTime.hour, valueTime.minute);
+                                    final dt = DateTime(
+                                        now.year,
+                                        now.month,
+                                        now.day,
+                                        valueTime.hour,
+                                        valueTime.minute);
                                     setState(() {
                                       date = DateFormat('dd-MM-yyyy')
                                           .format(valueDate);
-                                      day = DateFormat('EEEE', 'in_ID').format(valueDate);
+                                      showDate =
+                                          DateFormat('EEEE dd-MM-yyyy', 'in_ID')
+                                              .format(valueDate);
+                                      day = DateFormat('EEEE', 'in_ID')
+                                          .format(valueDate);
                                       time = DateFormat("HH:mm").format(dt);
                                     });
                                   });
@@ -324,13 +342,17 @@ class DetailBookingState extends State<DetailBooking>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BookingStatus(),
-                ),
-              );
+            onPressed: () async {
+              await constants.progressDialog(context).show();
+              addBookingPresenter.loadAddBookingData(
+                  widget.idUser,
+                  widget.idDoctor,
+                  listPatient[selectedPatient].documentID,
+                  date,
+                  day,
+                  time,
+                  messageController.text.trim().toString(),
+                  'Kontrol Mingguan');
             },
             child: Text(
               'Konfirmasi',
@@ -356,5 +378,31 @@ class DetailBookingState extends State<DetailBooking>
       listPatient = value;
       loadingPatient = false;
     });
+  }
+
+  @override
+  onErrorAddBooking(error) async {
+    print(error.toString());
+    await constants.progressDialog(context).hide();
+    constants.errorAlert(
+        "Error", "Gagal membuat booking. \n Sesuatu terjadi", context);
+  }
+
+  @override
+  onSuccessAddBooking(List<String> response) async {
+    if (response[0] == Constants.SUCCESS_RESPONSE) {
+      await constants.progressDialog(context).hide();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BookingStatus(
+            bookingCode: response[1],
+          ),
+        ),
+      );
+    } else {
+      await constants.progressDialog(context).hide();
+      constants.errorAlert("Error", "Gagal membuat booking", context);
+    }
   }
 }

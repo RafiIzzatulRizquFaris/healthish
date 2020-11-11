@@ -1,9 +1,9 @@
 class AddBookingContractView{
-  onSuccessAddBooking(String status) {}
+  onSuccessAddBooking(List<String> response) {}
   onErrorAddBooking(error) {}
 }
 
 class AddBookingContractPresenter{
-  getAddBookingData(String idUser, String idDoctor, String date, String message, String time, ){}
-  loadAddBookingData(String idUser, String name, String gender, String status){}
+  getAddBookingData(String idUser, String idDoctor, String idPatient, String date, String day, String time, String message, String type){}
+  loadAddBookingData(String idUser, String idDoctor, String idPatient, String date, String day, String time, String message, String type){}
 }

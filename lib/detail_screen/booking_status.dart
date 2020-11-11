@@ -3,7 +3,8 @@ import 'package:healthish/constants.dart';
 import 'package:healthish/main_navigation.dart';
 
 class BookingStatus extends StatefulWidget {
-  BookingStatus({Key key}) : super(key: key);
+  final String bookingCode;
+  BookingStatus({this.bookingCode});
 
   @override
   _BookingStatusState createState() => _BookingStatusState();
@@ -46,7 +47,7 @@ class _BookingStatusState extends State<BookingStatus> {
               height: 8,
             ),
             Text(
-              "BIJIDS123",
+              widget.bookingCode,
               style: TextStyle(
                   color: Constants.whiteColor,
                   fontSize: 30,
