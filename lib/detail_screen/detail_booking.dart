@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/contract/patient_contract.dart';
-import 'package:healthish/detail_screen/change_pasient/change_patient.dart';
 import 'package:healthish/detail_screen/booking_status.dart';
 import 'package:healthish/presenter/patient_presenter.dart';
 import 'package:intl/intl.dart';
-
+import 'package:healthish/detail_screen/change_pasient/change_patient.dart';
 import '../constants.dart';
 
 class DetailBooking extends StatefulWidget {
