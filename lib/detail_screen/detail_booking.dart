@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:healthish/contract/patient_contract.dart';
 import 'package:healthish/detail_screen/booking_status.dart';
 import 'package:healthish/presenter/patient_presenter.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:healthish/detail_screen/change_pasient/change_patient.dart';
 import '../constants.dart';
@@ -23,8 +24,9 @@ class DetailBooking extends StatefulWidget {
 
 class DetailBookingState extends State<DetailBooking>
     implements PatientContractView {
-  String date = DateFormat('EEEE dd-MM-yyyy').format(DateTime.now());
+  String date = DateFormat('dd-MM-yyyy').format(DateTime.now());
   String time = DateFormat('HH:mm').format(DateTime.now());
+  String day = DateFormat('EEEE', 'in_ID').format(DateTime.now());
   PatientPresenter patientPresenter;
   bool loadingPatient = true;
   List<DocumentSnapshot> listPatient = List<DocumentSnapshot>();
@@ -39,6 +41,7 @@ class DetailBookingState extends State<DetailBooking>
   @override
   void initState() {
     super.initState();
+    initializeDateFormatting();
     patientPresenter.loadPatientData(widget.idUser);
   }
 
@@ -255,16 +258,23 @@ class DetailBookingState extends State<DetailBooking>
                                   firstDate: DateTime.now(),
                                   lastDate: DateTime(2050),
                                 ).then((valueDate) {
-                                  print(valueDate);
                                   showTimePicker(
                                     initialTime: TimeOfDay.now(),
                                     context: context,
+                                    builder: (context, child) {
+                                      return MediaQuery(
+                                        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true,),
+                                        child: child,
+                                      );
+                                    },
                                   ).then((valueTime) {
-                                    print(valueTime);
+                                    final now = new DateTime.now();
+                                    final dt = DateTime(now.year, now.month, now.day, valueTime.hour, valueTime.minute);
                                     setState(() {
-                                      date = DateFormat('EEEE dd-MM-yyyy')
+                                      date = DateFormat('dd-MM-yyyy')
                                           .format(valueDate);
-                                      time = valueTime.format(context);
+                                      day = DateFormat('EEEE', 'in_ID').format(valueDate);
+                                      time = DateFormat("HH:mm").format(dt);
                                     });
                                   });
                                 });
