@@ -1,4 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:healthish/constants.dart';
@@ -19,6 +20,7 @@ class MainNavigation extends StatefulWidget {
 
 class MainNavigationState extends State<MainNavigation>
     with TickerProviderStateMixin {
+  final firebaseMessaging = FirebaseMessaging();
   int selectedIndex = 0;
   int selectedIcon = 0;
   List<Widget> screenWidget = [
@@ -41,6 +43,19 @@ class MainNavigationState extends State<MainNavigation>
   ]);
   double right = -200;
   double bottom = 0;
+
+  static Future<dynamic> onBackgroundMessage(Map<String, dynamic> message) {
+    debugPrint('onBackgroundMessage: $message');
+    if (message.containsKey('data')) {
+      String name = '';
+      String age = '';
+        var data = message['data'];
+        name = data['name'];
+        age = data['age'];
+      print('onBackgroundMessage: name: $name & age: $age');
+    }
+    return null;
+  }
 
   @override
   void initState() {
@@ -67,6 +82,27 @@ class MainNavigationState extends State<MainNavigation>
         Tween(begin: -1.0, end: 0.0).animate(secondAnimationController);
     thirdAnimation =
         Tween(begin: -1.0, end: 0.0).animate(thirdAnimationController);
+    firebaseMessaging.configure(
+      onBackgroundMessage: onBackgroundMessage,
+      onLaunch: (message) {
+        print(message);
+      },
+      onMessage: (message) {
+        print(message);
+      },
+      onResume: (message) {
+        print(message);
+      },
+    );
+    firebaseMessaging.requestNotificationPermissions(
+      IosNotificationSettings(sound: true, badge: true, alert: true, provisional: true),
+    );
+    firebaseMessaging.onIosSettingsRegistered.listen((settings) {
+      print('Settings registered: $settings');
+    });
+    firebaseMessaging.getToken().then((token) {
+      print(" Token Firebase : $token");
+    });
     super.initState();
     animationController.addListener(() {
       setState(() {});

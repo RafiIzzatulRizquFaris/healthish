@@ -68,6 +68,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.4.4'
 //    implementation 'com.google.firebase:firebase-crashlytics:17.1.0'
     implementation 'com.google.firebase:firebase-perf:19.0.7'
+    implementation 'com.google.firebase:firebase-messaging:21.0.0'
     implementation 'com.android.support:multidex:1.0.3'
     implementation "androidx.multidex:multidex:2.0.1"
 }
