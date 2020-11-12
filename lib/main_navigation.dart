@@ -18,6 +18,19 @@ class MainNavigation extends StatefulWidget {
   }
 }
 
+Future<dynamic> onBackgroundMessage(Map<String, dynamic> message) {
+  print('onBackgroundMessage: $message');
+  if (message.containsKey('data')) {
+    String name = '';
+    String age = '';
+    var data = message['data'];
+    name = data['name'];
+    age = data['age'];
+    print('onBackgroundMessage: name: $name & age: $age');
+  }
+  return null;
+}
+
 class MainNavigationState extends State<MainNavigation>
     with TickerProviderStateMixin {
   final firebaseMessaging = FirebaseMessaging();
@@ -43,19 +56,6 @@ class MainNavigationState extends State<MainNavigation>
   ]);
   double right = -200;
   double bottom = 0;
-
-  static Future<dynamic> onBackgroundMessage(Map<String, dynamic> message) {
-    debugPrint('onBackgroundMessage: $message');
-    if (message.containsKey('data')) {
-      String name = '';
-      String age = '';
-        var data = message['data'];
-        name = data['name'];
-        age = data['age'];
-      print('onBackgroundMessage: name: $name & age: $age');
-    }
-    return null;
-  }
 
   @override
   void initState() {
@@ -95,7 +95,8 @@ class MainNavigationState extends State<MainNavigation>
       },
     );
     firebaseMessaging.requestNotificationPermissions(
-      IosNotificationSettings(sound: true, badge: true, alert: true, provisional: true),
+      IosNotificationSettings(
+          sound: true, badge: true, alert: true, provisional: true),
     );
     firebaseMessaging.onIosSettingsRegistered.listen((settings) {
       print('Settings registered: $settings');
