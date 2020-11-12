@@ -22,7 +22,7 @@ class MainNavigationState extends State<MainNavigation>
   int selectedIndex = 0;
   int selectedIcon = 0;
   List<Widget> screenWidget = [
-    Layanan(),
+    Home(),
     Layanan(),
     Booking(),
     Profile(),
