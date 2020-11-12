@@ -1,31 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:healthish/detail_screen/detail_control.dart';
 
 import '../../../constants.dart';
 
 class BookingHistoryTab extends StatelessWidget {
+  final DocumentSnapshot dataBook;
+
+  const BookingHistoryTab({Key key, this.dataBook}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: EdgeInsets.only(top: 8),
-      shrinkWrap: true,
-      itemCount: 20,
-      itemBuilder: (BuildContext context, int index) => GestureDetector(
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => DetailControl()));
-        },
-        child: itemBuilderHistoryBooking(context, index),
-      ),
-    );
-  }
-
-  Widget itemBuilderHistoryBooking(BuildContext context, int index) {
     return Container(
       padding: EdgeInsets.all(5),
-      color: index == 0 || index == 1
-          ? Constants.greyColorTab
-          : Constants.whiteColor,
+      color: Constants.whiteColor,
       child: ListTile(
         leading: Container(
           width: 50,
@@ -36,7 +23,7 @@ class BookingHistoryTab extends StatelessWidget {
           ),
         ),
         title: Text(
-          "Dokter $index",
+          dataBook['doctor_id'],
           style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 14,
@@ -49,7 +36,7 @@ class BookingHistoryTab extends StatelessWidget {
               height: 8,
             ),
             Text(
-              "Deskripsi singkat dokter $index Deskripsi singkat dokter $index Deskripsi singkat dokter $index Deskripsi singkat dokter $index",
+              "Umum",
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(color: Constants.blackColor),
@@ -66,26 +53,24 @@ class BookingHistoryTab extends StatelessWidget {
                     color: Constants.blackColor,
                   ),
                 ),
-                index == 0 || index == 1
-                    ? Container(
-                        padding: EdgeInsets.only(
-                          top: 5,
-                          bottom: 5,
-                          left: 10,
-                          right: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Constants.redColor,
-                        ),
-                        child: Text(
-                          "New",
-                          style: TextStyle(
-                            color: Constants.whiteColor,
-                          ),
-                        ),
-                      )
-                    : Container(),
+                Container(
+                  padding: EdgeInsets.only(
+                    top: 5,
+                    bottom: 5,
+                    left: 10,
+                    right: 10,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Constants.redColor,
+                  ),
+                  child: Text(
+                    "New",
+                    style: TextStyle(
+                      color: Constants.whiteColor,
+                    ),
+                  ),
+                )
               ],
             )
           ],
