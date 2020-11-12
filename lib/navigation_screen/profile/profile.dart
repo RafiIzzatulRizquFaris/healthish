@@ -4,12 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:healthish/constants.dart';
+import 'package:healthish/contract/booking_contract.dart';
 import 'package:healthish/contract/user_contract.dart';
 import 'package:healthish/custom_tab_indicator.dart';
 import 'package:healthish/detail_screen/detail_account.dart';
+import 'package:healthish/detail_screen/detail_control.dart';
 import 'package:healthish/login.dart';
 import 'package:healthish/navigation_screen/profile/component/bookingHistoryTab.dart';
 import 'package:healthish/navigation_screen/profile/component/notificationTab.dart';
+import 'package:healthish/presenter/booking_presenter.dart';
 import 'package:healthish/presenter/user_presenter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -23,11 +26,14 @@ class Profile extends StatefulWidget {
 
 class ProfileState extends State<Profile>
     with SingleTickerProviderStateMixin
-    implements UserContractView {
-  var isLogin;
+    implements UserContractView, BookingCOntractView {
+  bool isLogin;
   TabController tabController;
   UserPresenter userPresenter;
+  BookingPresenter bookingPresenter;
+  List<DocumentSnapshot> dataBookingHistory;
   bool loadingUser;
+  bool loadingBooking;
   String name = "name";
   String gender = "gender";
   String telephone = "telephone";
@@ -53,6 +59,7 @@ class ProfileState extends State<Profile>
 
   ProfileState() {
     userPresenter = UserPresenter(this);
+    bookingPresenter = BookingPresenter(this);
   }
 
   @override
@@ -247,7 +254,38 @@ class ProfileState extends State<Profile>
                                       controller: tabController,
                                       children: [
                                         NotificationTab(),
-                                        BookingHistoryTab(),
+                                        loadingBooking
+                                            ? Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  backgroundColor:
+                                                      Constants.blueColor,
+                                                ),
+                                              )
+                                            : ListView.builder(
+                                                padding:
+                                                    EdgeInsets.only(top: 8),
+                                                shrinkWrap: true,
+                                                itemCount:
+                                                    dataBookingHistory.length,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                            int index) =>
+                                                        GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                DetailControl()));
+                                                  },
+                                                  child: BookingHistoryTab(
+                                                    dataBook:
+                                                        dataBookingHistory[
+                                                            index],
+                                                  ),
+                                                ),
+                                              ),
                                       ],
                                     ),
                                   )
@@ -295,12 +333,13 @@ class ProfileState extends State<Profile>
       });
     } else {
       String prefId = preferences.getString(Constants.KEY_ID).toString();
-      userPresenter
-          .loadUserData(prefId);
+      userPresenter.loadUserData(prefId);
+      bookingPresenter.loadBookingData(prefId);
       setState(() {
         id = prefId;
         isLogin = loginPref;
         loadingUser = true;
+        loadingBooking = true;
       });
     }
   }
@@ -320,6 +359,22 @@ class ProfileState extends State<Profile>
       gender = value.data['gender'].toString();
       telephone = value.data['phonenumber'].toString();
       loadingUser = false;
+    });
+  }
+
+  @override
+  onError(error) {
+    // TODO: implement onError
+    throw UnimplementedError();
+  }
+
+  @override
+  onSuccessBooking(List<DocumentSnapshot> value) {
+    setState(() {
+      if (value.isNotEmpty) {
+        dataBookingHistory = value;
+        loadingBooking = false;
+      }
     });
   }
 }

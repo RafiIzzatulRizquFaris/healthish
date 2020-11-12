@@ -91,5 +91,5 @@ class NotificationTab extends StatelessWidget {
         ),
       ),
     );
-  }
+  }  
 }

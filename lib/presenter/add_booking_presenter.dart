@@ -16,6 +16,7 @@ class AddBookingPresenter implements AddBookingContractPresenter {
       String date,
       String day,
       String time,
+      String createAt,
       String message,
       String type) async {
     List<String> splitTime = time.split(':');
@@ -33,6 +34,7 @@ class AddBookingPresenter implements AddBookingContractPresenter {
       'patient_id': idPatient,
       'time': time,
       'type': type,
+      'create_at' : createAt,
       'user_id': idUser,
     });
     if (documentReference.documentID != null) {
@@ -49,10 +51,11 @@ class AddBookingPresenter implements AddBookingContractPresenter {
       String date,
       String day,
       String time,
+      String createAt,
       String message,
       String type) {
     getAddBookingData(
-            idUser, idDoctor, idPatient, date, day, time, message, type)
+            idUser, idDoctor, idPatient, date, day, time, createAt,message, type)
         .then((value) => addBookingContractView.onSuccessAddBooking(value))
         .catchError((error) => addBookingContractView.onErrorAddBooking(error));
   }
