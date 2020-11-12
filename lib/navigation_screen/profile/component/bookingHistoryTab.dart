@@ -48,7 +48,7 @@ class BookingHistoryTab extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "2 jam yang lalu",
+                  "${subtractDate(dataBook['date'],)} jam yang lalu",
                   style: TextStyle(
                     color: Constants.blackColor,
                   ),
@@ -77,5 +77,13 @@ class BookingHistoryTab extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String subtractDate(String bookDate) {
+    var parsedDate = DateTime.parse("$bookDate 00:00:00.000");
+    var todayDatae = DateTime.now();
+
+    String differenceDays = parsedDate.difference(todayDatae).inHours.toString();
+    return differenceDays;
   }
 }
