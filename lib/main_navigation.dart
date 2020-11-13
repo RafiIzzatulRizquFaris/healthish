@@ -10,6 +10,7 @@ import 'package:healthish/navigation_screen/home.dart';
 import 'package:healthish/navigation_screen/layanan.dart';
 import 'package:healthish/detail_screen/partner_career/partner_career.dart';
 import 'package:healthish/navigation_screen/profile/profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainNavigation extends StatefulWidget {
   @override
@@ -104,6 +105,8 @@ class MainNavigationState extends State<MainNavigation>
     firebaseMessaging.getToken().then((token) {
       print(" Token Firebase : $token");
     });
+    firebaseMessaging.subscribeToTopic('general');
+    setPersonalTopic();
     super.initState();
     animationController.addListener(() {
       setState(() {});
@@ -335,5 +338,13 @@ class MainNavigationState extends State<MainNavigation>
         ),
       ]),
     );
+  }
+
+  void setPersonalTopic() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String idDocumentUser = preferences.getString(Constants.KEY_ID);
+    if (idDocumentUser.isNotEmpty || idDocumentUser != null || idDocumentUser.length > 0){
+      firebaseMessaging.subscribeToTopic(idDocumentUser);
+    }
   }
 }
