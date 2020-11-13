@@ -286,32 +286,13 @@ class ProfileState extends State<Profile>
                                                           MaterialPageRoute(
                                                             builder: (context) =>
                                                                 DetailControl(
-                                                              type:
-                                                                  "Informasi Booking",
-                                                              code:
-                                                                  dataBookingHistory[
-                                                                          index]
-                                                                      ['code'],
-                                                              time:
-                                                                  dataBookingHistory[
-                                                                          index]
-                                                                      ['time'],
-                                                              date:
-                                                                  dataBookingHistory[
-                                                                          index]
-                                                                      ['date'],
-                                                              day:
-                                                                  dataBookingHistory[
-                                                                          index]
-                                                                      ['day'],
-                                                            ),
+                                                                  dataBook: dataBookingHistory[index],
+                                                                ),
                                                           ),
                                                         );
                                                       },
                                                       child: BookingHistoryTab(
-                                                        dataBook:
-                                                            dataBookingHistory[
-                                                                index],
+                                                        dataBook: dataBookingHistory[index],
                                                       ),
                                                     ),
                                                   ),
