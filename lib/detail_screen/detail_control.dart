@@ -26,6 +26,8 @@ class DetailControlState extends State<DetailControl>
       "Amet - minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit";
   String date;
   bool isRead = true;
+  String placeName = "Place Name";
+  String placeAddress = "Place Address";
 
   DetailControlState() {
     changeStatusHistoryPresenter = ChangeStatusHistoryPresenter(this);
@@ -41,7 +43,8 @@ class DetailControlState extends State<DetailControl>
     } else {
       isRead = true;
     }
-    print(isRead);
+    getNameAndAddress(
+        widget.dataBook.data['doctor_id'], widget.dataBook.data['day']);
   }
 
   @override
@@ -95,7 +98,7 @@ class DetailControlState extends State<DetailControl>
                 height: 4,
               ),
               Text(
-                "Waktunya Kontrol",
+                "Kode : ${widget.dataBook['code']}",
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 28),
               ),
               SizedBox(
@@ -146,14 +149,14 @@ class DetailControlState extends State<DetailControl>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "RS SMK DEV",
+                        placeName,
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       SizedBox(
                         height: 2,
                       ),
                       Text(
-                        "Jl.akses tb no.9",
+                        placeAddress,
                         style: TextStyle(fontWeight: FontWeight.w400),
                       )
                     ],
@@ -226,5 +229,27 @@ class DetailControlState extends State<DetailControl>
         }
       });
     }
+  }
+
+  getNameAndAddress(String idDoctor, String day) async {
+    var document = Firestore.instance
+        .collection(Constants.doctorCollections)
+        .document(idDoctor);
+    document.get().then((value) {
+      if (value.exists) {
+        for (int i = 0; i < 3; i++) {
+          if (value.data['schedule'][i]['day'].toString() == day) {
+            setState(() {
+              placeName = value.data['schedule'][i]['place'].toString();
+              if (placeName == "RS. SMKDEV") {
+                placeAddress = "Jl. Margacinta No. 29";
+              } else {
+                placeAddress = "Jl. Mars Barat I No. 9";
+              }
+            });
+          }
+        }
+      }
+    });
   }
 }
