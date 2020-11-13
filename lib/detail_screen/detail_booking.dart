@@ -26,11 +26,10 @@ class DetailBooking extends StatefulWidget {
 
 class DetailBookingState extends State<DetailBooking>
     implements PatientContractView, AddBookingContractView {
-  String showDate =
-      DateFormat('EEEE dd-MM-yyyy', 'in_ID').format(DateTime.now());
+  String showDate;
   String date = DateFormat('dd-MM-yyyy').format(DateTime.now());
   String time = DateFormat('HH:mm').format(DateTime.now());
-  String day = DateFormat('EEEE', 'in_ID').format(DateTime.now());
+  String day;
   PatientPresenter patientPresenter;
   AddBookingPresenter addBookingPresenter;
   bool loadingPatient = true;
@@ -49,6 +48,9 @@ class DetailBookingState extends State<DetailBooking>
   void initState() {
     super.initState();
     initializeDateFormatting();
+    showDate =
+        DateFormat('EEEE dd-MM-yyyy', 'in_ID').format(DateTime.now());
+    day = DateFormat('EEEE', 'in_ID').format(DateTime.now());
     patientPresenter.loadPatientData(widget.idUser);
   }
 
