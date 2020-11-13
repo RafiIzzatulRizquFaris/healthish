@@ -10,8 +10,8 @@ import 'package:healthish/custom_tab_indicator.dart';
 import 'package:healthish/detail_screen/detail_account.dart';
 import 'package:healthish/detail_screen/detail_control.dart';
 import 'package:healthish/login.dart';
-import 'package:healthish/navigation_screen/profile/component/bookingHistoryTab.dart';
-import 'package:healthish/navigation_screen/profile/component/notificationTab.dart';
+import 'package:healthish/navigation_screen/profile/component/booking_history_tab.dart';
+import 'package:healthish/navigation_screen/profile/component/notification_tab.dart';
 import 'package:healthish/presenter/booking_presenter.dart';
 import 'package:healthish/presenter/user_presenter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,6 +39,7 @@ class ProfileState extends State<Profile>
   String telephone = "telephone";
   String image = "image";
   String id = "id";
+  String historyBadge = "0";
   PreferredSize appBar = PreferredSize(
     preferredSize: Size.fromHeight(100),
     child: Container(
@@ -232,7 +233,7 @@ class ProfileState extends State<Profile>
                                           Tab(
                                             child: Badge(
                                               badgeContent: Text(
-                                                '1',
+                                                historyBadge,
                                                 style: TextStyle(
                                                   color: Constants.whiteColor,
                                                 ),
@@ -254,38 +255,45 @@ class ProfileState extends State<Profile>
                                       controller: tabController,
                                       children: [
                                         NotificationTab(),
-                                        loadingBooking
+                                        dataBookingHistory == null ||
+                                                dataBookingHistory.length == 0
                                             ? Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  backgroundColor:
-                                                      Constants.blueColor,
-                                                ),
+                                                child: Text(
+                                                    "Data Tidak Ditemukan"),
                                               )
-                                            : ListView.builder(
-                                                padding:
-                                                    EdgeInsets.only(top: 8),
-                                                shrinkWrap: true,
-                                                itemCount:
-                                                    dataBookingHistory.length,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                            int index) =>
-                                                        GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
+                                            : loadingBooking
+                                                ? Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      backgroundColor:
+                                                          Constants.blueColor,
+                                                    ),
+                                                  )
+                                                : ListView.builder(
+                                                    padding:
+                                                        EdgeInsets.only(top: 8),
+                                                    shrinkWrap: true,
+                                                    itemCount:
+                                                        dataBookingHistory
+                                                            .length,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                                int index) =>
+                                                            GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
                                                             builder: (context) =>
-                                                                DetailControl()));
-                                                  },
-                                                  child: BookingHistoryTab(
-                                                    dataBook:
-                                                        dataBookingHistory[
-                                                            index],
+                                                                DetailControl(),
+                                                          ),
+                                                        );
+                                                      },
+                                                      child: BookingHistoryTab(
+                                                        dataBook: dataBookingHistory[index],
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
                                       ],
                                     ),
                                   )
@@ -371,9 +379,12 @@ class ProfileState extends State<Profile>
   @override
   onSuccessBooking(List<DocumentSnapshot> value) {
     setState(() {
-      if (value.isNotEmpty) {
+      if (value.isNotEmpty || value != null || value.length > 0) {
+        historyBadge = value.length.toString();
         dataBookingHistory = value;
         loadingBooking = false;
+      } else {
+        historyBadge = "0";
       }
     });
   }

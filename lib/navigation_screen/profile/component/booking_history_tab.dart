@@ -6,13 +6,15 @@ import '../../../constants.dart';
 class BookingHistoryTab extends StatelessWidget {
   final DocumentSnapshot dataBook;
 
-  const BookingHistoryTab({Key key, this.dataBook}) : super(key: key);
+  const BookingHistoryTab({this.dataBook});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(5),
-      color: Constants.whiteColor,
+      color: dataBook['read'] == "unread"
+          ? Constants.greyColorTab
+          : Constants.whiteColor,
       child: ListTile(
         leading: Container(
           width: 50,
@@ -48,12 +50,12 @@ class BookingHistoryTab extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "${subtractDate(dataBook['date'],)} jam yang lalu",
+                  calculateDate(dataBook['date']),
                   style: TextStyle(
                     color: Constants.blackColor,
                   ),
                 ),
-                Container(
+                dataBook['read'] == "unread" ? Container(
                   padding: EdgeInsets.only(
                     top: 5,
                     bottom: 5,
@@ -70,7 +72,7 @@ class BookingHistoryTab extends StatelessWidget {
                       color: Constants.whiteColor,
                     ),
                   ),
-                )
+                ) : Container(),
               ],
             )
           ],
@@ -79,11 +81,20 @@ class BookingHistoryTab extends StatelessWidget {
     );
   }
 
-  String subtractDate(String bookDate) {
-    var parsedDate = DateTime.parse("$bookDate 00:00:00.000");
-    var todayDatae = DateTime.now();
+  String calculateDate(String bookDate) {
+    List<String> splitBookDate = bookDate.split('-');
+    String year = splitBookDate[2];
+    String month = splitBookDate[1];
+    String day = splitBookDate[0];
+    var parsedDate = DateTime.parse("$year$month$day 00:00:00");
+    var todayDate = DateTime.now();
 
-    String differenceDays = parsedDate.difference(todayDatae).inHours.toString();
-    return differenceDays;
+    int differenceDays = parsedDate.difference(todayDate).inDays;
+    if (differenceDays == 0){
+      return "Hari ini";
+    } else if (differenceDays > 0){
+      return "${differenceDays.toString()} hari lagi";
+    }
+    return "${differenceDays.toString()} hari yang lalu";
   }
 }
