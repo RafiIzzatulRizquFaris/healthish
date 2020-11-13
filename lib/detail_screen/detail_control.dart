@@ -95,7 +95,9 @@ class DetailControlState extends State<DetailControl>
                 height: 4,
               ),
               Text(
-                "Waktunya Kontrol",
+                widget.dataBook['type'] == "Waktunya Kontrol"
+                    ? "Waktunya Kontrol"
+                    : widget.dataBook['code'],
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 28),
               ),
               SizedBox(
