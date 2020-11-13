@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:healthish/contract/change_status_history_contract.dart';
+import 'package:healthish/presenter/change_status_history_presenter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
@@ -13,19 +15,33 @@ class DetailControl extends StatefulWidget {
   DetailControl({this.dataBook});
 
   @override
-  _DetailControlState createState() => _DetailControlState();
+  DetailControlState createState() => DetailControlState();
 }
 
-class _DetailControlState extends State<DetailControl> {
+class DetailControlState extends State<DetailControl>
+    implements ChangeStatusHistoryContractView {
+  Constants constants = Constants();
+  ChangeStatusHistoryPresenter changeStatusHistoryPresenter;
   String desc =
       "Amet - minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit";
   String date;
+  bool isRead = true;
+
+  DetailControlState() {
+    changeStatusHistoryPresenter = ChangeStatusHistoryPresenter(this);
+  }
 
   @override
   void initState() {
     super.initState();
     initializeDateFormatting();
     date = widget.dataBook['date'].toString();
+    if (widget.dataBook['read'] == 'unread') {
+      isRead = false;
+    } else {
+      isRead = true;
+    }
+    print(isRead);
   }
 
   @override
@@ -173,9 +189,13 @@ class _DetailControlState extends State<DetailControl> {
               borderRadius: BorderRadius.circular(5),
             ),
             onPressed: () async {
+              await constants.progressDialog(context).show();
+              changeStatusHistoryPresenter.loadStatusHistoryData(
+                  widget.dataBook.documentID,
+                  widget.dataBook['read'] == 'unread' ? true : false);
             },
             child: Text(
-              widget.dataBook['read'] == 'unread' ? "Tandai Sudah Dibaca" : "Tandai Belum Dibaca",
+              isRead ? "Tandai Belum Dibaca" : "Tandai Sudah Dibaca",
               style: TextStyle(
                 fontSize: 20,
               ),
@@ -184,5 +204,27 @@ class _DetailControlState extends State<DetailControl> {
         ),
       ),
     );
+  }
+
+  @override
+  onErrorChangeStatus(error) async {
+    print(error.toString());
+    await constants.progressDialog(context).hide();
+    constants.errorAlert(
+        "Error", "Gagal merubah status. \n Sesuatu terjadi", context);
+  }
+
+  @override
+  onSuccessChangeStatus(String response) async {
+    if (response == Constants.SUCCESS_RESPONSE) {
+      await constants.progressDialog(context).hide();
+      setState(() {
+        if (isRead) {
+          isRead = false;
+        } else {
+          isRead = false;
+        }
+      });
+    }
   }
 }
