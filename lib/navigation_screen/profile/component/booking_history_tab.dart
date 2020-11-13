@@ -6,7 +6,7 @@ import '../../../constants.dart';
 class BookingHistoryTab extends StatelessWidget {
   final DocumentSnapshot dataBook;
 
-  const BookingHistoryTab({this.dataBook});
+  const BookingHistoryTab({Key key, this.dataBook}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +50,14 @@ class BookingHistoryTab extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  calculateDate(dataBook['date']),
+              "${subtractDate(
+              dataBook['create_at'],
+              )}",
                   style: TextStyle(
                     color: Constants.blackColor,
                   ),
                 ),
-                dataBook['read'] == "unread" ? Container(
+    Container(
                   padding: EdgeInsets.only(
                     top: 5,
                     bottom: 5,
@@ -67,12 +69,12 @@ class BookingHistoryTab extends StatelessWidget {
                     color: Constants.redColor,
                   ),
                   child: Text(
-                    "New",
+                    "${checkIsDone(dataBook['date'], dataBook['time'])}",
                     style: TextStyle(
                       color: Constants.whiteColor,
                     ),
                   ),
-                ) : Container(),
+                )
               ],
             )
           ],
@@ -81,20 +83,30 @@ class BookingHistoryTab extends StatelessWidget {
     );
   }
 
-  String calculateDate(String bookDate) {
-    List<String> splitBookDate = bookDate.split('-');
-    String year = splitBookDate[2];
-    String month = splitBookDate[1];
-    String day = splitBookDate[0];
-    var parsedDate = DateTime.parse("$year$month$day 00:00:00");
+  String subtractDate(String bookDate) {
+    var parsedDate = DateTime.parse("$bookDate:00");
     var todayDate = DateTime.now();
 
-    int differenceDays = parsedDate.difference(todayDate).inDays;
-    if (differenceDays == 0){
-      return "Hari ini";
-    } else if (differenceDays > 0){
-      return "${differenceDays.toString()} hari lagi";
+    var differenceDays = parsedDate.difference(todayDate);
+    print(differenceDays);
+    if (differenceDays.inDays < 0) {
+      return "${todayDate.difference(parsedDate).inDays.toString()} Hari yang lalu";
+    } else if (differenceDays.inHours < 0) {
+      return "${todayDate.difference(parsedDate).inHours.toString()} Jam yang lalu";
     }
-    return "${differenceDays.toString()} hari yang lalu";
+    return "${todayDate.difference(parsedDate).inMinutes.toString()} Menit yang lalu";
+  }
+
+  String checkIsDone(String bookDate, String bookTime) {
+    var parsedDate = DateTime.parse("$bookDate $bookTime:00");
+    var todayDate = DateTime.now();
+
+    var differenceDays = todayDate.difference(parsedDate);
+    if (differenceDays.inDays < 0) {
+      return "${parsedDate.difference(todayDate).inDays.toString()} Hari lagi";
+    } else if (differenceDays.inHours < 0) {
+      return "${parsedDate.difference(todayDate).inHours.toString()} Jam lagi";
+    }
+    return "Selesai";
   }
 }
