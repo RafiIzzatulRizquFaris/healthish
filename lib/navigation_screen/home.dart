@@ -75,6 +75,7 @@ class HomeState extends State<Home>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Constants.whiteColor,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,14 +250,18 @@ class HomeState extends State<Home>
                                           ),
                                         ),
                                         title: Text(
-                                          "RS. SMKDEV",
+                                          listAbout.isNotEmpty
+                                              ? listAbout[0]["place_list"][0]["name"].toString()
+                                              : "Place Name",
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
                                           textAlign: TextAlign.start,
                                         ),
                                         subtitle: Text(
-                                          "Jl. Margacipta no. 29\nBuah Batu, Bandung",
+                                          listAbout.isNotEmpty
+                                              ? "${listAbout[0]["place_list"][0]["address"].toString()}\nBuah Batu, Bandung"
+                                              : "Place Address",
                                           style: TextStyle(
                                             color: Constants.greyColor,
                                           ),
