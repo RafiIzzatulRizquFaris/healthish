@@ -223,7 +223,7 @@ class DetailControlState extends State<DetailControl>
       await constants.progressDialog(context).hide();
       setState(() {
         if (isRead) {
-          isRead = false;
+          isRead = true;
         } else {
           isRead = false;
         }

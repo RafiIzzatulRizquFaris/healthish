@@ -27,7 +27,7 @@ class DetailBooking extends StatefulWidget {
 class DetailBookingState extends State<DetailBooking>
     implements PatientContractView, AddBookingContractView {
   String showDate;
-  String date = DateFormat('dd-MM-yyyy').format(DateTime.now());
+  String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String time = DateFormat('HH:mm').format(DateTime.now());
   String day;
   PatientPresenter patientPresenter;

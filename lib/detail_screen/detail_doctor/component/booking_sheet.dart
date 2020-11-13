@@ -275,8 +275,7 @@ class BookingSheetState extends State<BookingSheet>
                           color: Constants.blueColor,
                           onPressed: () async {
                             if (formKey.currentState.validate()) {
-                              if (selectedValue.isNotEmpty ||
-                                  selectedValue.trim().length > 0) {
+                              if (selectedValue != null) {
                                 await constants.progressDialog(context).show();
                                 registerPresenter.loadRegisterData(
                                   nameController.text.trim().toString(),
