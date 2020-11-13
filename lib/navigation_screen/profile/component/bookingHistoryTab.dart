@@ -48,7 +48,9 @@ class BookingHistoryTab extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "${subtractDate(dataBook['date'],)} jam yang lalu",
+                  "${subtractDate(
+                    dataBook['create_at'],
+                  )}",
                   style: TextStyle(
                     color: Constants.blackColor,
                   ),
@@ -65,7 +67,7 @@ class BookingHistoryTab extends StatelessWidget {
                     color: Constants.redColor,
                   ),
                   child: Text(
-                    "New",
+                    "${checkIsDone(dataBook['date'], dataBook['time'])}",
                     style: TextStyle(
                       color: Constants.whiteColor,
                     ),
@@ -80,10 +82,29 @@ class BookingHistoryTab extends StatelessWidget {
   }
 
   String subtractDate(String bookDate) {
-    var parsedDate = DateTime.parse("$bookDate 00:00:00.000");
-    var todayDatae = DateTime.now();
+    var parsedDate = DateTime.parse("$bookDate:00");
+    var todayDate = DateTime.now();
 
-    String differenceDays = parsedDate.difference(todayDatae).inHours.toString();
-    return differenceDays;
+    var differenceDays = parsedDate.difference(todayDate);
+    print(differenceDays);
+    if (differenceDays.inDays < 0) {
+      return "${todayDate.difference(parsedDate).inDays.toString()} Hari yang lalu";
+    } else if (differenceDays.inHours < 0) {
+      return "${todayDate.difference(parsedDate).inHours.toString()} Jam yang lalu";
+    }
+    return "${todayDate.difference(parsedDate).inMinutes.toString()} Menit yang lalu";
+  }
+
+  String checkIsDone(String bookDate, String bookTime) {
+    var parsedDate = DateTime.parse("$bookDate $bookTime:00");
+    var todayDate = DateTime.now();
+
+    var differenceDays = todayDate.difference(parsedDate);
+    if (differenceDays.inDays < 0) {
+      return "${parsedDate.difference(todayDate).inDays.toString()} Hari lagi";
+    } else if (differenceDays.inHours < 0) {
+      return "${parsedDate.difference(todayDate).inHours.toString()} Jam lagi";
+    }
+    return "Selesai";
   }
 }

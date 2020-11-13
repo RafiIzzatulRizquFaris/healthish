@@ -285,7 +285,7 @@ class DetailBookingState extends State<DetailBooking>
                                         valueTime.hour,
                                         valueTime.minute);
                                     setState(() {
-                                      date = DateFormat('dd-MM-yyyy')
+                                      date = DateFormat('yyyy-MM-dd')
                                           .format(valueDate);
                                       showDate =
                                           DateFormat('EEEE dd-MM-yyyy', 'in_ID')
