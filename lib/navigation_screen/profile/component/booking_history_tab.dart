@@ -6,7 +6,7 @@ import '../../../constants.dart';
 class BookingHistoryTab extends StatelessWidget {
   final DocumentSnapshot dataBook;
 
-  const BookingHistoryTab({Key key, this.dataBook}) : super(key: key);
+  const BookingHistoryTab({this.dataBook});
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +122,6 @@ class BookingHistoryTab extends StatelessWidget {
     var todayDate = DateTime.now();
 
     var differenceDays = parsedDate.difference(todayDate);
-    print(differenceDays);
     if (differenceDays.inDays < 0) {
       return "${todayDate.difference(parsedDate).inDays.toString()} Hari yang lalu";
     } else if (differenceDays.inHours < 0) {

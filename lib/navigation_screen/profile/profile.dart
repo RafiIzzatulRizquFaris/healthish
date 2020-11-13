@@ -289,7 +289,9 @@ class ProfileState extends State<Profile>
                                                                   dataBook: dataBookingHistory[index],
                                                                 ),
                                                           ),
-                                                        );
+                                                        ).then((value) {
+                                                          bookingPresenter.loadBookingData(id);
+                                                        });
                                                       },
                                                       child: BookingHistoryTab(
                                                         dataBook: dataBookingHistory[index],
