@@ -384,7 +384,13 @@ class ProfileState extends State<Profile>
   onSuccessBooking(List<DocumentSnapshot> value) {
     setState(() {
       if (value.isNotEmpty || value != null || value.length > 0) {
-        historyBadge = value.length.toString();
+        List<String> listHistoryLength = List<String>();
+        for (int i = 0; i < value.length; i++){
+          if (value[i].data['read'] == 'unread'){
+            listHistoryLength.add(value[i].data['read']);
+          }
+        }
+        historyBadge = listHistoryLength.length.toString();
         dataBookingHistory = value;
         loadingBooking = false;
       } else {
