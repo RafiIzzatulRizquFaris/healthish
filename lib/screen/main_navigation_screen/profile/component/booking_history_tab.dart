@@ -86,9 +86,10 @@ class BookingHistoryTab extends StatelessWidget {
   String subtractDate(String bookDate) {
     var parsedDate = DateTime.parse("$bookDate:00");
     var todayDate = DateTime.now();
-
+    
     var differenceDays = parsedDate.difference(todayDate);
-    print(differenceDays);
+    print("$todayDate : today");
+    print(parsedDate);
     if (differenceDays.inDays < 0) {
       return "${todayDate.difference(parsedDate).inDays.toString()} Hari yang lalu";
     } else if (differenceDays.inHours < 0) {
