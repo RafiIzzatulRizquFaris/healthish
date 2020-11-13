@@ -23,13 +23,39 @@ class BookingHistoryTab extends StatelessWidget {
             color: Constants.greyColor,
             borderRadius: BorderRadius.circular(1000),
           ),
+          child: SizedBox.expand(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(1000),
+              child: FittedBox(
+                fit: BoxFit.fill,
+                child: StreamBuilder(
+                  stream: Firestore.instance.collection('${Constants.doctorCollections}').document('${dataBook['doctor_id']}').snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Container();
+                    }
+                    return Image.network(snapshot.data['image']);
+                  },
+                ),
+              ),
+            ),
+          ),
         ),
-        title: Text(
-          dataBook['doctor_id'],
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-              color: Constants.blackColor),
+        title: StreamBuilder(
+          stream: Firestore.instance.collection('${Constants.doctorCollections}').document('${dataBook['doctor_id']}').snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Text("Loading");
+            }
+            return Text(
+              snapshot.data["name"],
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: Constants.blackColor,
+              ),
+            );
+          },
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,11 +63,19 @@ class BookingHistoryTab extends StatelessWidget {
             SizedBox(
               height: 8,
             ),
-            Text(
-              "Umum",
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: Constants.blackColor),
+            StreamBuilder(
+              stream: Firestore.instance.collection('${Constants.doctorCollections}').document('${dataBook['doctor_id']}').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Text("Loading");
+                }
+                return Text(
+                  snapshot.data["specialist"],
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: Constants.blackColor),
+                );
+              },
             ),
             SizedBox(
               height: 8,
@@ -50,14 +84,14 @@ class BookingHistoryTab extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-              "${subtractDate(
-              dataBook['create_at'],
-              )}",
+                  "${subtractDate(
+                    dataBook['create_at'],
+                  )}",
                   style: TextStyle(
                     color: Constants.blackColor,
                   ),
                 ),
-    Container(
+                Container(
                   padding: EdgeInsets.only(
                     top: 5,
                     bottom: 5,

@@ -1,11 +1,16 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 import '../constants.dart';
 
 class DetailControl extends StatefulWidget {
-  DetailControl({Key key}) : super(key: key);
+  final DocumentSnapshot dataBook;
+
+  DetailControl({this.dataBook});
 
   @override
   _DetailControlState createState() => _DetailControlState();
@@ -14,6 +19,14 @@ class DetailControl extends StatefulWidget {
 class _DetailControlState extends State<DetailControl> {
   String desc =
       "Amet - minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit";
+  String date;
+
+  @override
+  void initState() {
+    super.initState();
+    initializeDateFormatting();
+    date = widget.dataBook['date'].toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +72,7 @@ class _DetailControlState extends State<DetailControl> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Kontrol Mingguan",
+                widget.dataBook['type'],
                 style: TextStyle(color: Constants.blueColor, fontSize: 16),
               ),
               SizedBox(
@@ -73,7 +86,11 @@ class _DetailControlState extends State<DetailControl> {
                 height: 14,
               ),
               Text(
-                "06 Aug 2020",
+                DateFormat("dd MMM yyyy", 'in_ID').format(DateTime(
+                  int.parse(date.split('-')[0].toString()),
+                  int.parse(date.split('-')[1].toString()),
+                  int.parse(date.split('-')[2].toString()),
+                )),
                 style: TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w400,
@@ -87,12 +104,12 @@ class _DetailControlState extends State<DetailControl> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Kamis,"),
+                      Text("${widget.dataBook['day']},"),
                       SizedBox(
                         height: 2,
                       ),
                       Text(
-                        "08.30",
+                        widget.dataBook['time'],
                         style:
                             TextStyle(color: Constants.blueColor, fontSize: 24),
                       )
@@ -130,8 +147,39 @@ class _DetailControlState extends State<DetailControl> {
               SizedBox(
                 height: 40,
               ),
-              Text(desc)
+              Text(
+                widget.dataBook['message'].trim().length == 0
+                    ? desc
+                    : widget.dataBook['message'].trim(),
+              )
             ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        color: Constants.whiteColor,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 18,
+            left: 14,
+            bottom: 14,
+            right: 14,
+          ),
+          child: FlatButton(
+            padding: EdgeInsets.all(12),
+            textColor: Constants.darkGreyColor,
+            color: Constants.greyColorTab,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            onPressed: () async {
+            },
+            child: Text(
+              widget.dataBook['read'] == 'unread' ? "Tandai Sudah Dibaca" : "Tandai Belum Dibaca",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
           ),
         ),
       ),

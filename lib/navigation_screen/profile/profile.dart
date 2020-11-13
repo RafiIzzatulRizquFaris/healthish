@@ -285,7 +285,9 @@ class ProfileState extends State<Profile>
                                                           context,
                                                           MaterialPageRoute(
                                                             builder: (context) =>
-                                                                DetailControl(),
+                                                                DetailControl(
+                                                                  dataBook: dataBookingHistory[index],
+                                                                ),
                                                           ),
                                                         );
                                                       },
