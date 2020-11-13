@@ -11,8 +11,16 @@ class NotificationTab extends StatelessWidget {
       itemCount: 20,
       itemBuilder: (BuildContext context, int index) => GestureDetector(
         onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => DetailControl()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DetailControl(
+                        type: "Kontrol Mingguan",
+                        code: "Waktunya Kontrol",
+                        time: "08:30",
+                        date: "06 Aug 2020",
+                        day: "Kamis",
+                      )));
         },
         child: itemBuilderNotification(context, index),
       ),
@@ -91,5 +99,5 @@ class NotificationTab extends StatelessWidget {
         ),
       ),
     );
-  }  
+  }
 }

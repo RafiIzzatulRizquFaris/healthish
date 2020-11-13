@@ -1,11 +1,18 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../constants.dart';
 
 class DetailControl extends StatefulWidget {
-  DetailControl({Key key}) : super(key: key);
+  final String type;
+  final String date;
+  final String day;
+  final String time;
+  final String code;
+  DetailControl({Key key, this.type, this.date, this.day, this.time, this.code})
+      : super(key: key);
 
   @override
   _DetailControlState createState() => _DetailControlState();
@@ -59,21 +66,21 @@ class _DetailControlState extends State<DetailControl> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Kontrol Mingguan",
+                widget.type,
                 style: TextStyle(color: Constants.blueColor, fontSize: 16),
               ),
               SizedBox(
                 height: 4,
               ),
               Text(
-                "Waktunya Kontrol",
+                widget.code,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 28),
               ),
               SizedBox(
                 height: 14,
               ),
               Text(
-                "06 Aug 2020",
+                convertDate(widget.date),
                 style: TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w400,
@@ -87,12 +94,12 @@ class _DetailControlState extends State<DetailControl> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Kamis,"),
+                      Text("${widget.day},"),
                       SizedBox(
                         height: 2,
                       ),
                       Text(
-                        "08.30",
+                        widget.time,
                         style:
                             TextStyle(color: Constants.blueColor, fontSize: 24),
                       )
@@ -136,5 +143,13 @@ class _DetailControlState extends State<DetailControl> {
         ),
       ),
     );
+  }
+
+  String convertDate(String bookDate) {
+    if (widget.type == "Informasi Booking") {
+      var parsedDate = DateTime.parse(bookDate);
+      return DateFormat.yMMMd('en_US').format(parsedDate).toString();
+    }
+    return bookDate;
   }
 }

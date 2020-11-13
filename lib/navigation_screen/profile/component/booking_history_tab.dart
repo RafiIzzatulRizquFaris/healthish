@@ -50,14 +50,14 @@ class BookingHistoryTab extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-              "${subtractDate(
-              dataBook['create_at'],
-              )}",
+                  "${subtractDate(
+                    dataBook['create_at'],
+                  )}",
                   style: TextStyle(
                     color: Constants.blackColor,
                   ),
                 ),
-    Container(
+                Container(
                   padding: EdgeInsets.only(
                     top: 5,
                     bottom: 5,
