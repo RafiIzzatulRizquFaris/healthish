@@ -353,9 +353,9 @@ class DetailBookingState extends State<DetailBooking>
                   date,
                   day,
                   time,
-                  DateFormat('yyyy-MM-dd hh:mm').format(DateTime.now()),
+                  DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
                   messageController.text.trim().toString(),
-                  'Kontrol Mingguan');
+                  'Informasi Booking');
             },
             child: Text(
               'Konfirmasi',
