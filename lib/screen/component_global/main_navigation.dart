@@ -1,4 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:healthish/helper/constants.dart';
@@ -6,9 +7,10 @@ import 'package:healthish/screen/about/about.dart';
 import 'package:healthish/screen/feedback_form/feedback_form.dart';
 import 'package:healthish/screen/main_navigation_screen/booking/booking.dart';
 import 'package:healthish/screen/main_navigation_screen/home/home.dart';
-import 'package:healthish/screen/main_navigation_screen/profile/profile.dart';
 import 'package:healthish/screen/main_navigation_screen/service/service_screen.dart';
 import 'package:healthish/screen/partner_career/partner_career.dart';
+import 'package:healthish/screen/main_navigation_screen/profile/profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainNavigation extends StatefulWidget {
   @override
@@ -17,8 +19,22 @@ class MainNavigation extends StatefulWidget {
   }
 }
 
+Future<dynamic> onBackgroundMessage(Map<String, dynamic> message) {
+  print('onBackgroundMessage: $message');
+  if (message.containsKey('data')) {
+    String name = '';
+    String age = '';
+    var data = message['data'];
+    name = data['name'];
+    age = data['age'];
+    print('onBackgroundMessage: name: $name & age: $age');
+  }
+  return null;
+}
+
 class MainNavigationState extends State<MainNavigation>
     with TickerProviderStateMixin {
+  final firebaseMessaging = FirebaseMessaging();
   int selectedIndex = 0;
   int selectedIcon = 0;
   List<Widget> screenWidget = [
@@ -67,6 +83,30 @@ class MainNavigationState extends State<MainNavigation>
         Tween(begin: -1.0, end: 0.0).animate(secondAnimationController);
     thirdAnimation =
         Tween(begin: -1.0, end: 0.0).animate(thirdAnimationController);
+    firebaseMessaging.configure(
+      onBackgroundMessage: onBackgroundMessage,
+      onLaunch: (message) {
+        print(message);
+      },
+      onMessage: (message) {
+        print(message);
+      },
+      onResume: (message) {
+        print(message);
+      },
+    );
+    firebaseMessaging.requestNotificationPermissions(
+      IosNotificationSettings(
+          sound: true, badge: true, alert: true, provisional: true),
+    );
+    firebaseMessaging.onIosSettingsRegistered.listen((settings) {
+      print('Settings registered: $settings');
+    });
+    firebaseMessaging.getToken().then((token) {
+      print(" Token Firebase : $token");
+    });
+    firebaseMessaging.subscribeToTopic('general');
+    setPersonalTopic();
     super.initState();
     animationController.addListener(() {
       setState(() {});
@@ -87,7 +127,6 @@ class MainNavigationState extends State<MainNavigation>
                 right: 10,
               ),
               child: FlatButton(
-                
                 padding: EdgeInsets.all(12),
                 child: Row(
                   children: [
@@ -110,13 +149,15 @@ class MainNavigationState extends State<MainNavigation>
                 splashColor: Constants.redColor,
                 color: Constants.blueColor,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FeedbackForm(),
-                      ));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FeedbackForm(),
+                    ),
+                  );
                 },
               ),
             ),
@@ -157,6 +198,9 @@ class MainNavigationState extends State<MainNavigation>
                   setState(() {
                     selectedIndex = 4;
                   });
+                  animationController.reverse();
+                  secondAnimationController.reverse();
+                  thirdAnimationController.reverse();
                 },
               ),
             ),
@@ -294,5 +338,13 @@ class MainNavigationState extends State<MainNavigation>
         ),
       ]),
     );
+  }
+
+  void setPersonalTopic() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String idDocumentUser = preferences.getString(Constants.KEY_ID);
+    if (idDocumentUser.isNotEmpty || idDocumentUser != null || idDocumentUser.length > 0){
+      firebaseMessaging.subscribeToTopic(idDocumentUser);
+    }
   }
 }

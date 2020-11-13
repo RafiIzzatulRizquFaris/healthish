@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/contract/career_contract.dart';
 import 'package:healthish/contract/partner_contract.dart';
+
 import 'package:healthish/presenter/career_presenter.dart';
 import 'package:healthish/presenter/partner_presenter.dart';
 import '../../helper/constants.dart';
+import '../detail_content/detail_content.dart';
 import 'component/item_career.dart';
 import 'component/item_partner.dart';
 
@@ -17,12 +19,12 @@ class PartnerCareerState extends State<PartnerCareer>
     implements PartnerContractView, CareerContractView {
   TextEditingController searchController = TextEditingController();
   List<DocumentSnapshot> partnerData = List<DocumentSnapshot>();
-  List<DocumentSnapshot> carrerData = List<DocumentSnapshot>();
+  List<DocumentSnapshot> careerData = List<DocumentSnapshot>();
 
   PartnerPresenter partnerPresenter;
   CareerPresenter careerPresenter;
   bool isLoadingPartner = true;
-  bool isloadingCarrer = true;
+  bool isLoadingCareer = true;
 
   PartnerCareerState() {
     partnerPresenter = PartnerPresenter(this);
@@ -75,7 +77,7 @@ class PartnerCareerState extends State<PartnerCareer>
                     Icons.search,
                     color: Constants.greyColor,
                   ),
-                  hintText: 'Search lowongan',
+                  hintText: 'Cari lowongan',
                   hintStyle: TextStyle(
                     color: Constants.greyColor,
                   ),
@@ -92,6 +94,14 @@ class PartnerCareerState extends State<PartnerCareer>
                     ),
                   ),
                 ),
+                onSubmitted: (value) {
+                  setState(() {
+                    isLoadingCareer = true;
+                    isLoadingPartner = true;
+                  });
+                  partnerPresenter.loadPartnerData(searchValue: value);
+                  careerPresenter.loadCareer(searchValue: value);
+                },
               ),
             ),
             Container(
@@ -107,7 +117,7 @@ class PartnerCareerState extends State<PartnerCareer>
                       left: 20,
                     ),
                     child: Text(
-                      "Patner",
+                      "Partner",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
@@ -126,16 +136,34 @@ class PartnerCareerState extends State<PartnerCareer>
                                 backgroundColor: Constants.blueColor,
                               ),
                             )
-                          : Container(
-                              child: ListView.builder(
-                                itemCount: partnerData.length,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder:
-                                    (BuildContext context, int index) =>
-                                        ItemPartner(
-                                            image: partnerData[index]['image']),
-                              ),
-                            ),
+                          : partnerData.isEmpty
+                              ? Center(
+                                  child: Text("Data tidak ditemukan"),
+                                )
+                              : Container(
+                                  child: ListView.builder(
+                                    itemCount: partnerData.length,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder:
+                                        (BuildContext context, int index) =>
+                                            GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => DetailContent(
+                                              type: "Partner",
+                                              dataContent: partnerData[index],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: ItemPartner(
+                                        image: partnerData[index]['image'],
+                                      ),
+                                    ),
+                                  ),
+                                ),
                     ),
                   ),
                 ],
@@ -164,21 +192,37 @@ class PartnerCareerState extends State<PartnerCareer>
                   right: 20,
                   bottom: 40,
                 ),
-                child: isloadingCarrer
+                child: isLoadingCareer
                     ? Center(
                         child: CircularProgressIndicator(
                           backgroundColor: Constants.blueColor,
                         ),
                       )
-                    : Expanded(
-                        child: ListView.builder(
-                          itemCount: carrerData.length,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index) =>
-                              ItemCareer(carrerData: carrerData[index]),
-                        ),
-                      ))
+                    : careerData.isEmpty
+                        ? Center(
+                            child: Text("Data tidak ditemukan"),
+                          )
+                        : Expanded(
+                            child: ListView.builder(
+                              itemCount: careerData.length,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) =>
+                                  GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailContent(
+                                                type: "Career",
+                                                dataContent: careerData[index],
+                                              )));
+                                },
+                                child:
+                                    ItemCareer(careerData: careerData[index]),
+                              ),
+                            ),
+                          ))
           ],
         ),
       ),
@@ -186,7 +230,7 @@ class PartnerCareerState extends State<PartnerCareer>
   }
 
   @override
-  onSuccesPartnerData(List<DocumentSnapshot> value) {
+  onSuccessPartnerData(List<DocumentSnapshot> value) {
     setState(() {
       partnerData = value;
       isLoadingPartner = false;
@@ -196,8 +240,8 @@ class PartnerCareerState extends State<PartnerCareer>
   @override
   onSuccessCareerData(List<DocumentSnapshot> value) {
     setState(() {
-      carrerData = value;
-      isloadingCarrer = false;
+      careerData = value;
+      isLoadingCareer = false;
     });
   }
 

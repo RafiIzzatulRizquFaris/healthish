@@ -1,25 +1,20 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:healthish/helper/constants.dart';
 
-class DetailFacility extends StatefulWidget {
-  final String imgUrl;
-  final String title;
-  final String desc;
 
-  DetailFacility({
-    this.imgUrl,
-    this.title,
-    this.desc,
-  });
+
+class DetailContent extends StatefulWidget {
+  final String type;
+  final DocumentSnapshot dataContent;
+
+  DetailContent({Key key, this.type, this.dataContent}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return DetailFacilityState();
-  }
+  DetailContentState createState() => DetailContentState();
 }
 
-class DetailFacilityState extends State<DetailFacility> {
+class DetailContentState extends State<DetailContent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,11 +40,11 @@ class DetailFacilityState extends State<DetailFacility> {
                 width: 8,
               ),
               Text(
-                "Fasilitas",
+                widget.type,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Constants.blackColor,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                   fontSize: 24,
                 ),
               ),
@@ -70,7 +65,7 @@ class DetailFacilityState extends State<DetailFacility> {
               child: SizedBox.expand(
                 child: FittedBox(
                   fit: BoxFit.fill,
-                  child: Image.network(widget.imgUrl),
+                  child: Image.network(widget.dataContent["image"]),
                 ),
               ),
             ),
@@ -80,7 +75,7 @@ class DetailFacilityState extends State<DetailFacility> {
               ),
               alignment: Alignment.center,
               child: Text(
-                "Foto ${widget.title}",
+                "Foto ${widget.type}",
                 style: TextStyle(
                   color: Constants.greyColor,
                 ),
@@ -92,7 +87,7 @@ class DetailFacilityState extends State<DetailFacility> {
                 left: 20,
               ),
               child: Text(
-                "Fasilitas",
+                widget.type,
                 style: TextStyle(
                   color: Constants.blueColor,
                 ),
@@ -104,7 +99,7 @@ class DetailFacilityState extends State<DetailFacility> {
                 left: 20,
               ),
               child: Text(
-                widget.title,
+                widget.dataContent['title'],
                 style: TextStyle(
                   color: Constants.blackColor,
                   fontWeight: FontWeight.bold,
@@ -112,13 +107,14 @@ class DetailFacilityState extends State<DetailFacility> {
                 ),
               ),
             ),
+            checkDate(),
             Padding(
               padding: EdgeInsets.only(
                 top: 12,
                 left: 20,
               ),
               child: Text(
-                "${widget.title} - ${widget.desc}",
+                "${widget.type} - ${widget.dataContent["description"]}",
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
@@ -127,6 +123,25 @@ class DetailFacilityState extends State<DetailFacility> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget checkDate() {
+    if (widget.type == "Partner" || widget.type == "Fasilitas") {
+      return Container();
+    }
+    return Padding(
+      padding: EdgeInsets.only(
+        top: 8,
+        left: 20,
+      ),
+      child: Text(
+        widget.dataContent['date'],
+        style: TextStyle(
+          fontSize: 14,
+          color: Constants.greyColor,
         ),
       ),
     );

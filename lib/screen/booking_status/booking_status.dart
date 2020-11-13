@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:healthish/helper/constants.dart';
+import 'package:healthish/screen/component_global/main_navigation.dart';
 
 class BookingStatus extends StatefulWidget {
-  BookingStatus({Key key}) : super(key: key);
+  final String bookingCode;
+  BookingStatus({this.bookingCode});
 
   @override
   _BookingStatusState createState() => _BookingStatusState();
@@ -45,7 +47,7 @@ class _BookingStatusState extends State<BookingStatus> {
               height: 8,
             ),
             Text(
-              "BIJIDS123",
+              widget.bookingCode,
               style: TextStyle(
                   color: Constants.whiteColor,
                   fontSize: 30,
@@ -80,7 +82,12 @@ class _BookingStatusState extends State<BookingStatus> {
                 RaisedButton(
                   textColor: Constants.blueColor,
                   color: Constants.whiteColor,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MainNavigation()));
+                  },
                   child: Text('Lihat Histori'),
                 ),
                 FlatButton(

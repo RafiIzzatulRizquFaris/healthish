@@ -1,9 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:healthish/helper/constants.dart';
 import 'package:intl/intl.dart';
 
-import '../../helper/constants.dart';
 
 class DetailControl extends StatefulWidget {
   final String type;

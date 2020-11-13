@@ -2,24 +2,36 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:healthish/helper/constants.dart';
+import 'package:healthish/contract/register_contract.dart';
 import 'package:healthish/screen/detail_booking/detail_booking.dart';
+import 'package:healthish/presenter/register_presenter.dart';
 import 'package:healthish/helper/radio_group.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BookingSheet extends StatefulWidget {
+  final String image;
+  final String name;
+  final String specialist;
+  final String idDoctor;
+
+  BookingSheet({this.image, this.name, this.specialist, this.idDoctor});
+
   @override
   State<StatefulWidget> createState() {
     return BookingSheetState();
   }
 }
 
-class BookingSheetState extends State<BookingSheet> {
+class BookingSheetState extends State<BookingSheet>
+    implements RegisterContractView {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final String alertRegist =
+  final String alertRegistration =
       "Maaf, anda belum terdaftar dalam aplikasi. Harap daftar terlebih dahulu untuk dapat membooking jadwal dengan dokter yang bersangkutan";
   final formKey = GlobalKey<FormState>();
+  Constants constants = Constants();
   bool obscureText = true;
   int radioGroupGender = -1;
   String selectedValue;
@@ -27,6 +39,11 @@ class BookingSheetState extends State<BookingSheet> {
     RadioGroup(0, "Laki - Laki"),
     RadioGroup(1, "Perempuan"),
   ];
+  RegisterPresenter registerPresenter;
+
+  BookingSheetState() {
+    registerPresenter = RegisterPresenter(this);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +66,7 @@ class BookingSheetState extends State<BookingSheet> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  alertRegist,
+                  alertRegistration,
                   style:
                       TextStyle(color: Constants.greyColorRegisterBottomSheet),
                 ),
@@ -256,11 +273,26 @@ class BookingSheetState extends State<BookingSheet> {
                           ),
                           textColor: Constants.whiteColor,
                           color: Constants.blueColor,
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DetailBooking()));
+                          onPressed: () async {
+                            if (formKey.currentState.validate()) {
+                              if (selectedValue.isNotEmpty ||
+                                  selectedValue.trim().length > 0) {
+                                await constants.progressDialog(context).show();
+                                registerPresenter.loadRegisterData(
+                                  nameController.text.trim().toString(),
+                                  emailController.text.trim().toString(),
+                                  passwordController.text.trim().toString(),
+                                  selectedValue.trim().toString(),
+                                  phoneController.text.trim().toString(),
+                                );
+                              } else {
+                                constants.errorAlert("Gagal Mendaftarkan Akun",
+                                    "Silahkan isi semua kolom isian", context);
+                              }
+                            } else {
+                              constants.errorAlert("Gagal Mendaftarkan Akun",
+                                  "Silahkan isi semua kolom isian", context);
+                            }
                           },
                           child: Text('Daftar'),
                         ),
@@ -269,13 +301,48 @@ class BookingSheetState extends State<BookingSheet> {
                   ],
                 ),
                 Padding(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom)),
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  setOnErrorRegister(error) async {
+    print(error.toString());
+    await constants.progressDialog(context).hide();
+    constants.errorAlert(
+        "Error", "Gagal Mendaftarkan Akun. \n Sesuatu Terjadi", context);
+  }
+
+  @override
+  setRegisterData(String response) async {
+    if (response == Constants.SUCCESS_RESPONSE) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await constants.progressDialog(context).hide();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailBooking(
+            idUser: preferences.get(Constants.KEY_ID).toString(),
+            idDoctor: widget.idDoctor,
+            specialist: widget.specialist,
+            image: widget.image,
+            name: widget.name,
+          ),
+        ),
+      );
+    } else if (response == Constants.ALREADY_RESPONSE) {
+      await constants.progressDialog(context).hide();
+      constants.errorAlert("Gagal Mendaftarkan Akun", "Email yang anda gunakan sudah terdaftar\nSilahkan gunakan email lain atau Masuk", context);
+    } else {
+      await constants.progressDialog(context).hide();
+      constants.errorAlert("Error", "Gagal Mendaftarkan Akun", context);
+    }
   }
 }

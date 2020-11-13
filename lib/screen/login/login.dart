@@ -6,7 +6,6 @@ import 'package:healthish/contract/login_contract.dart';
 import 'package:healthish/screen/component_global/main_navigation.dart';
 import 'package:healthish/presenter/login_presenter.dart';
 import 'package:healthish/screen/register/register.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -16,11 +15,12 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State<Login> implements LoginContractView {
+  final formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool obscureText = true;
-  final formKey = GlobalKey<FormState>();
+  Constants constants = Constants();
   LoginPresenter loginPresenter;
+  bool obscureText = true;
   bool loadingLogin = false;
 
   LoginState() {
@@ -237,9 +237,12 @@ class LoginState extends State<Login> implements LoginContractView {
       setState(() {
         loadingLogin = false;
       });
-      errorAlert("Gagal Login", "Password yang anda masukkan salah");
+      constants.errorAlert("Gagal Login", "Password yang anda masukkan salah", context);
     } else {
-      errorAlert("Gagal Login", "Akun Anda Tidak Terdaftar");
+      setState(() {
+        loadingLogin = false;
+      });
+      constants.errorAlert("Gagal Login", "Akun Anda Tidak Terdaftar", context);
     }
   }
 
@@ -248,42 +251,6 @@ class LoginState extends State<Login> implements LoginContractView {
     setState(() {
       loadingLogin = false;
     });
-    errorAlert("Gagal Login", "Cek Koneksi Internet Anda Dan Coba Kembali");
-  }
-
-  errorAlert(String title, String subtitle) {
-    return Alert(
-      context: context,
-      title: title,
-      desc: subtitle,
-      type: AlertType.warning,
-      buttons: [
-        DialogButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(
-            "OK",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-        ),
-      ],
-      style: AlertStyle(
-        animationType: AnimationType.grow,
-        isCloseButton: false,
-        isOverlayTapDismiss: false,
-        descStyle: TextStyle(fontWeight: FontWeight.bold),
-        descTextAlign: TextAlign.start,
-        animationDuration: Duration(milliseconds: 400),
-        alertBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(
-            color: Colors.grey,
-          ),
-        ),
-        titleStyle: TextStyle(
-          color: Colors.red,
-        ),
-        alertAlignment: Alignment.center,
-      ),
-    ).show();
+    constants.errorAlert("Gagal Login", "Cek Koneksi Internet Anda Dan Coba Kembali", context);
   }
 }

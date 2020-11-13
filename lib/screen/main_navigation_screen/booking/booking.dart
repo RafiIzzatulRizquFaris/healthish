@@ -133,6 +133,7 @@ class BookingState extends State<Booking> implements DoctorContractView {
           context,
           MaterialPageRoute(
             builder: (context) => DetailDoctor(
+              id: listDoctor[i].documentID.toString(),
               academy: listDoctor[i]['academy'],
               credential: listDoctor[i]['credential'],
               description: listDoctor[i]['description'],

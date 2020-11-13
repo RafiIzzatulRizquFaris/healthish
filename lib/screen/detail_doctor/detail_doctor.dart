@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:healthish/helper/constants.dart';
+import 'package:healthish/screen/detail_booking/detail_booking.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../helper/constants.dart';
-import 'component/bookingSheet.dart';
+import 'component/booking_sheet.dart';
+
 
 class DetailDoctor extends StatefulWidget {
+  final String id;
   final String name;
   final String image;
   final String specialist;
@@ -25,6 +29,7 @@ class DetailDoctor extends StatefulWidget {
     this.scheduleTime,
     this.schedulePlace,
     this.image,
+    this.id,
   });
 
   @override
@@ -38,28 +43,43 @@ class DetailDoctorState extends State<DetailDoctor> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Padding(
-          padding: EdgeInsets.all(8),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: Container(
-              height: 15.0,
-              alignment: Alignment.center,
-              color: Constants.whiteColor,
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Constants.blackColor,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100),
+        child: Container(
+          alignment: Alignment.centerLeft,
+          color: Colors.transparent,
+          padding: EdgeInsets.all(18),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Constants.whiteColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  height: 40.0,
+                  width: 40,
+                  alignment: Alignment.center,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Constants.blackColor,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                color: Colors.orange,
               ),
-            ),
+            ],
           ),
         ),
       ),
@@ -79,19 +99,43 @@ class DetailDoctorState extends State<DetailDoctor> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+            onPressed: () async {
+              SharedPreferences preferences =
+                  await SharedPreferences.getInstance();
+              if (preferences.getBool(Constants.KEY_LOGIN) == null) {
+                showModalBottomSheet(
+                  context: context,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
                   ),
-                ),
-                builder: (BuildContext context) {
-                  return BookingSheet();
-                },
-              );
+                  builder: (BuildContext context) {
+                    return BookingSheet(
+                      name: widget.name,
+                      image: widget.image,
+                      specialist: widget.specialist,
+                      idDoctor: widget.id,
+                    );
+                  },
+                );
+              } else {
+                String idUser =
+                    preferences.getString(Constants.KEY_ID).toString();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailBooking(
+                      name: widget.name,
+                      image: widget.image,
+                      specialist: widget.specialist,
+                      idDoctor: widget.id,
+                      idUser: idUser,
+                    ),
+                  ),
+                );
+              }
             },
             child: Text(
               'Buat Janji',

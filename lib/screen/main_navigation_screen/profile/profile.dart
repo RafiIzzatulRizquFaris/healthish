@@ -3,16 +3,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:healthish/contract/user_contract.dart';
 import 'package:healthish/helper/constants.dart';
+import 'package:healthish/contract/booking_contract.dart';
+import 'package:healthish/contract/user_contract.dart';
+import 'package:healthish/detail_screen/detail_control.dart';
+import 'package:healthish/presenter/booking_presenter.dart';
 import 'package:healthish/presenter/user_presenter.dart';
 import 'package:healthish/screen/component_global/custom_tab_indicator.dart';
 import 'package:healthish/screen/detail_account/detail_account.dart';
 import 'package:healthish/screen/login/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'component/bookingHistoryTab.dart';
-import 'component/notificationTab.dart';
+import 'component/booking_history_tab.dart';
+import 'component/notification_tab.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -23,15 +26,20 @@ class Profile extends StatefulWidget {
 
 class ProfileState extends State<Profile>
     with SingleTickerProviderStateMixin
-    implements UserContractView {
-  var isLogin;
+    implements UserContractView, BookingCOntractView {
+  bool isLogin;
   TabController tabController;
   UserPresenter userPresenter;
+  BookingPresenter bookingPresenter;
+  List<DocumentSnapshot> dataBookingHistory;
   bool loadingUser;
+  bool loadingBooking;
   String name = "name";
   String gender = "gender";
   String telephone = "telephone";
   String image = "image";
+  String id = "id";
+  String historyBadge = "0";
   PreferredSize appBar = PreferredSize(
     preferredSize: Size.fromHeight(100),
     child: Container(
@@ -52,6 +60,7 @@ class ProfileState extends State<Profile>
 
   ProfileState() {
     userPresenter = UserPresenter(this);
+    bookingPresenter = BookingPresenter(this);
   }
 
   @override
@@ -146,7 +155,12 @@ class ProfileState extends State<Profile>
                                           Navigator.push(context,
                                               MaterialPageRoute(
                                                   builder: (context) {
-                                            return DetailAccount();
+                                            return DetailAccount(
+                                              image: image,
+                                              name: name,
+                                              gender: gender,
+                                              id: id,
+                                            );
                                           }));
                                         },
                                       )
@@ -219,7 +233,7 @@ class ProfileState extends State<Profile>
                                           Tab(
                                             child: Badge(
                                               badgeContent: Text(
-                                                '1',
+                                                historyBadge,
                                                 style: TextStyle(
                                                   color: Constants.whiteColor,
                                                 ),
@@ -241,7 +255,66 @@ class ProfileState extends State<Profile>
                                       controller: tabController,
                                       children: [
                                         NotificationTab(),
-                                        BookingHistoryTab(),
+                                        dataBookingHistory == null ||
+                                                dataBookingHistory.length == 0
+                                            ? Center(
+                                                child: Text(
+                                                    "Data Tidak Ditemukan"),
+                                              )
+                                            : loadingBooking
+                                                ? Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      backgroundColor:
+                                                          Constants.blueColor,
+                                                    ),
+                                                  )
+                                                : ListView.builder(
+                                                    padding:
+                                                        EdgeInsets.only(top: 8),
+                                                    shrinkWrap: true,
+                                                    itemCount:
+                                                        dataBookingHistory
+                                                            .length,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                                int index) =>
+                                                            GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                DetailControl(
+                                                              type:
+                                                                  "Informasi Booking",
+                                                              code:
+                                                                  dataBookingHistory[
+                                                                          index]
+                                                                      ['code'],
+                                                              time:
+                                                                  dataBookingHistory[
+                                                                          index]
+                                                                      ['time'],
+                                                              date:
+                                                                  dataBookingHistory[
+                                                                          index]
+                                                                      ['date'],
+                                                              day:
+                                                                  dataBookingHistory[
+                                                                          index]
+                                                                      ['day'],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                      child: BookingHistoryTab(
+                                                        dataBook:
+                                                            dataBookingHistory[
+                                                                index],
+                                                      ),
+                                                    ),
+                                                  ),
                                       ],
                                     ),
                                   )
@@ -288,11 +361,14 @@ class ProfileState extends State<Profile>
         isLogin = null;
       });
     } else {
-      userPresenter
-          .loadUserData(preferences.getString(Constants.KEY_ID).toString());
+      String prefId = preferences.getString(Constants.KEY_ID).toString();
+      userPresenter.loadUserData(prefId);
+      bookingPresenter.loadBookingData(prefId);
       setState(() {
+        id = prefId;
         isLogin = loginPref;
         loadingUser = true;
+        loadingBooking = true;
       });
     }
   }
@@ -312,6 +388,25 @@ class ProfileState extends State<Profile>
       gender = value.data['gender'].toString();
       telephone = value.data['phonenumber'].toString();
       loadingUser = false;
+    });
+  }
+
+  @override
+  onError(error) {
+    // TODO: implement onError
+    throw UnimplementedError();
+  }
+
+  @override
+  onSuccessBooking(List<DocumentSnapshot> value) {
+    setState(() {
+      if (value.isNotEmpty || value != null || value.length > 0) {
+        historyBadge = value.length.toString();
+        dataBookingHistory = value;
+        loadingBooking = false;
+      } else {
+        historyBadge = "0";
+      }
     });
   }
 }

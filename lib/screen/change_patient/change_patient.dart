@@ -1,17 +1,37 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:healthish/contract/patient_contract.dart';
+import 'package:healthish/presenter/patient_presenter.dart';
 import '../../helper/constants.dart';
 import 'component/add_patient_sheet.dart';
 
 class ChangePatient extends StatefulWidget {
-  ChangePatient({Key key}) : super(key: key);
+  final int selectedPatient;
+  final String userId;
+
+  ChangePatient({this.selectedPatient, this.userId});
 
   @override
   ChangePatientState createState() => ChangePatientState();
 }
 
-class ChangePatientState extends State<ChangePatient> {
-  int _value = 0;
+class ChangePatientState extends State<ChangePatient>
+    implements PatientContractView {
+  PatientPresenter patientPresenter;
+  bool loadingPatient = true;
+  List<DocumentSnapshot> listPatient = List<DocumentSnapshot>();
+  int value = 0;
+
+  ChangePatientState() {
+    patientPresenter = PatientPresenter(this);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    patientPresenter.loadPatientData(widget.userId);
+    value = widget.selectedPatient;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +51,7 @@ class ChangePatientState extends State<ChangePatient> {
                   color: Constants.blackColor,
                 ),
                 onPressed: () {
-                  return Navigator.pop(context);
+                  return Navigator.pop(context, value);
                 },
               ),
               SizedBox(
@@ -53,119 +73,17 @@ class ChangePatientState extends State<ChangePatient> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              child: Padding(
-                padding: EdgeInsets.all(24),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Nama : Irfan Trianto",
-                          style: TextStyle(
-                              color: Color(0xff8B8B8B),
-                              fontWeight: FontWeight.w500),
+            listPatient.length == 0
+                ? Container()
+                : loadingPatient
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          backgroundColor: Constants.blueColor,
                         ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text("Jenis Kelamin : Laki - laki",
-                            style: TextStyle(
-                                color: Color(0xff8B8B8B),
-                                fontWeight: FontWeight.w500)),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text("Status : Saya Sendiri",
-                            style: TextStyle(
-                                color: Color(0xff8B8B8B),
-                                fontWeight: FontWeight.w500))
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () => setState(() => _value = 0),
-                      child: Container(
-                        height: 35,
-                        width: 35,
-                        decoration: _value != 0
-                            ? BoxDecoration(
-                                color: Colors.grey, shape: BoxShape.circle)
-                            : null,
-                        child: _value == 0
-                            ? Icon(
-                                Icons.check_circle,
-                                size: 35,
-                                color: Constants.blueColor,
-                              )
-                            : null,
+                      )
+                    : Column(
+                        children: listSelectedPatient(),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              child: Padding(
-                padding: EdgeInsets.all(24),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Nama : Irfan Trianto",
-                          style: TextStyle(
-                            color: Color(0xff8B8B8B),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          "Jenis Kelamin : Laki - laki",
-                          style: TextStyle(
-                            color: Color(0xff8B8B8B),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          "Status : Saya Sendiri",
-                          style: TextStyle(
-                            color: Color(0xff8B8B8B),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        )
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () => setState(() => _value = 1),
-                      child: Container(
-                        height: 35,
-                        width: 35,
-                        decoration: _value != 1
-                            ? BoxDecoration(
-                                color: Colors.grey, shape: BoxShape.circle)
-                            : null,
-                        child: _value == 1
-                            ? Icon(
-                                Icons.check_circle,
-                                size: 35,
-                                color: Constants.blueColor,
-                              )
-                            : null,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
             FlatButton(
               onPressed: () {
                 showModalBottomSheet(
@@ -177,9 +95,17 @@ class ChangePatientState extends State<ChangePatient> {
                     ),
                   ),
                   builder: (BuildContext context) {
-                    return AddPatientSheet();
+                    return AddPatientSheet(
+                      idUser: widget.userId,
+                    );
                   },
-                );
+                ).then((value) {
+                  setState(() {
+                    loadingPatient = true;
+                    value = widget.selectedPatient;
+                  });
+                  patientPresenter.loadPatientData(widget.userId);
+                });
               },
               child: Text(
                 "Tambah Baru",
@@ -190,5 +116,80 @@ class ChangePatientState extends State<ChangePatient> {
         ),
       ),
     );
+  }
+
+  List<Widget> listSelectedPatient() {
+    List<Widget> list = List<Widget>();
+    for (int i = 0; i < listPatient.length; i++) {
+      list.add(Container(
+        child: Padding(
+          padding: EdgeInsets.all(24),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Nama : ${listPatient[i].data['name']}",
+                    style: TextStyle(
+                        color: Color(0xff8B8B8B), fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    "Jenis Kelamin : ${listPatient[i].data['gender']}",
+                    style: TextStyle(
+                        color: Color(0xff8B8B8B), fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    "Status : ${listPatient[i].data['status']}",
+                    style: TextStyle(
+                        color: Color(0xff8B8B8B), fontWeight: FontWeight.w500),
+                  )
+                ],
+              ),
+              GestureDetector(
+                onTap: () => setState(() => value = i),
+                child: Container(
+                  height: 35,
+                  width: 35,
+                  decoration: value != i
+                      ? BoxDecoration(
+                          color: Colors.grey, shape: BoxShape.circle)
+                      : null,
+                  child: value == i
+                      ? Icon(
+                          Icons.check_circle,
+                          size: 35,
+                          color: Constants.blueColor,
+                        )
+                      : null,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ));
+    }
+    return list;
+  }
+
+  @override
+  onErrorPatientData(error) {
+    // TODO: implement onErrorPatientData
+    throw UnimplementedError();
+  }
+
+  @override
+  onSuccessPatientData(List<DocumentSnapshot> value) {
+    setState(() {
+      listPatient = value;
+      loadingPatient = false;
+    });
   }
 }
