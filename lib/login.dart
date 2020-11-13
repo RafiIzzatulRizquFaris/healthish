@@ -239,6 +239,9 @@ class LoginState extends State<Login> implements LoginContractView {
       });
       constants.errorAlert("Gagal Login", "Password yang anda masukkan salah", context);
     } else {
+      setState(() {
+        loadingLogin = false;
+      });
       constants.errorAlert("Gagal Login", "Akun Anda Tidak Terdaftar", context);
     }
   }
