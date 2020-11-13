@@ -109,7 +109,7 @@ class HomeState extends State<Home>
                         children: [
                           Text(
                             loadingEvent
-                                ? ""
+                                ? "Loading.."
                                 : listEvent[carouselIndex].data["title"],
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -124,7 +124,7 @@ class HomeState extends State<Home>
                           ),
                           Text(
                             loadingEvent
-                                ? ""
+                                ? "Loading.."
                                 : listEvent[carouselIndex].data["description"],
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
