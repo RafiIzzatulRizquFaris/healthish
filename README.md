@@ -16,7 +16,7 @@
   <h3 align="center">HEALTHISH</h3>
 
   <p align="center">
-    LOREM IPSUM SIR DOLOR AMET
+    Hospital digital service mobile application. Built with Flutter 
     <br />
     <a href="https://github.com/RafiIzzatulRizquFaris/healthish"><strong>Explore the docs »</strong></a>
     <br />
