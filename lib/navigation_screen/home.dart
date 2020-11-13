@@ -338,7 +338,7 @@ class HomeState extends State<Home>
 
   carouselEvent() {
     return CarouselSlider.builder(
-      itemCount: listEvent.length,
+      itemCount: listEvent.length > 4 ? 4 : listEvent.length,
       itemBuilder: itemBuilderCarouselEvent,
       options: CarouselOptions(
         autoPlay: true,
@@ -395,7 +395,9 @@ class HomeState extends State<Home>
 
   List<Widget> dotWidget() {
     List<Widget> list = List<Widget>();
-    for (int i = 0; i < listEvent.length; i++) {
+    int listLength;
+    listEvent.length > 4 ? listLength = 4 : listLength = listEvent.length;
+    for (int i = 0; i < listLength; i++) {
       list.add(Container(
         margin: EdgeInsets.only(right: 10),
         decoration: BoxDecoration(
@@ -627,7 +629,7 @@ class HomeState extends State<Home>
                     )
                   : Container(
                       child: ListView.builder(
-                        itemCount: listEvent.length,
+                        itemCount: listEvent.length > 5 ? 5 : listEvent.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: itemBuilderLatestNews,
                       ),
