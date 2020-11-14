@@ -36,7 +36,7 @@ class NotificationTab extends StatelessWidget {
               height: 8,
             ),
             Text(
-              dataNotif["description"] != null ? dataNotif["description"] : "Code",
+              dataNotif["description"] != null ? dataNotif["description"] : "Kontrol",
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(color: Constants.blackColor),

@@ -36,7 +36,7 @@ class ProfileState extends State<Profile>
   EventPresenter eventPresenter;
   BookingPresenter bookingPresenter;
   List<DocumentSnapshot> dataBookingHistory;
-  List<DocumentSnapshot> dataEvent;
+  List<DocumentSnapshot> dataNotif = List<DocumentSnapshot>();
   bool loadingUser;
   bool loadingEvent;
   bool loadingBooking;
@@ -262,8 +262,8 @@ class ProfileState extends State<Profile>
                                     child: TabBarView(
                                       controller: tabController,
                                       children: [
-                                        dataEvent == null ||
-                                                dataEvent.length == 0
+                                        dataNotif == null ||
+                                                dataNotif.length == 0
                                             ? Center(
                                                 child: Text("Tidak ada data"),
                                               )
@@ -279,7 +279,7 @@ class ProfileState extends State<Profile>
                                                     padding:
                                                         EdgeInsets.only(top: 8),
                                                     shrinkWrap: true,
-                                                    itemCount: dataEvent.length,
+                                                    itemCount: dataNotif.length,
                                                     itemBuilder:
                                                         (BuildContext context,
                                                                 int index) =>
@@ -290,9 +290,16 @@ class ProfileState extends State<Profile>
                                                             MaterialPageRoute(
                                                                 builder:
                                                                     (context) =>
-                                                                        DetailContent(type: "Event",dataContent: dataEvent[index],)));
+                                                                        DetailContent(
+                                                                          type:
+                                                                              "Event",
+                                                                          dataContent:
+                                                                              dataNotif[index],
+                                                                        )));
                                                       },
-                                                      child: NotificationTab(dataNotif :dataEvent[index]),
+                                                      child: NotificationTab(
+                                                          dataNotif:
+                                                              dataNotif[index]),
                                                     ),
                                                   ),
                                         dataBookingHistory == null ||
@@ -439,6 +446,7 @@ class ProfileState extends State<Profile>
         }
         historyBadge = listHistoryLength.length.toString();
         dataBookingHistory = value.toList();
+        dataNotif.addAll(value.take(1).toList());
         loadingBooking = false;
       } else {
         historyBadge = "0";
@@ -456,14 +464,8 @@ class ProfileState extends State<Profile>
   onSuccessEventData(List<DocumentSnapshot> value) {
     setState(() {
       if (value.isNotEmpty || value != null || value.length > 0) {
-        List<String> listEventLength = List<String>();
-        for (int i = 0; i < value.length; i++) {
-          if (value[i].data['read'] == 'unread') {
-            listEventLength.add(value[i].data['read']);
-          }
-        }
-        eventBadge = listEventLength.length.toString();
-        dataEvent = value.toList();
+        dataNotif.addAll(value.reversed.take(5).toList());
+        eventBadge = dataNotif.length.toString();
         loadingEvent = false;
       } else {
         eventBadge = "0";
