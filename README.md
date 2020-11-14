@@ -51,6 +51,8 @@
 <!-- GETTING STARTED -->
 ## Getting Started
 
+Healthish is a digital hospital service application created created by the Hansaplast Team to participate in the App Development Challenge # 01 - Mobile Application with Flutter competition held by [SMKDEV](https://smk.dev/). 
+
 To get a local copy up and running follow these simple steps.
 
 ### Installation
@@ -75,9 +77,9 @@ flutter run
 <!-- CONTACT -->
 ## Contact
 
-Rafi Izzatul Risqu Faris - [@quipar33](https://www.instagram.com/quipar33/) - risqufaris@gmail.com
+Rafi Izzatul Rizqu Faris - [@quipar33](https://www.instagram.com/quipar33/) - risqufaris@gmail.com
 
-Rifat Khadafi - [@_khadavit](https://www.instagram.com/_khadavit/) - khadafy67@gmail.com
+Rifat Khadafy - [@_khadavit](https://www.instagram.com/_khadavit/) - khadafy67@gmail.com
 
 Muhammad Farras Jibran - [@farasjbrn](https://www.instagram.com/farasjbrn/) - farasjibran@gmail.com
 
