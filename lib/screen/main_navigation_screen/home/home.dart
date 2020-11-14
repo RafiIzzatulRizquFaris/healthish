@@ -15,6 +15,7 @@ import 'package:healthish/presenter/doctor_presenter.dart';
 import 'package:healthish/presenter/event_presenter.dart';
 import 'package:healthish/presenter/news_presenter.dart';
 import 'package:healthish/screen/about/about.dart';
+import 'package:healthish/screen/detail_doctor/detail_doctor.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../detail_content/detail_content.dart';
@@ -551,7 +552,37 @@ class HomeState extends State<Home>
       ),
       child: FlatButton(
         padding: EdgeInsets.all(0),
-        onPressed: () {},
+        onPressed: () {
+          return Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailDoctor(
+                id: listDoctor[index].documentID.toString(),
+                academy: listDoctor[index]['academy'],
+                credential: listDoctor[index]['credential'],
+                description: listDoctor[index]['description'],
+                image: listDoctor[index]['image'],
+                name: listDoctor[index]['name'],
+                specialist: listDoctor[index]['specialist'],
+                scheduleDay: [
+                  listDoctor[index]['schedule'][0]['day'],
+                  listDoctor[index]['schedule'][1]['day'],
+                  listDoctor[index]['schedule'][2]['day']
+                ],
+                schedulePlace: [
+                  listDoctor[index]['schedule'][0]['place'],
+                  listDoctor[index]['schedule'][1]['place'],
+                  listDoctor[index]['schedule'][2]['place']
+                ],
+                scheduleTime: [
+                  listDoctor[index]['schedule'][0]['time'],
+                  listDoctor[index]['schedule'][1]['time'],
+                  listDoctor[index]['schedule'][2]['time']
+                ],
+              ),
+            ),
+          );
+        },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
