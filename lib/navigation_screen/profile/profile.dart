@@ -391,7 +391,7 @@ class ProfileState extends State<Profile>
           }
         }
         historyBadge = listHistoryLength.length.toString();
-        dataBookingHistory = value;
+        dataBookingHistory = value.reversed.toList();
         loadingBooking = false;
       } else {
         historyBadge = "0";

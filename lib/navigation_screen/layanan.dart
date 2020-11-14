@@ -364,7 +364,7 @@ class LayananState extends State<Layanan>
   @override
   onSuccessEventData(List<DocumentSnapshot> value) {
     setState(() {
-      listEvent = value;
+      listEvent = value.reversed.toList();
       loadingEvent = false;
     });
   }
