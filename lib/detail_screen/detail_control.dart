@@ -26,8 +26,8 @@ class DetailControlState extends State<DetailControl>
       "Amet - minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit";
   String date;
   bool isRead = true;
-  String placeName = "Place Name";
-  String placeAddress = "Place Address";
+  String placeName = "Not Available";
+  String placeAddress = "Not Available";
 
   DetailControlState() {
     changeStatusHistoryPresenter = ChangeStatusHistoryPresenter(this);
