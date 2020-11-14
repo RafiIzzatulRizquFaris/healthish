@@ -276,6 +276,7 @@ class ProfileState extends State<Profile>
                                                     ),
                                                   )
                                                 : ListView.builder(
+                                                    physics: NeverScrollableScrollPhysics(),
                                                     padding:
                                                         EdgeInsets.only(top: 8),
                                                     shrinkWrap: true,
