@@ -288,14 +288,20 @@ class ProfileState extends State<Profile>
                                                         Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        DetailContent(
-                                                                          type:
-                                                                              "Event",
-                                                                          dataContent:
-                                                                              dataNotif[index],
-                                                                        )));
+                                                                builder: (context) => dataNotif[index]
+                                                                            [
+                                                                            "type"] ==
+                                                                        "Informasi Booking"
+                                                                    ? DetailControl(
+                                                                        dataBook:
+                                                                            dataNotif[index],
+                                                                      )
+                                                                    : DetailContent(
+                                                                        type:
+                                                                            "Event",
+                                                                        dataContent:
+                                                                            dataNotif[index],
+                                                                      )));
                                                       },
                                                       child: NotificationTab(
                                                           dataNotif:
