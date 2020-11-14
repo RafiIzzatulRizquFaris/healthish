@@ -83,7 +83,7 @@ class _BookingStatusState extends State<BookingStatus> {
                   textColor: Constants.blueColor,
                   color: Constants.whiteColor,
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => MainNavigation()));
@@ -96,7 +96,7 @@ class _BookingStatusState extends State<BookingStatus> {
                     Navigator.of(context).pop();
                   },
                   child: Text(
-                    "Tidak kembali ke home",
+                    "Kembali",
                     style: TextStyle(fontWeight: FontWeight.w400),
                   ),
                 )
