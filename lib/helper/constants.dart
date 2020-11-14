@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-class Constants{
-
+class Constants {
   static const Color whiteColor = Color(0xffFFFFFF);
   static const Color darkGreyColor = Color(0xff7F7F7F);
   static const Color greyColor = Color(0xffD0D0D0);
@@ -15,6 +14,7 @@ class Constants{
   static const Color greyColorRegisterBottomSheet = Color(0xff828282);
   static const Color blueColor = Color(0xff2962FF);
   static const Color blackColor = Color(0xff1E1E1D);
+  static const Color blueWhiteColor = Color(0xffdee4f3);
   static const Color redColor = Color(0xffFF5E20);
 
   static const String eventCollections = "event";
@@ -38,7 +38,7 @@ class Constants{
   static const String WRONG_PASSWORD_RESPONSE = "wrong";
   static const String ALREADY_RESPONSE = "already";
 
-  ProgressDialog progressDialog(BuildContext ctx){
+  ProgressDialog progressDialog(BuildContext ctx) {
     ProgressDialog loadingDialog = ProgressDialog(
       ctx,
       type: ProgressDialogType.Normal,
@@ -62,7 +62,7 @@ class Constants{
     return loadingDialog;
   }
 
-  successAlert(String title, String subtitle, BuildContext ctx){
+  successAlert(String title, String subtitle, BuildContext ctx) {
     return Alert(
       context: ctx,
       title: title,

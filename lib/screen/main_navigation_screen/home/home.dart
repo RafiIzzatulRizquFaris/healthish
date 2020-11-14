@@ -75,6 +75,7 @@ class HomeState extends State<Home>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Constants.whiteColor,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +109,7 @@ class HomeState extends State<Home>
                         children: [
                           Text(
                             loadingEvent
-                                ? ""
+                                ? "Loading.."
                                 : listEvent[carouselIndex].data["title"],
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -123,7 +124,7 @@ class HomeState extends State<Home>
                           ),
                           Text(
                             loadingEvent
-                                ? ""
+                                ? "Loading.."
                                 : listEvent[carouselIndex].data["description"],
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -237,7 +238,8 @@ class HomeState extends State<Home>
                                       child: ListTile(
                                         onTap: () async {
                                           await launch(
-                                              'https://www.google.com/maps/search/?api=1&query=-6.318920, 106.852008');
+                                              'https://www.google.com/maps/search/?api=1&query=${listAbout[0]["maps"]['lat']}, ${listAbout[0]["maps"]['long']}');
+
                                         },
                                         leading: Container(
                                           height: 50,
@@ -249,14 +251,18 @@ class HomeState extends State<Home>
                                           ),
                                         ),
                                         title: Text(
-                                          "RS. SMKDEV",
+                                          listAbout.isNotEmpty
+                                              ? listAbout[0]["place_list"][0]["name"].toString()
+                                              : "Place Name",
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
                                           textAlign: TextAlign.start,
                                         ),
                                         subtitle: Text(
-                                          "Jl. Margacipta no. 29\nBuah Batu, Bandung",
+                                          listAbout.isNotEmpty
+                                              ? "${listAbout[0]["place_list"][0]["address"].toString()}\nBuah Batu, Bandung"
+                                              : "Place Address",
                                           style: TextStyle(
                                             color: Constants.greyColor,
                                           ),
@@ -333,7 +339,7 @@ class HomeState extends State<Home>
 
   carouselEvent() {
     return CarouselSlider.builder(
-      itemCount: listEvent.length,
+      itemCount: listEvent.length > 4 ? 4 : listEvent.length,
       itemBuilder: itemBuilderCarouselEvent,
       options: CarouselOptions(
         autoPlay: true,
@@ -354,7 +360,7 @@ class HomeState extends State<Home>
   @override
   onSuccessEventData(List<DocumentSnapshot> value) {
     setState(() {
-      listEvent = value;
+      listEvent = value.reversed.toList();
       loadingEvent = false;
     });
   }
@@ -390,7 +396,9 @@ class HomeState extends State<Home>
 
   List<Widget> dotWidget() {
     List<Widget> list = List<Widget>();
-    for (int i = 0; i < listEvent.length; i++) {
+    int listLength;
+    listEvent.length > 4 ? listLength = 4 : listLength = listEvent.length;
+    for (int i = 0; i < listLength; i++) {
       list.add(Container(
         margin: EdgeInsets.only(right: 10),
         decoration: BoxDecoration(
@@ -622,7 +630,7 @@ class HomeState extends State<Home>
                     )
                   : Container(
                       child: ListView.builder(
-                        itemCount: listEvent.length,
+                        itemCount: listEvent.length > 5 ? 5 : listEvent.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: itemBuilderLatestNews,
                       ),
@@ -748,7 +756,9 @@ class HomeState extends State<Home>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Rumah Sakit SMKDEV",
+                            listAbout.isNotEmpty
+                                ? listAbout[0]["place_list"][0]["name"].toString()
+                                : "",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
@@ -757,7 +767,9 @@ class HomeState extends State<Home>
                             height: 3,
                           ),
                           Text(
-                            "Jl. Margacita No. 29",
+                            listAbout.isNotEmpty
+                                ? listAbout[0]["place_list"][0]["address"].toString()
+                                : "",
                             style: TextStyle(
                               color: Constants.greyColor,
                             ),
@@ -766,7 +778,7 @@ class HomeState extends State<Home>
                       ),
                       onPressed: () async {
                         await launch(
-                            'https://www.google.com/maps/search/?api=1&query=-6.318920, 106.852008');
+                            'https://www.google.com/maps/search/?api=1&query=${listAbout[0]["maps"]['lat']}, ${listAbout[0]["maps"]['long']}');
                       },
                     ),
                     FlatButton.icon(
@@ -775,7 +787,9 @@ class HomeState extends State<Home>
                         color: Constants.greyColor,
                       ),
                       label: Text(
-                        "info@smk.dev",
+                        listAbout.isNotEmpty
+                            ? listAbout[0]["contact"]["email"].toString()
+                            : "",
                         style: TextStyle(
                           color: Constants.greyColor,
                         ),
@@ -793,13 +807,19 @@ class HomeState extends State<Home>
                             color: Constants.greyColor,
                           ),
                           label: Text(
-                            "+622 7000 0000",
+                            listAbout.isNotEmpty
+                                ? listAbout[0]["contact"]["phone"].toString()
+                                : "",
                             style: TextStyle(
                               color: Constants.greyColor,
                             ),
                           ),
                           onPressed: () async {
-                            await launch('tel:082299189919');
+                            await launch(
+                                listAbout.isNotEmpty
+                                ? "tel:${listAbout[0]["contact"]["phone"].toString()}"
+                                : ""
+                            );
                           },
                         ),
                         FlatButton.icon(
@@ -808,13 +828,19 @@ class HomeState extends State<Home>
                             color: Constants.greyColor,
                           ),
                           label: Text(
-                            "+622 7000 0000",
+                            listAbout.isNotEmpty
+                                ? listAbout[0]["contact"]["second_phone"].toString()
+                                : "",
                             style: TextStyle(
                               color: Constants.greyColor,
                             ),
                           ),
                           onPressed: () async {
-                            await launch('tel:082299189919');
+                            await launch(
+                                listAbout.isNotEmpty
+                                    ? "tel:${listAbout[0]["contact"]["second_phone"].toString()}"
+                                    : ""
+                            );
                           },
                         ),
                       ],

@@ -121,7 +121,9 @@ class AboutState extends State<About> implements AboutContractView {
                       left: 20,
                     ),
                     child: Text(
-                      listAbout[0]['description'].toString().replaceAll("\\n", "\n"),
+                      listAbout[0]['description']
+                          .toString()
+                          .replaceAll("\\n", "\n"),
                       style: TextStyle(
                         fontSize: 16,
                         letterSpacing: 1,
@@ -152,9 +154,14 @@ class AboutState extends State<About> implements AboutContractView {
           children: [
             Text(
               listAbout[0]["place_list"][i]["name"],
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
             ),
-            Text(listAbout[0]["place_list"][i]["address"]),
+            Text(
+              listAbout[0]["place_list"][i]["address"],
+            ),
           ],
         ),
       ));
@@ -181,7 +188,7 @@ class AboutState extends State<About> implements AboutContractView {
                         children: ambulanceNumberList(),
                       )
                     : Text(
-              listAbout[0]["contact"]["phone_list"][2]["number"],
+                        listAbout[0]["contact"]["phone_list"][2]["number"],
                       ),
           ],
         ),
@@ -214,7 +221,9 @@ class AboutState extends State<About> implements AboutContractView {
 
   List<Widget> ambulanceNumberList() {
     List<Widget> list = List<Widget>();
-    for (int i = 0; i < listAbout[0]["contact"]["phone_list"][1]["number"].length; i++) {
+    for (int i = 0;
+        i < listAbout[0]["contact"]["phone_list"][1]["number"].length;
+        i++) {
       list.add(Text(listAbout[0]["contact"]["phone_list"][1]["number"][i]));
     }
     return list;
@@ -230,7 +239,10 @@ class AboutState extends State<About> implements AboutContractView {
           children: [
             Text(
               listAbout[0]["place_list"][i]["name"],
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
             ),
             Text(listAbout[0]["place_list"][i]["weekday"]),
             Text(listAbout[0]["place_list"][i]["weekend"]),

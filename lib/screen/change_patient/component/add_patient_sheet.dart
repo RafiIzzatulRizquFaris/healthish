@@ -14,14 +14,14 @@ class AddPatientSheet extends StatefulWidget {
 
 class AddPatientSheetState extends State<AddPatientSheet>
     implements AddPatientContractView {
+  final formKey = GlobalKey<FormState>();
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
   Constants constants = Constants();
   AddPatientPresenter addPatientPresenter;
   int radioGroupGender = -1;
   String dropdownValue;
-  String radioValue;
+  String radioValue = "";
 
   AddPatientSheetState() {
     addPatientPresenter = AddPatientPresenter(this);
@@ -195,12 +195,12 @@ class AddPatientSheetState extends State<AddPatientSheet>
                           color: Constants.blueColor,
                           onPressed: () async {
                             String gender = radioValue.trim().toString();
-                            String status = dropdownValue.trim().toString();
                             String name = nameController.text.trim().toString();
-                            if (status.length > 0 &&
+                            if (dropdownValue != null &&
                                 gender.length > 0 &&
                                 formKey.currentState.validate() &&
                                 name.length > 0) {
+                              String status = dropdownValue.trim().toString();
                               await constants.progressDialog(context).show();
                               addPatientPresenter.loadAddPatientData(
                                   widget.idUser, name, gender, status);

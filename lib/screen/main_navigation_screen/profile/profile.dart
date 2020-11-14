@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:healthish/helper/constants.dart';
 import 'package:healthish/contract/booking_contract.dart';
+import 'package:healthish/contract/event_contract.dart';
 import 'package:healthish/contract/user_contract.dart';
-import 'package:healthish/detail_screen/detail_control.dart';
+import 'package:healthish/screen/detail_control/detail_control.dart';
 import 'package:healthish/presenter/booking_presenter.dart';
+import 'package:healthish/presenter/event_presenter.dart';
 import 'package:healthish/presenter/user_presenter.dart';
 import 'package:healthish/screen/component_global/custom_tab_indicator.dart';
 import 'package:healthish/screen/detail_account/detail_account.dart';
+import 'package:healthish/screen/detail_content/detail_content.dart';
 import 'package:healthish/screen/login/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -26,13 +29,16 @@ class Profile extends StatefulWidget {
 
 class ProfileState extends State<Profile>
     with SingleTickerProviderStateMixin
-    implements UserContractView, BookingCOntractView {
+    implements UserContractView, BookingCOntractView, EventContractView {
   bool isLogin;
   TabController tabController;
   UserPresenter userPresenter;
+  EventPresenter eventPresenter;
   BookingPresenter bookingPresenter;
   List<DocumentSnapshot> dataBookingHistory;
+  List<DocumentSnapshot> dataEvent;
   bool loadingUser;
+  bool loadingEvent;
   bool loadingBooking;
   String name = "name";
   String gender = "gender";
@@ -40,6 +46,7 @@ class ProfileState extends State<Profile>
   String image = "image";
   String id = "id";
   String historyBadge = "0";
+  String eventBadge = "0";
   PreferredSize appBar = PreferredSize(
     preferredSize: Size.fromHeight(100),
     child: Container(
@@ -60,6 +67,7 @@ class ProfileState extends State<Profile>
 
   ProfileState() {
     userPresenter = UserPresenter(this);
+    eventPresenter = EventPresenter(this);
     bookingPresenter = BookingPresenter(this);
   }
 
@@ -217,7 +225,7 @@ class ProfileState extends State<Profile>
                                           Tab(
                                             child: Badge(
                                               badgeContent: Text(
-                                                '2',
+                                                eventBadge,
                                                 style: TextStyle(
                                                   color: Constants.whiteColor,
                                                 ),
@@ -254,12 +262,43 @@ class ProfileState extends State<Profile>
                                     child: TabBarView(
                                       controller: tabController,
                                       children: [
-                                        NotificationTab(),
+                                        dataEvent == null ||
+                                                dataEvent.length == 0
+                                            ? Center(
+                                                child: Text("Tidak ada data"),
+                                              )
+                                            : loadingEvent
+                                                ? Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      backgroundColor:
+                                                          Constants.blueColor,
+                                                    ),
+                                                  )
+                                                : ListView.builder(
+                                                    padding:
+                                                        EdgeInsets.only(top: 8),
+                                                    shrinkWrap: true,
+                                                    itemCount: dataEvent.length,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                                int index) =>
+                                                            GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        DetailContent(type: "Event",dataContent: dataEvent[index],)));
+                                                      },
+                                                      child: NotificationTab(dataNotif :dataEvent[index]),
+                                                    ),
+                                                  ),
                                         dataBookingHistory == null ||
                                                 dataBookingHistory.length == 0
                                             ? Center(
-                                                child: Text(
-                                                    "Data Tidak Ditemukan"),
+                                                child: Text("Tidak ada data"),
                                               )
                                             : loadingBooking
                                                 ? Center(
@@ -286,27 +325,16 @@ class ProfileState extends State<Profile>
                                                           MaterialPageRoute(
                                                             builder: (context) =>
                                                                 DetailControl(
-                                                              type:
-                                                                  "Informasi Booking",
-                                                              code:
+                                                              dataBook:
                                                                   dataBookingHistory[
-                                                                          index]
-                                                                      ['code'],
-                                                              time:
-                                                                  dataBookingHistory[
-                                                                          index]
-                                                                      ['time'],
-                                                              date:
-                                                                  dataBookingHistory[
-                                                                          index]
-                                                                      ['date'],
-                                                              day:
-                                                                  dataBookingHistory[
-                                                                          index]
-                                                                      ['day'],
+                                                                      index],
                                                             ),
                                                           ),
-                                                        );
+                                                        ).then((value) {
+                                                          bookingPresenter
+                                                              .loadBookingData(
+                                                                  id);
+                                                        });
                                                       },
                                                       child: BookingHistoryTab(
                                                         dataBook:
@@ -363,12 +391,14 @@ class ProfileState extends State<Profile>
     } else {
       String prefId = preferences.getString(Constants.KEY_ID).toString();
       userPresenter.loadUserData(prefId);
+      eventPresenter.loadEventData();
       bookingPresenter.loadBookingData(prefId);
       setState(() {
         id = prefId;
         isLogin = loginPref;
         loadingUser = true;
         loadingBooking = true;
+        loadingEvent = true;
       });
     }
   }
@@ -401,11 +431,42 @@ class ProfileState extends State<Profile>
   onSuccessBooking(List<DocumentSnapshot> value) {
     setState(() {
       if (value.isNotEmpty || value != null || value.length > 0) {
-        historyBadge = value.length.toString();
-        dataBookingHistory = value;
+        List<String> listHistoryLength = List<String>();
+        for (int i = 0; i < value.length; i++) {
+          if (value[i].data['read'] == 'unread') {
+            listHistoryLength.add(value[i].data['read']);
+          }
+        }
+        historyBadge = listHistoryLength.length.toString();
+        dataBookingHistory = value.toList();
         loadingBooking = false;
       } else {
         historyBadge = "0";
+      }
+    });
+  }
+
+  @override
+  onErrorEventData(error) {
+    // TODO: implement onErrorEventData
+    throw UnimplementedError();
+  }
+
+  @override
+  onSuccessEventData(List<DocumentSnapshot> value) {
+    setState(() {
+      if (value.isNotEmpty || value != null || value.length > 0) {
+        List<String> listEventLength = List<String>();
+        for (int i = 0; i < value.length; i++) {
+          if (value[i].data['read'] == 'unread') {
+            listEventLength.add(value[i].data['read']);
+          }
+        }
+        eventBadge = listEventLength.length.toString();
+        dataEvent = value.toList();
+        loadingEvent = false;
+      } else {
+        eventBadge = "0";
       }
     });
   }

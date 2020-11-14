@@ -1,49 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:healthish/screen/detail_control/detail_control.dart';
 import 'package:healthish/helper/constants.dart';
 
 class NotificationTab extends StatelessWidget {
+  final DocumentSnapshot dataNotif;
+
+  const NotificationTab({Key key, this.dataNotif}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: EdgeInsets.only(top: 8),
-      shrinkWrap: true,
-      itemCount: 20,
-      itemBuilder: (BuildContext context, int index) => GestureDetector(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => DetailControl(
-                        type: "Kontrol Mingguan",
-                        code: "Waktunya Kontrol",
-                        time: "08:30",
-                        date: "06 Aug 2020",
-                        day: "Kamis",
-                      )));
-        },
-        child: itemBuilderNotification(context, index),
-      ),
-    );
-  }
-
-  Widget itemBuilderNotification(BuildContext context, int index) {
     return Container(
       padding: EdgeInsets.all(5),
-      color: index == 0 || index == 1
-          ? Constants.greyColorTab
-          : Constants.whiteColor,
+      color: Constants.whiteColor,
       child: ListTile(
         leading: Container(
           width: 50,
           height: 50,
           decoration: BoxDecoration(
-            color: Constants.greyColor,
-            borderRadius: BorderRadius.circular(1000),
+            color: Constants.blueWhiteColor,
+            borderRadius: BorderRadius.circular(100),
           ),
+          child: typeIcon(dataNotif["type"]),
         ),
         title: Text(
-          "Dokter $index",
+          dataNotif["title"],
           style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 14,
@@ -56,7 +36,7 @@ class NotificationTab extends StatelessWidget {
               height: 8,
             ),
             Text(
-              "Deskripsi singkat dokter $index Deskripsi singkat dokter $index Deskripsi singkat dokter $index Deskripsi singkat dokter $index",
+              dataNotif["description"],
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(color: Constants.blackColor),
@@ -68,36 +48,62 @@ class NotificationTab extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "2 jam yang lalu",
+                  subtractDate(dataNotif["create_at"]),
                   style: TextStyle(
                     color: Constants.blackColor,
                   ),
                 ),
-                index == 0 || index == 1
-                    ? Container(
-                        padding: EdgeInsets.only(
-                          top: 5,
-                          bottom: 5,
-                          left: 10,
-                          right: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Constants.redColor,
-                        ),
-                        child: Text(
-                          "New",
-                          style: TextStyle(
-                            color: Constants.whiteColor,
-                          ),
-                        ),
-                      )
-                    : Container(),
+                Container(
+                  padding: EdgeInsets.only(
+                    top: 5,
+                    bottom: 5,
+                    left: 10,
+                    right: 10,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Constants.redColor,
+                  ),
+                  child: Text(
+                    "New",
+                    style: TextStyle(
+                      color: Constants.whiteColor,
+                    ),
+                  ),
+                )
               ],
             )
           ],
         ),
       ),
     );
+  }
+
+  String subtractDate(String bookDate) {
+    var parsedDate = DateTime.parse("$bookDate:00");
+    var todayDate = DateTime.now();
+
+    var differenceDays = parsedDate.difference(todayDate);
+    if (differenceDays.inDays < 0) {
+      return "${todayDate.difference(parsedDate).inDays.toString()} Hari yang lalu";
+    } else if (differenceDays.inHours < 0) {
+      return "${todayDate.difference(parsedDate).inHours.toString()} Jam yang lalu";
+    }
+    return "${todayDate.difference(parsedDate).inMinutes.toString()} Menit yang lalu";
+  }
+
+  Widget typeIcon(String type) {
+    switch (type) {
+      case "Event":
+        return Image.asset("assets/event.png");
+        break;
+      case "Promo":
+        return Image.asset("assets/coupon.png");
+        break;
+      case "Kontrol":
+        return Image.asset("assets/stethoscope.png");
+        break;
+      default:
+    }
   }
 }

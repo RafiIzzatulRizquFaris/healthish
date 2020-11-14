@@ -365,7 +365,7 @@ class ServiceScreenState extends State<ServiceScreen>
   @override
   onSuccessEventData(List<DocumentSnapshot> value) {
     setState(() {
-      listEvent = value;
+      listEvent = value.reversed.toList();
       loadingEvent = false;
     });
   }
