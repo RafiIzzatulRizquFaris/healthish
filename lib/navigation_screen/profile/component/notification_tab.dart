@@ -23,7 +23,7 @@ class NotificationTab extends StatelessWidget {
           child: typeIcon(dataNotif["type"]),
         ),
         title: Text(
-          dataNotif["title"],
+          dataNotif["title"] != null ? dataNotif["title"] : "Kontrol Booking",
           style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 14,
@@ -36,7 +36,7 @@ class NotificationTab extends StatelessWidget {
               height: 8,
             ),
             Text(
-              dataNotif["description"],
+              dataNotif["description"] != null ? dataNotif["description"] : "Code",
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(color: Constants.blackColor),
@@ -100,7 +100,7 @@ class NotificationTab extends StatelessWidget {
       case "Promo":
         return Image.asset("assets/coupon.png");
         break;
-      case "Kontrol":
+      case "Informasi Booking":
         return Image.asset("assets/stethoscope.png");
         break;
       default:
