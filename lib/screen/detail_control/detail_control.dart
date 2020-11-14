@@ -1,26 +1,53 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:healthish/contract/change_status_history_contract.dart';
+import 'package:healthish/helper/constants.dart';
+import 'package:healthish/presenter/change_status_history_presenter.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
-import '../../helper/constants.dart';
+
+
 
 class DetailControl extends StatefulWidget {
-  final String type;
-  final String date;
-  final String day;
-  final String time;
-  final String code;
-  DetailControl({Key key, this.type, this.date, this.day, this.time, this.code})
-      : super(key: key);
+  final DocumentSnapshot dataBook;
+
+  DetailControl({this.dataBook});
 
   @override
-  _DetailControlState createState() => _DetailControlState();
+  DetailControlState createState() => DetailControlState();
 }
 
-class _DetailControlState extends State<DetailControl> {
+class DetailControlState extends State<DetailControl>
+    implements ChangeStatusHistoryContractView {
+  Constants constants = Constants();
+  ChangeStatusHistoryPresenter changeStatusHistoryPresenter;
   String desc =
       "Amet - minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit";
+  String date;
+  bool isRead = true;
+  String placeName = "Not Available";
+  String placeAddress = "Not Available";
+
+  DetailControlState() {
+    changeStatusHistoryPresenter = ChangeStatusHistoryPresenter(this);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initializeDateFormatting();
+    date = widget.dataBook['date'].toString();
+    if (widget.dataBook['read'] == 'unread') {
+      isRead = false;
+    } else {
+      isRead = true;
+    }
+    getNameAndAddress(
+        widget.dataBook.data['doctor_id'], widget.dataBook.data['day']);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,21 +93,25 @@ class _DetailControlState extends State<DetailControl> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.type,
+                widget.dataBook['type'],
                 style: TextStyle(color: Constants.blueColor, fontSize: 16),
               ),
               SizedBox(
                 height: 4,
               ),
               Text(
-                widget.code,
+                "Kode : ${widget.dataBook['code']}",
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 28),
               ),
               SizedBox(
                 height: 14,
               ),
               Text(
-                convertDate(widget.date),
+                DateFormat("dd MMM yyyy", 'in_ID').format(DateTime(
+                  int.parse(date.split('-')[0].toString()),
+                  int.parse(date.split('-')[1].toString()),
+                  int.parse(date.split('-')[2].toString()),
+                )),
                 style: TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w400,
@@ -94,12 +125,12 @@ class _DetailControlState extends State<DetailControl> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("${widget.day},"),
+                      Text("${widget.dataBook['day']},"),
                       SizedBox(
                         height: 2,
                       ),
                       Text(
-                        widget.time,
+                        widget.dataBook['time'],
                         style:
                             TextStyle(color: Constants.blueColor, fontSize: 24),
                       )
@@ -120,14 +151,14 @@ class _DetailControlState extends State<DetailControl> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "RS SMK DEV",
+                        placeName,
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       SizedBox(
                         height: 2,
                       ),
                       Text(
-                        "Jl.akses tb no.9",
+                        placeAddress,
                         style: TextStyle(fontWeight: FontWeight.w400),
                       )
                     ],
@@ -137,19 +168,90 @@ class _DetailControlState extends State<DetailControl> {
               SizedBox(
                 height: 40,
               ),
-              Text(desc)
+              Text(
+                widget.dataBook['message'].trim().length == 0
+                    ? desc
+                    : widget.dataBook['message'].trim(),
+              )
             ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        color: Constants.whiteColor,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 18,
+            left: 14,
+            bottom: 14,
+            right: 14,
+          ),
+          child: FlatButton(
+            padding: EdgeInsets.all(12),
+            textColor: Constants.darkGreyColor,
+            color: Constants.greyColorTab,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            onPressed: () async {
+              await constants.progressDialog(context).show();
+              changeStatusHistoryPresenter.loadStatusHistoryData(
+                  widget.dataBook.documentID,
+                  widget.dataBook['read'] == 'unread' ? true : false);
+            },
+            child: Text(
+              isRead ? "Tandai Belum Dibaca" : "Tandai Sudah Dibaca",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
           ),
         ),
       ),
     );
   }
 
-  String convertDate(String bookDate) {
-    if (widget.type == "Informasi Booking") {
-      var parsedDate = DateTime.parse(bookDate);
-      return DateFormat.yMMMd('en_US').format(parsedDate).toString();
+  @override
+  onErrorChangeStatus(error) async {
+    print(error.toString());
+    await constants.progressDialog(context).hide();
+    constants.errorAlert(
+        "Error", "Gagal merubah status. \n Sesuatu terjadi", context);
+  }
+
+  @override
+  onSuccessChangeStatus(String response) async {
+    if (response == Constants.SUCCESS_RESPONSE) {
+      await constants.progressDialog(context).hide();
+      setState(() {
+        if (isRead) {
+          isRead = true;
+        } else {
+          isRead = false;
+        }
+      });
     }
-    return bookDate;
+  }
+
+  getNameAndAddress(String idDoctor, String day) async {
+    var document = Firestore.instance
+        .collection(Constants.doctorCollections)
+        .document(idDoctor);
+    document.get().then((value) {
+      if (value.exists) {
+        for (int i = 0; i < 3; i++) {
+          if (value.data['schedule'][i]['day'].toString() == day) {
+            setState(() {
+              placeName = value.data['schedule'][i]['place'].toString();
+              if (placeName == "RS. SMKDEV") {
+                placeAddress = "Jl. Margacinta No. 29";
+              } else {
+                placeAddress = "Jl. Mars Barat I No. 9";
+              }
+            });
+          }
+        }
+      }
+    });
   }
 }
