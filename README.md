@@ -34,7 +34,6 @@
     * [Built With](#built-with)
 * [Getting Started](#getting-started)
     * [Installation](#installation)
-* [License](#license)
 * [Contact](#contact)
 * [Acknowledgements](#acknowledgements)
 
@@ -64,12 +63,14 @@ git clone https://github.com/RafiIzzatulRizquFaris/healthish
 ```sh
 flutter pub get
 ```
-
-<!-- LICENSE 
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
--->
+3. Check if the device is running
+```sh
+flutter devices
+```
+4. Run the app
+```sh
+flutter run
+```
 
 <!-- CONTACT -->
 ## Contact
