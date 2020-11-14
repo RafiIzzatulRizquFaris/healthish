@@ -320,7 +320,7 @@ class MainNavigationState extends State<MainNavigation>
                 ),
                 badgeColor: Constants.redColor,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: selectedIcon == 3 ? EdgeInsets.all(0) : EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.person_outline_rounded,
                     size: 30,

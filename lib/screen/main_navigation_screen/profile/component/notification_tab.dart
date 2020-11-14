@@ -104,6 +104,7 @@ class NotificationTab extends StatelessWidget {
         return Image.asset("assets/stethoscope.png");
         break;
       default:
+        return Container();
     }
   }
 }

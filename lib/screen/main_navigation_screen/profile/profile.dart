@@ -36,7 +36,7 @@ class ProfileState extends State<Profile>
   EventPresenter eventPresenter;
   BookingPresenter bookingPresenter;
   List<DocumentSnapshot> dataBookingHistory;
-  List<DocumentSnapshot> dataNotif = List<DocumentSnapshot>();
+  List<DocumentSnapshot> dataEvent;
   bool loadingUser;
   bool loadingEvent;
   bool loadingBooking;
@@ -262,8 +262,8 @@ class ProfileState extends State<Profile>
                                     child: TabBarView(
                                       controller: tabController,
                                       children: [
-                                        dataNotif == null ||
-                                                dataNotif.length == 0
+                                        dataEvent == null ||
+                                                dataEvent.length == 0
                                             ? Center(
                                                 child: Text("Tidak ada data"),
                                               )
@@ -279,7 +279,7 @@ class ProfileState extends State<Profile>
                                                     padding:
                                                         EdgeInsets.only(top: 8),
                                                     shrinkWrap: true,
-                                                    itemCount: dataNotif.length,
+                                                    itemCount: dataEvent.length,
                                                     itemBuilder:
                                                         (BuildContext context,
                                                                 int index) =>
@@ -288,24 +288,11 @@ class ProfileState extends State<Profile>
                                                         Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
-                                                                builder: (context) => dataNotif[index]
-                                                                            [
-                                                                            "type"] ==
-                                                                        "Informasi Booking"
-                                                                    ? DetailControl(
-                                                                        dataBook:
-                                                                            dataNotif[index],
-                                                                      )
-                                                                    : DetailContent(
-                                                                        type:
-                                                                            "Event",
-                                                                        dataContent:
-                                                                            dataNotif[index],
-                                                                      )));
+                                                                builder:
+                                                                    (context) =>
+                                                                        DetailContent(type: "Event",dataContent: dataEvent[index],)));
                                                       },
-                                                      child: NotificationTab(
-                                                          dataNotif:
-                                                              dataNotif[index]),
+                                                      child: NotificationTab(dataNotif :dataEvent[index]),
                                                     ),
                                                   ),
                                         dataBookingHistory == null ||
@@ -452,8 +439,6 @@ class ProfileState extends State<Profile>
         }
         historyBadge = listHistoryLength.length.toString();
         dataBookingHistory = value.toList();
-
-        dataNotif.addAll(value.take(1).toList());
         loadingBooking = false;
       } else {
         historyBadge = "0";
@@ -471,8 +456,14 @@ class ProfileState extends State<Profile>
   onSuccessEventData(List<DocumentSnapshot> value) {
     setState(() {
       if (value.isNotEmpty || value != null || value.length > 0) {
-        dataNotif.addAll(value.reversed.take(5).toList());
-        eventBadge = dataNotif.length.toString();
+        List<String> listEventLength = List<String>();
+        for (int i = 0; i < value.length; i++) {
+          if (value[i].data['read'] == 'unread') {
+            listEventLength.add(value[i].data['read']);
+          }
+        }
+        eventBadge = listEventLength.length.toString();
+        dataEvent = value.toList();
         loadingEvent = false;
       } else {
         eventBadge = "0";
