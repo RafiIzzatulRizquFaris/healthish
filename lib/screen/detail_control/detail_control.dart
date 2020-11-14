@@ -24,8 +24,7 @@ class DetailControlState extends State<DetailControl>
     implements ChangeStatusHistoryContractView {
   Constants constants = Constants();
   ChangeStatusHistoryPresenter changeStatusHistoryPresenter;
-  String desc =
-      "Amet - minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit";
+  String desc = "Tidak ada pesan";
   String date;
   bool isRead = true;
   String placeName = "Not Available";
