@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class BookingCOntractView {
+class BookingContractView {
   onSuccessBooking(List<DocumentSnapshot> value) {}
   onError(error) {}
 }

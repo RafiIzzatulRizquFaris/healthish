@@ -4,7 +4,7 @@ import 'package:healthish/helper/constants.dart';
 
 
 class BookingPresenter implements BookingContactPresenter {
-  BookingCOntractView bookingContractView;
+  BookingContractView bookingContractView;
   BookingPresenter(this.bookingContractView);
   Firestore firestore = Firestore.instance;
 

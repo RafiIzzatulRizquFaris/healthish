@@ -1,8 +1,14 @@
+import 'package:badges/badges.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:healthish/contract/booking_contract.dart';
+import 'package:healthish/contract/event_contract.dart';
 import 'package:healthish/helper/constants.dart';
+import 'package:healthish/presenter/booking_presenter.dart';
+import 'package:healthish/presenter/event_presenter.dart';
 import 'package:healthish/screen/about/about.dart';
 import 'package:healthish/screen/feedback_form/feedback_form.dart';
 import 'package:healthish/screen/main_navigation_screen/booking/booking.dart';
@@ -33,10 +39,15 @@ Future<dynamic> onBackgroundMessage(Map<String, dynamic> message) {
 }
 
 class MainNavigationState extends State<MainNavigation>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin
+    implements BookingContractView, EventContractView {
   final firebaseMessaging = FirebaseMessaging();
   int selectedIndex = 0;
   int selectedIcon = 0;
+  EventPresenter eventPresenter;
+  BookingPresenter bookingPresenter;
+  List<DocumentSnapshot> dataBookingHistory;
+  List<DocumentSnapshot> dataNotif = List<DocumentSnapshot>();
   List<Widget> screenWidget = [
     Home(),
     ServiceScreen(),
@@ -57,6 +68,16 @@ class MainNavigationState extends State<MainNavigation>
   ]);
   double right = -200;
   double bottom = 0;
+  bool loadingEvent;
+  bool loadingBooking;
+  int notificationBadge = 0;
+  bool isLogin;
+  String id = "id";
+
+  MainNavigationState() {
+    eventPresenter = EventPresenter(this);
+    bookingPresenter = BookingPresenter(this);
+  }
 
   @override
   void initState() {
@@ -111,6 +132,7 @@ class MainNavigationState extends State<MainNavigation>
     animationController.addListener(() {
       setState(() {});
     });
+    getPreferenceAccountData();
   }
 
   @override
@@ -289,12 +311,24 @@ class MainNavigationState extends State<MainNavigation>
               padding: EdgeInsets.all(5),
             ),
             Container(
-              child: Icon(
-                Icons.person_outline_rounded,
-                size: 30,
-                color: selectedIcon == 3
-                    ? Constants.whiteColor
-                    : Constants.greyColor,
+              child: Badge(
+                badgeContent: Text(
+                  notificationBadge.toString() ?? "0",
+                  style: TextStyle(
+                    color: Constants.whiteColor,
+                  ),
+                ),
+                badgeColor: Constants.redColor,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.person_outline_rounded,
+                    size: 30,
+                    color: selectedIcon == 3
+                        ? Constants.whiteColor
+                        : Constants.greyColor,
+                  ),
+                ),
               ),
               padding: EdgeInsets.all(5),
             ),
@@ -343,8 +377,57 @@ class MainNavigationState extends State<MainNavigation>
   void setPersonalTopic() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String idDocumentUser = preferences.getString(Constants.KEY_ID);
-    if (idDocumentUser.isNotEmpty || idDocumentUser != null || idDocumentUser.length > 0){
+    if (idDocumentUser.isNotEmpty ||
+        idDocumentUser != null ||
+        idDocumentUser.length > 0) {
       firebaseMessaging.subscribeToTopic(idDocumentUser);
     }
+  }
+
+  void getPreferenceAccountData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    bool loginPref = preferences.getBool(Constants.KEY_LOGIN);
+    if (loginPref == null) {
+      setState(() {
+        isLogin = null;
+      });
+    } else {
+      String prefId = preferences.getString(Constants.KEY_ID).toString();
+      eventPresenter.loadEventData();
+      bookingPresenter.loadBookingData(prefId);
+      setState(() {
+        id = prefId;
+        isLogin = loginPref;
+        loadingBooking = true;
+        loadingEvent = true;
+      });
+    }
+  }
+
+  @override
+  onError(error) {
+    // TODO: implement onError
+    throw UnimplementedError();
+  }
+
+  @override
+  onErrorEventData(error) {
+    // TODO: implement onErrorEventData
+    throw UnimplementedError();
+  }
+
+  @override
+  onSuccessBooking(List<DocumentSnapshot> value) {
+    setState(() {
+      notificationBadge += value.take(1).toList().length;
+    });
+  }
+
+  @override
+  onSuccessEventData(List<DocumentSnapshot> value) {
+    // TODO: implement onSuccessEventData
+    setState(() {
+      notificationBadge += value.take(5).toList().length;
+    });
   }
 }
