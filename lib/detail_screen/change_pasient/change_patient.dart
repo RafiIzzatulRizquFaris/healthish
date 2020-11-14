@@ -21,7 +21,7 @@ class ChangePatientState extends State<ChangePatient>
   PatientPresenter patientPresenter;
   bool loadingPatient = true;
   List<DocumentSnapshot> listPatient = List<DocumentSnapshot>();
-  int value = 0;
+  int selectedValue = 0;
 
   ChangePatientState() {
     patientPresenter = PatientPresenter(this);
@@ -31,7 +31,7 @@ class ChangePatientState extends State<ChangePatient>
   void initState() {
     super.initState();
     patientPresenter.loadPatientData(widget.userId);
-    value = widget.selectedPatient;
+    selectedValue = widget.selectedPatient;
   }
 
   @override
@@ -52,7 +52,7 @@ class ChangePatientState extends State<ChangePatient>
                   color: Constants.blackColor,
                 ),
                 onPressed: () {
-                  return Navigator.pop(context, value);
+                  return Navigator.pop(context, selectedValue);
                 },
               ),
               SizedBox(
@@ -103,7 +103,9 @@ class ChangePatientState extends State<ChangePatient>
                 ).then((value) {
                   setState(() {
                     loadingPatient = true;
-                    value = widget.selectedPatient;
+                    if (value != null){
+                      selectedValue = value;
+                    }
                   });
                   patientPresenter.loadPatientData(widget.userId);
                 });
@@ -155,15 +157,15 @@ class ChangePatientState extends State<ChangePatient>
                 ],
               ),
               GestureDetector(
-                onTap: () => setState(() => value = i),
+                onTap: () => setState(() => selectedValue = i),
                 child: Container(
                   height: 35,
                   width: 35,
-                  decoration: value != i
+                  decoration: selectedValue != i
                       ? BoxDecoration(
                           color: Colors.grey, shape: BoxShape.circle)
                       : null,
-                  child: value == i
+                  child: selectedValue == i
                       ? Icon(
                           Icons.check_circle,
                           size: 35,

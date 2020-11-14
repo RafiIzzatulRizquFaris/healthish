@@ -206,7 +206,9 @@ class DetailBookingState extends State<DetailBooking>
                                         ).then((value) {
                                           setState(() {
                                             loadingPatient = true;
-                                            selectedPatient = value;
+                                            if (value != null) {
+                                              selectedPatient = value;
+                                            }
                                           });
                                           patientPresenter
                                               .loadPatientData(widget.idUser);
