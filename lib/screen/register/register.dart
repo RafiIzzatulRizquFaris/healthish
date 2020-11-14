@@ -37,36 +37,41 @@ class RegisterState extends State<Register> implements RegisterContractView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 100,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: FlatButton(
-          padding: EdgeInsets.all(15),
-          child: Icon(
-            Icons.arrow_back_rounded,
-            color: Constants.whiteColor,
-            size: 25,
-          ),
-          shape: CircleBorder(),
-          color: Constants.greyColorGuideIndicator,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        actions: [
-          FlatButton(
-            child: Text(
-              "Bermasalah dengan login?",
-              style: TextStyle(
-                fontSize: 16,
-                color: Constants.darkGreyColor,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(90),
+        child: Container(
+          alignment: Alignment.bottomLeft,
+          padding: EdgeInsets.all(20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              FlatButton(
+                padding: EdgeInsets.all(15),
+                child: Icon(
+                  Icons.arrow_back_rounded,
+                  color: Constants.whiteColor,
+                  size: 25,
+                ),
+                shape: CircleBorder(),
+                color: Constants.greyColorGuideIndicator,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
-            ),
-            onPressed: () {},
+              FlatButton(
+                child: Text(
+                  "Bermasalah dengan Login?",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Constants.darkGreyColor,
+                  ),
+                ),
+                onPressed: () {},
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       body: Container(
         padding: EdgeInsets.all(20),

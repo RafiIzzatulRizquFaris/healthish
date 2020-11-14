@@ -452,6 +452,7 @@ class ProfileState extends State<Profile>
         }
         historyBadge = listHistoryLength.length.toString();
         dataBookingHistory = value.toList();
+        eventBadge = dataNotif.length.toString();
         dataNotif.addAll(value.take(1).toList());
         loadingBooking = false;
       } else {
