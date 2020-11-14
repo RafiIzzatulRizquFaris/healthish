@@ -288,11 +288,21 @@ class ProfileState extends State<Profile>
                                                         Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        DetailContent(type: "Event",dataContent: dataEvent[index],)));
+                                                                builder: (context) => dataEvent[index]
+                                                                            [
+                                                                            "type"] ==
+                                                                        "Informasi Booking"
+                                                                    ? DetailControl()
+                                                                    : DetailContent(
+                                                                        type:
+                                                                            "Event",
+                                                                        dataContent:
+                                                                            dataEvent[index],
+                                                                      )));
                                                       },
-                                                      child: NotificationTab(dataNotif :dataEvent[index]),
+                                                      child: NotificationTab(
+                                                          dataNotif:
+                                                              dataEvent[index]),
                                                     ),
                                                   ),
                                         dataBookingHistory == null ||
