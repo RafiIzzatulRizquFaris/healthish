@@ -77,9 +77,9 @@ flutter run
 <!-- CONTACT -->
 ## Contact
 
-Rafi Izzatul Risqu Faris - [@quipar33](https://www.instagram.com/quipar33/) - risqufaris@gmail.com
+Rafi Izzatul Rizqu Faris - [@quipar33](https://www.instagram.com/quipar33/) - risqufaris@gmail.com
 
-Rifat Khadafi - [@_khadavit](https://www.instagram.com/_khadavit/) - khadafy67@gmail.com
+Rifat Khadafy - [@_khadavit](https://www.instagram.com/_khadavit/) - khadafy67@gmail.com
 
 Muhammad Farras Jibran - [@farasjbrn](https://www.instagram.com/farasjbrn/) - farasjibran@gmail.com
 
