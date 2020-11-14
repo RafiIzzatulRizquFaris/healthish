@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthish/contract/change_password_contract.dart';
-
-import '../constants.dart';
+import 'package:healthish/helper/constants.dart';
 
 class ChangePasswordPresenter implements ChangePasswordContractPresenter {
   ChangePasswordContractView changePasswordContractView;

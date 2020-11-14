@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:healthish/splash.dart';
+import 'package:healthish/screen/splash_screen/splash.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Healthish',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:healthish/constants.dart';
 import 'package:healthish/contract/register_contract.dart';
+import 'package:healthish/helper/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterPresenter implements RegisterContractPresenter {

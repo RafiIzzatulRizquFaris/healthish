@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthish/contract/partner_contract.dart';
 
-import '../constants.dart';
+import '../helper/constants.dart';
 
 class PartnerPresenter implements PartnerContractPresenter {
   Firestore firestore = Firestore.instance;

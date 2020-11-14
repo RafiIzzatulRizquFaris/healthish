@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:healthish/constants.dart';
+
 import 'package:healthish/contract/user_contract.dart';
+import 'package:healthish/helper/constants.dart';
 
 class UserPresenter implements UserContractPresenter {
   UserContractView userContractView;

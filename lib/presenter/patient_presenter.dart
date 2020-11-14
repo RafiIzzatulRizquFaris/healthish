@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:healthish/constants.dart';
 import 'package:healthish/contract/patient_contract.dart';
+import 'package:healthish/helper/constants.dart';
 
 class PatientPresenter implements PatientContractPresenter {
   PatientContractView patientContractView;

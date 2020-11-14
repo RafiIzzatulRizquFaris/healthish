@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthish/contract/booking_contract.dart';
+import 'package:healthish/helper/constants.dart';
 
-import '../constants.dart';
 
 class BookingPresenter implements BookingContactPresenter {
   BookingContractView bookingContractView;
