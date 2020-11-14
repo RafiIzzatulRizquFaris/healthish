@@ -238,7 +238,8 @@ class HomeState extends State<Home>
                                       child: ListTile(
                                         onTap: () async {
                                           await launch(
-                                              'https://www.google.com/maps/search/?api=1&query=-6.318920, 106.852008');
+                                              'https://www.google.com/maps/search/?api=1&query=${listAbout[0]["maps"]['lat']}, ${listAbout[0]["maps"]['long']}');
+
                                         },
                                         leading: Container(
                                           height: 50,
@@ -359,7 +360,7 @@ class HomeState extends State<Home>
   @override
   onSuccessEventData(List<DocumentSnapshot> value) {
     setState(() {
-      listEvent = value;
+      listEvent = value.reversed.toList();
       loadingEvent = false;
     });
   }
@@ -755,7 +756,9 @@ class HomeState extends State<Home>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Rumah Sakit SMKDEV",
+                            listAbout.isNotEmpty
+                                ? listAbout[0]["place_list"][0]["name"].toString()
+                                : "",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
@@ -764,7 +767,9 @@ class HomeState extends State<Home>
                             height: 3,
                           ),
                           Text(
-                            "Jl. Margacita No. 29",
+                            listAbout.isNotEmpty
+                                ? listAbout[0]["place_list"][0]["address"].toString()
+                                : "",
                             style: TextStyle(
                               color: Constants.greyColor,
                             ),
@@ -773,7 +778,7 @@ class HomeState extends State<Home>
                       ),
                       onPressed: () async {
                         await launch(
-                            'https://www.google.com/maps/search/?api=1&query=-6.318920, 106.852008');
+                            'https://www.google.com/maps/search/?api=1&query=${listAbout[0]["maps"]['lat']}, ${listAbout[0]["maps"]['long']}');
                       },
                     ),
                     FlatButton.icon(
@@ -782,7 +787,9 @@ class HomeState extends State<Home>
                         color: Constants.greyColor,
                       ),
                       label: Text(
-                        "info@smk.dev",
+                        listAbout.isNotEmpty
+                            ? listAbout[0]["contact"]["email"].toString()
+                            : "",
                         style: TextStyle(
                           color: Constants.greyColor,
                         ),
@@ -800,13 +807,19 @@ class HomeState extends State<Home>
                             color: Constants.greyColor,
                           ),
                           label: Text(
-                            "+622 7000 0000",
+                            listAbout.isNotEmpty
+                                ? listAbout[0]["contact"]["phone"].toString()
+                                : "",
                             style: TextStyle(
                               color: Constants.greyColor,
                             ),
                           ),
                           onPressed: () async {
-                            await launch('tel:082299189919');
+                            await launch(
+                                listAbout.isNotEmpty
+                                ? "tel:${listAbout[0]["contact"]["phone"].toString()}"
+                                : ""
+                            );
                           },
                         ),
                         FlatButton.icon(
@@ -815,13 +828,19 @@ class HomeState extends State<Home>
                             color: Constants.greyColor,
                           ),
                           label: Text(
-                            "+622 7000 0000",
+                            listAbout.isNotEmpty
+                                ? listAbout[0]["contact"]["second_phone"].toString()
+                                : "",
                             style: TextStyle(
                               color: Constants.greyColor,
                             ),
                           ),
                           onPressed: () async {
-                            await launch('tel:082299189919');
+                            await launch(
+                                listAbout.isNotEmpty
+                                    ? "tel:${listAbout[0]["contact"]["second_phone"].toString()}"
+                                    : ""
+                            );
                           },
                         ),
                       ],
