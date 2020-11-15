@@ -90,12 +90,34 @@ Project Link: [https://github.com/RafiIzzatulRizquFaris/healthish](https://githu
 ## Acknowledgements
 * [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
 * [Img Shields](https://shields.io)
-* [Choose an Open Source License](https://choosealicense.com)
 * [GitHub Pages](https://pages.github.com)
 * [Firestore](https://firebase.google.com/docs/firestore)
 * [Flutter](https://flutter.dev/docs)
 * [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)
 * [Dart](https://dart.dev/guides)
+
+
+<!-- ACKNOWLEDGEMENTS -->
+## Used Dependencies
+* [google_maps_flutter](https://pub.dev/packages/google_maps_flutter)
+* [cloud_firestore](https://pub.dev/packages/cloud_firestore)
+* [firebase_core](https://pub.dev/packages/firebase_core)
+* [firebase_messaging](https://pub.dev/packages/firebase_messaging)
+* [shared_preferences](https://pub.dev/packages/shared_preferences)
+* [rflutter_alert](https://pub.dev/packages/rflutter_alert)
+* [progress_dialog](https://pub.dev/packages/progress_dialog)
+* [intl](https://pub.dev/packages/intl)
+* [app_settings](https://pub.dev/packages/app_settings)
+* [http](https://pub.dev/packages/http)
+* [url_launcher](https://pub.dev/packages/url_launcher)
+* [curved_navigation_bar](https://pub.dev/packages/curved_navigation_bar)
+* [badges](https://pub.dev/packages/badges)
+* [carousel_slider](https://pub.dev/packages/carousel_slider)
+* [permission_handler](https://pub.dev/packages/permission_handler)
+* [email_validator](https://pub.dev/packages/email_validator)
+* [webview_flutter](https://pub.dev/packages/webview_flutter)
+* [transparent_image](https://pub.dev/packages/transparent_image)
+
 
 <!-- Image In Aplication Using With Drible -->
 ## Inspiration Design & Asset
