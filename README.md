@@ -79,6 +79,8 @@ flutter run
 
 [![HEALTHISH DEMO](https://img.youtube.com/vi/WvGiifu3tTk/0.jpg?t=35s)](https://youtu.be/WvGiifu3tTk "HEALTHISH DEMO : Click to watch demo")
 
+[Download Android and IOS Healthish Application](https://drive.google.com/drive/folders/1--IttKHmiIx591lQ7rPlFgibGowpw0PV?usp=sharing)
+
 
 
 <!-- CONTACT -->
