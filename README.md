@@ -77,7 +77,7 @@ flutter run
 <!-- CONTACT -->
 ## Demo Application
 
-[![HEALTHISH DEMO](https://img.youtube.com/vi/WvGiifu3tTk/0.jpg?t=35s)](https://youtu.be/WvGiifu3tTk "HEALTHISH DEMO")
+[![HEALTHISH DEMO](https://img.youtube.com/vi/WvGiifu3tTk/0.jpg?t=35s)](https://youtu.be/WvGiifu3tTk "HEALTHISH DEMO : Click to watch demo")
 
 
 
