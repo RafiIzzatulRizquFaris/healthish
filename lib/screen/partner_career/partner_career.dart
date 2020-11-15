@@ -202,8 +202,7 @@ class PartnerCareerState extends State<PartnerCareer>
                         ? Center(
                             child: Text("Data tidak ditemukan"),
                           )
-                        : Expanded(
-                            child: ListView.builder(
+                        : ListView.builder(
                               itemCount: careerData.length,
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
@@ -222,7 +221,7 @@ class PartnerCareerState extends State<PartnerCareer>
                                     ItemCareer(careerData: careerData[index]),
                               ),
                             ),
-                          ))
+                          )
           ],
         ),
       ),
